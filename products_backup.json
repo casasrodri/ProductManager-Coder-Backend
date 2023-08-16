@@ -1,0 +1,29 @@
+[
+	{
+		"id": 1,
+		"title": "Mesa",
+		"description": "Mesa ratona 80x80x30",
+		"price": 2000,
+		"thumbnail": "mesita.jpg",
+		"code": "29388w0e9",
+		"stock": 200
+	},
+	{
+		"id": 2,
+		"title": "Placard",
+		"description": "Placard 2 puertas",
+		"price": 5000,
+		"thumbnail": "placard.jpg",
+		"code": "4e9si09dsd",
+		"stock": 3
+	},
+	{
+		"id": 3,
+		"title": "Baúl",
+		"description": "Baúl madera/hierro 50x60x100",
+		"price": 400,
+		"thumbnail": "baul.jpg",
+		"code": "98sd09s8d00",
+		"stock": 50
+	}
+]
