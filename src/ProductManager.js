@@ -4,7 +4,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 
 class ProductManager {
     constructor() {
-        this.path = './products.json'
+        this.path = './public/products.json'
         this.products = [];
 
         if (!existsSync(this.path)) {
