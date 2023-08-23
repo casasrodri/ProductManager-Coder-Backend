@@ -9,6 +9,7 @@ const app = express();
 // Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/static', express.static('public'));
 
 // Endpoints definition
 app.get('/', (req, res) => {
