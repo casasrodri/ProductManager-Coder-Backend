@@ -1,11 +1,11 @@
 import { log } from 'node:console';
 import { existsSync } from 'node:fs';
 import { readFile, writeFile } from 'node:fs/promises';
-import Product from '../models/product';
+import Product from '../models/product.js';
 
 class ProductManager {
     constructor() {
-        this.path = './public/products.json';
+        this.path = 'src/databases/products.json';
         this.products = [];
 
         if (!existsSync(this.path)) {

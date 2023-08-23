@@ -1,17 +1,18 @@
 import { log } from 'node:console';
-import { ProductManager } from './ProductManager.js';
 import express from 'express';
-
-// Instantiate the manager
-const pm = new ProductManager();
+import productsRouter from './routes/products.router.js';
+import cartsRouter from './routes/carts.router.js';
 
 // Instantiate the application:
 const app = express();
+
+// Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Endpoints definition
 app.get('/', (req, res) => {
+    // TODO: Documentacion APIs
     res.send(`
         <h1>Available endpoints:</h1>
         <ul>
@@ -24,27 +25,7 @@ app.get('/', (req, res) => {
     `);
 });
 
-app.get('/products', async (req, res) => {
-    const products = await pm.getProducts();
-    const limit = parseInt(req.query.limit, 10);
+app.use('/api/products', productsRouter);
+app.use('/api/carts', cartsRouter);
 
-    if (limit) {
-        const limited = products.slice(0, limit);
-        return res.send(limited);
-    }
-
-    res.send(products);
-});
-
-app.get('/products/:pid', async (req, res) => {
-    const pid = parseInt(req.params.pid, 10);
-
-    try {
-        const product = await pm.getProductById(pid);
-        res.send(product);
-    } catch (err) {
-        res.send({ productId: pid, status: 'Not found' });
-    }
-});
-
-app.listen(8080, () => log('Server listening on http://localhost:8080'));
+app.listen(8080, () => log('🚀 Server listening on http://localhost:8080'));
