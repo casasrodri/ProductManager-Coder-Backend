@@ -1,8 +1,26 @@
 class Product {
     static nextId = 1;
 
-    constructor(title, description, price, thumbnail, code, stock, id = null) {
-        if (!title || !description || !price || !thumbnail || !code || !stock) {
+    constructor(
+        title,
+        description,
+        code,
+        price,
+        status = true,
+        stock,
+        category,
+        thumbnails = [],
+        id = null
+    ) {
+        if (
+            !title ||
+            !description ||
+            !code ||
+            !price ||
+            !stock ||
+            !category ||
+            !thumbnails
+        ) {
             throw new Error(
                 'All the arguments must be passed to the constructor method.'
             );
@@ -15,10 +33,12 @@ class Product {
 
         this.title = title;
         this.description = description;
-        this.price = price;
-        this.thumbnail = thumbnail;
         this.code = code;
+        this.price = price;
+        this.status = status;
         this.stock = stock;
+        this.category = category;
+        this.thumbnails = thumbnails;
 
         Product.nextId++;
     }
@@ -26,30 +46,45 @@ class Product {
     static fromObject({
         title,
         description,
-        price,
-        thumbnail,
         code,
+        price,
+        status,
         stock,
+        category,
+        thumbnails,
         id,
     }) {
         return new Product(
             title,
             description,
-            price,
-            thumbnail,
             code,
+            price,
+            status,
             stock,
+            category,
+            thumbnails,
             id
         );
     }
 
-    update({ title, description, price, thumbnail, code, stock }) {
+    update({
+        title,
+        description,
+        code,
+        price,
+        status,
+        stock,
+        category,
+        thumbnails,
+    }) {
         this.title = title || this.title;
         this.description = description || this.description;
-        this.price = price || this.description;
-        this.thumbnail = thumbnail || this.thumbnail;
         this.code = code || this.code;
+        this.price = price || this.description;
+        this.status = status || this.status;
         this.stock = stock || this.stock;
+        this.category = category || this.category;
+        this.thumbnails = thumbnails || this.thumbnails;
     }
 }
 

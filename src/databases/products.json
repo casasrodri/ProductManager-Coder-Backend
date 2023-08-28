@@ -1,209 +1,257 @@
 [
-    {
-        "id": 1,
-        "title": "Mesa",
-        "description": "Mesa ratona 80x80x30",
-        "price": 2000,
-        "thumbnail": "mesita.jpg",
-        "code": "29388w0e9",
-        "stock": 200
-    },
-    {
-        "id": 2,
-        "title": "Placard",
-        "description": "Placard 2 puertas",
-        "price": 5000,
-        "thumbnail": "placard.jpg",
-        "code": "4e9si09dsd",
-        "stock": 3
-    },
-    {
-        "id": 3,
-        "title": "Baúl",
-        "description": "Baúl madera/hierro 50x60x100",
-        "price": 400,
-        "thumbnail": "baul.jpg",
-        "code": "98sd09s8d00",
-        "stock": 50
-    },
-    {
-        "id": 4,
-        "title": "Silla",
-        "description": "Silla de madera con respaldo alto y cojín acolchado.",
-        "price": 800,
-        "thumbnail": "silla.jpg",
-        "code": "7as8d9f7a",
-        "stock": 100
-    },
-    {
-        "id": 5,
-        "title": "Escritorio",
-        "description": "Escritorio de estilo moderno con cajones integrados.",
-        "price": 1500,
-        "thumbnail": "escritorio.jpg",
-        "code": "5as2d1f3g",
-        "stock": 30
-    },
-    {
-        "id": 6,
-        "title": "Sofá",
-        "description": "Sofá de tres plazas con tapizado en cuero sintético.",
-        "price": 2500,
-        "thumbnail": "sofa.jpg",
-        "code": "2df4g5h6j",
-        "stock": 20
-    },
-    {
-        "id": 7,
-        "title": "Mesa de Comedor",
-        "description": "Mesa rectangular extensible para comedor, capacidad para 6 personas.",
-        "price": 1800,
-        "thumbnail": "mesa_comedor.jpg",
-        "code": "8h7j6k5l",
-        "stock": 15
-    },
-    {
-        "id": 8,
-        "title": "Cama Queen",
-        "description": "Cama tamaño Queen con cabecero tapizado y almacenamiento en la base.",
-        "price": 3200,
-        "thumbnail": "cama_queen.jpg",
-        "code": "3ws4e5r6t",
-        "stock": 5
-    },
-    {
-        "id": 9,
-        "title": "Estantería",
-        "description": "Estantería de madera con múltiples estantes ajustables.",
-        "price": 600,
-        "thumbnail": "estanteria.jpg",
-        "code": "9ij8uh7y6",
-        "stock": 40
-    },
-    {
-        "id": 10,
-        "title": "Mesa de Centro",
-        "description": "Mesa de centro con superficie de vidrio y patas metálicas.",
-        "price": 1100,
-        "thumbnail": "mesa_centro.jpg",
-        "code": "1qa2ws3ed",
-        "stock": 25
-    },
-    {
-        "id": 11,
-        "title": "Cómoda",
-        "description": "Cómoda con cajones espaciosos y acabado en roble.",
-        "price": 750,
-        "thumbnail": "comoda.jpg",
-        "code": "0pl9kj8hg",
-        "stock": 12
-    },
-    {
-        "id": 12,
-        "title": "Mesa de Noche",
-        "description": "Mesa de noche con un cajón y espacio de almacenamiento abierto.",
-        "price": 250,
-        "thumbnail": "mesa_noche.jpg",
-        "code": "5rfv6tgb7",
-        "stock": 60
-    },
-    {
-        "id": 13,
-        "title": "Mesa de Estudio",
-        "description": "Mesa de estudio con diseño ergonómico y soporte para computadora portátil.",
-        "price": 900,
-        "thumbnail": "mesa_estudio.jpg",
-        "code": "2wsx3edc4",
-        "stock": 18
-    },
-    {
-        "id": 14,
-        "title": "Mesa de TV",
-        "description": "Mesa para televisión con estantes para dispositivos multimedia.",
-        "price": 600,
-        "thumbnail": "mesa_tv.jpg",
-        "code": "7y6u5t4r3e",
-        "stock": 28
-    },
-    {
-        "id": 15,
-        "title": "Armario",
-        "description": "Armario de almacenamiento con puertas y estantes ajustables.",
-        "price": 1200,
-        "thumbnail": "armario.jpg",
-        "code": "8i7u6y5t4r",
-        "stock": 10
-    },
-    {
-        "id": 16,
-        "title": "Sofá Cama",
-        "description": "Sofá que se convierte en cama individual, ideal para invitados.",
-        "price": 1800,
-        "thumbnail": "sofa_cama.jpg",
-        "code": "9o8i7u6y5t",
-        "stock": 15
-    },
-    {
-        "id": 17,
-        "title": "Estante Flotante",
-        "description": "Estante flotante para pared con diseño minimalista.",
-        "price": 300,
-        "thumbnail": "estante_flotante.jpg",
-        "code": "0p9o8i7u6y",
-        "stock": 50
-    },
-    {
-        "id": 18,
-        "title": "Silla de Oficina",
-        "description": "Silla ergonómica de oficina con soporte lumbar y ajustes.",
-        "price": 400,
-        "thumbnail": "silla_oficina.jpg",
-        "code": "1a2s3d4f5g",
-        "stock": 35
-    },
-    {
-        "id": 19,
-        "title": "Cajonera",
-        "description": "Cajonera compacta con varios cajones para almacenamiento.",
-        "price": 250,
-        "thumbnail": "cajonera.jpg",
-        "code": "2d3f4g5h6j",
-        "stock": 70
-    },
-    {
-        "id": 20,
-        "title": "Mesa Plegable",
-        "description": "Mesa plegable para espacios reducidos, fácil de guardar.",
-        "price": 180,
-        "thumbnail": "mesa_plegable.jpg",
-        "code": "3r4t5y6u7i",
-        "stock": 42
-    },
-    {
-        "id": 21,
-        "title": "Cabecero de Cama",
-        "description": "Cabecero acolchado para cama tamaño King, diseño elegante.",
-        "price": 320,
-        "thumbnail": "cabecero_cama.jpg",
-        "code": "4e5r6t7y8u",
-        "stock": 8
-    },
-    {
-        "id": 22,
-        "title": "Mesa de Jardín",
-        "description": "Mesa redonda de jardín con acabado resistente a la intemperie.",
-        "price": 500,
-        "thumbnail": "mesa_jardin.jpg",
-        "code": "5t6y7u8i9o",
-        "stock": 22
-    },
-    {
-        "id": 23,
-        "title": "Silla Infantil",
-        "description": "Silla pequeña y colorida diseñada para niños.",
-        "price": 150,
-        "thumbnail": "silla_infantil.jpg",
-        "code": "6y7u8i9o0p",
-        "stock": 60
-    }
+	{
+		"id": 1,
+		"title": "Mesa",
+		"description": "Mesa ratona 80x80x30",
+		"code": "29388w0e9",
+		"price": 2000,
+		"status": false,
+		"stock": 200,
+		"category": "Comedor",
+		"thumbnails": "mesita.jpg"
+	},
+	{
+		"id": 2,
+		"title": "Placard",
+		"description": "Placard 2 puertas",
+		"code": "4e9si09dsd",
+		"price": 5000,
+		"status": true,
+		"stock": 3,
+		"category": "Habitación",
+		"thumbnails": "placard.jpg"
+	},
+	{
+		"id": 3,
+		"title": "Baúl",
+		"description": "Baúl madera/hierro 50x60x100",
+		"code": "98sd09s8d00",
+		"price": 400,
+		"status": true,
+		"stock": 50,
+		"category": "Habitación",
+		"thumbnails": "baul.jpg"
+	},
+	{
+		"id": 4,
+		"title": "Silla",
+		"description": "Silla de madera con respaldo alto y cojín acolchado.",
+		"code": "7as8d9f7a",
+		"price": 800,
+		"status": false,
+		"stock": 100,
+		"category": "Comedor",
+		"thumbnails": "silla.jpg"
+	},
+	{
+		"id": 5,
+		"title": "Escritorio",
+		"description": "Escritorio de estilo moderno con cajones integrados.",
+		"code": "5as2d1f3g",
+		"price": 1500,
+		"status": true,
+		"stock": 30,
+		"category": "Oficina",
+		"thumbnails": "escritorio.jpg"
+	},
+	{
+		"id": 6,
+		"title": "Sofá",
+		"description": "Sofá de tres plazas con tapizado en cuero sintético.",
+		"code": "2df4g5h6j",
+		"price": 2500,
+		"status": false,
+		"stock": 20,
+		"category": "Living",
+		"thumbnails": "sofa.jpg"
+	},
+	{
+		"id": 7,
+		"title": "Mesa de Comedor",
+		"description": "Mesa rectangular extensible para comedor, capacidad para 6 personas.",
+		"code": "8h7j6k5l",
+		"price": 1800,
+		"status": true,
+		"stock": 15,
+		"category": "Comedor",
+		"thumbnails": "mesa_comedor.jpg"
+	},
+	{
+		"id": 8,
+		"title": "Cama Queen",
+		"description": "Cama tamaño Queen con cabecero tapizado y almacenamiento en la base.",
+		"code": "3ws4e5r6t",
+		"price": 3200,
+		"status": true,
+		"stock": 5,
+		"category": "Habitación",
+		"thumbnails": "cama_queen.jpg"
+	},
+	{
+		"id": 9,
+		"title": "Estantería",
+		"description": "Estantería de madera con múltiples estantes ajustables.",
+		"code": "9ij8uh7y6",
+		"price": 600,
+		"status": true,
+		"stock": 40,
+		"category": "Escritorio",
+		"thumbnails": "estanteria.jpg"
+	},
+	{
+		"id": 10,
+		"title": "Mesa de Centro",
+		"description": "Mesa de centro con superficie de vidrio y patas metálicas.",
+		"code": "1qa2ws3ed",
+		"price": 1100,
+		"status": false,
+		"stock": 25,
+		"category": "Comedor",
+		"thumbnails": "mesa_centro.jpg"
+	},
+	{
+		"id": 11,
+		"title": "Cómoda",
+		"description": "Cómoda con cajones espaciosos y acabado en roble.",
+		"code": "0pl9kj8hg",
+		"price": 750,
+		"status": true,
+		"stock": 12,
+		"category": "Habitación",
+		"thumbnails": "comoda.jpg"
+	},
+	{
+		"id": 12,
+		"title": "Mesa de Noche",
+		"description": "Mesa de noche con un cajón y espacio de almacenamiento abierto.",
+		"code": "5rfv6tgb7",
+		"price": 250,
+		"status": true,
+		"stock": 60,
+		"category": "Habitación",
+		"thumbnails": "mesa_noche.jpg"
+	},
+	{
+		"id": 13,
+		"title": "Mesa de Estudio",
+		"description": "Mesa de estudio con diseño ergonómico y soporte para computadora portátil.",
+		"code": "2wsx3edc4",
+		"price": 900,
+		"status": true,
+		"stock": 18,
+		"category": "Oficina",
+		"thumbnails": [
+			"mesa_estudio.jpg"
+		]
+	},
+	{
+		"id": 14,
+		"title": "Mesa de TV",
+		"description": "Mesa para televisión con estantes para dispositivos multimedia.",
+		"code": "7y6u5t4r3e",
+		"price": 600,
+		"status": true,
+		"stock": 28,
+		"category": "Comedor",
+		"thumbnails": "mesa_tv.jpg"
+	},
+	{
+		"id": 15,
+		"title": "Armario",
+		"description": "Armario de almacenamiento con puertas y estantes ajustables.",
+		"code": "8i7u6y5t4r",
+		"price": 1200,
+		"status": true,
+		"stock": 10,
+		"category": "Habitación",
+		"thumbnails": "armario.jpg"
+	},
+	{
+		"id": 16,
+		"title": "Sofá Cama",
+		"description": "Sofá que se convierte en cama individual, ideal para invitados.",
+		"code": "9o8i7u6y5t",
+		"price": 1800,
+		"status": false,
+		"stock": 15,
+		"category": "Habitación",
+		"thumbnails": "sofa_cama.jpg"
+	},
+	{
+		"id": 17,
+		"title": "Estante Flotante",
+		"description": "Estante flotante para pared con diseño minimalista.",
+		"code": "0p9o8i7u6y",
+		"price": 300,
+		"status": true,
+		"stock": 50,
+		"category": "Oficina",
+		"thumbnails": "estante_flotante.jpg"
+	},
+	{
+		"id": 18,
+		"title": "Silla de Oficina",
+		"description": "Silla ergonómica de oficina con soporte lumbar y ajustes.",
+		"code": "1a2s3d4f5g",
+		"price": 400,
+		"status": true,
+		"stock": 35,
+		"category": "Oficina",
+		"thumbnails": "silla_oficina.jpg"
+	},
+	{
+		"id": 19,
+		"title": "Cajonera",
+		"description": "Cajonera compacta con varios cajones para almacenamiento.",
+		"code": "2d3f4g5h6j",
+		"price": 250,
+		"status": true,
+		"stock": 70,
+		"category": "Oficina",
+		"thumbnails": "cajonera.jpg"
+	},
+	{
+		"id": 20,
+		"title": "Mesa Plegable",
+		"description": "Mesa plegable para espacios reducidos, fácil de guardar.",
+		"code": "3r4t5y6u7i",
+		"price": 180,
+		"status": true,
+		"stock": 42,
+		"category": "Jardín",
+		"thumbnails": "mesa_plegable.jpg"
+	},
+	{
+		"id": 21,
+		"title": "Cabecero de Cama",
+		"description": "Cabecero acolchado para cama tamaño King, diseño elegante.",
+		"code": "4e5r6t7y8u",
+		"price": 320,
+		"status": true,
+		"stock": 8,
+		"category": "Habitación",
+		"thumbnails": "cabecero_cama.jpg"
+	},
+	{
+		"id": 22,
+		"title": "Mesa de Jardín",
+		"description": "Mesa redonda de jardín con acabado resistente a la intemperie.",
+		"code": "5t6y7u8i9o",
+		"price": 500,
+		"status": false,
+		"stock": 22,
+		"category": "Jardín",
+		"thumbnails": "mesa_jardin.jpg"
+	},
+	{
+		"id": 23,
+		"title": "Silla Infantil",
+		"description": "Silla pequeña y colorida diseñada para niños.",
+		"code": "6y7u8i9o0p",
+		"price": 150,
+		"status": true,
+		"stock": 60,
+		"category": "Comedor",
+		"thumbnails": "silla_infantil.jpg"
+	}
 ]
