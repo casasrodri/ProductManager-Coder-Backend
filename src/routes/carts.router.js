@@ -38,12 +38,10 @@ router.post('/:cid/product/:pid', async (req, res) => {
     const pid = parseInt(req.params.pid);
 
     try {
-        const result = await cm.addProductToCartId(cid, pid);
-
         return res.status(200).send({
             status: 'ok',
             description: 'Product added to cart.',
-            data: result,
+            data: await cm.addProductToCartId(cid, pid),
         });
     } catch (err) {
         return res.status(404).send({

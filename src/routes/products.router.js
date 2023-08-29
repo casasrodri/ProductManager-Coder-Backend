@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
     }
 
     if (products === []) {
-        return res.status(204).send();
+        return res.status(204).send(products);
     }
 
     res.send(products);
@@ -42,33 +42,31 @@ router.get('/:pid', async (req, res) => {
 router.post('/', getBodyProduct, async (req, res) => {
     let newProduct;
 
+    // Create product
     try {
-        newProduct = new Product.fromObject(req.body.product);
+        newProduct = Product.fromObject(req.body.product);
     } catch (err) {
         return res.status(400).send({
             status: 'error',
-            description:
-                'Can not create a new product. Verify you are sending all the necesary fields.',
+            description: 'Can not create a new product. ' + err.message,
             data: null,
         });
     }
 
+    // Save product
     try {
-        await pm.addProduct(newProduct);
+        return res.status(201).send({
+            status: 'ok',
+            description: 'Created.',
+            data: await pm.addProduct(newProduct),
+        });
     } catch (err) {
         return res.status(400).send({
             status: 'error',
-            description:
-                'Can not add a new product. The code already exists for the product.',
+            description: 'Can not add a new product. ' + err.message,
             data: null,
         });
     }
-
-    res.status(201).send({
-        status: 'ok',
-        description: 'Created.',
-        data: newProduct,
-    });
 });
 
 router.post(
@@ -81,21 +79,21 @@ router.post(
             for (const f of req.files) {
                 await pm.addThumbnail(pid, f.path);
             }
+
+            const product = await pm.getProductById(pid);
+
+            return res.status(201).send({
+                status: 'ok',
+                description: 'Thumbnails added.',
+                data: product,
+            });
         } catch (err) {
-            res.status(404).send({
+            return res.status(404).send({
                 productId: pid,
                 status: err.message,
                 data: { productId: pid },
             });
         }
-
-        const product = await pm.getProductById(pid);
-
-        res.status(201).send({
-            status: 'ok',
-            description: 'Thumbnails added.',
-            data: product,
-        });
     }
 );
 
@@ -105,7 +103,11 @@ router.put('/:pid', getBodyProduct, async (req, res) => {
     let updated;
 
     try {
-        updated = await pm.updateProductById(pid, updatedProduct);
+        return res.status(200).send({
+            status: 'ok',
+            description: 'Updated.',
+            data: await pm.updateProductById(pid, updatedProduct),
+        });
     } catch (err) {
         return res.status(404).send({
             status: 'error',
@@ -113,20 +115,17 @@ router.put('/:pid', getBodyProduct, async (req, res) => {
             data: { productId: pid },
         });
     }
-
-    res.status(200).send({
-        status: 'ok',
-        description: 'Updated.',
-        data: updated,
-    });
 });
 
 router.delete('/:pid', async (req, res) => {
     const pid = parseInt(req.params.pid);
-    let deleted;
 
     try {
-        deleted = await pm.deleteProductById(pid);
+        return res.status(204).send({
+            status: 'ok',
+            description: 'Deleted.',
+            data: await pm.deleteProductById(pid),
+        });
     } catch (err) {
         return res.status(404).send({
             status: 'error',
@@ -134,12 +133,6 @@ router.delete('/:pid', async (req, res) => {
             data: { productId: pid },
         });
     }
-
-    return res.status(204).send({
-        status: 'ok',
-        description: 'Deleted.',
-        data: deleted,
-    });
 });
 
 export default router;
