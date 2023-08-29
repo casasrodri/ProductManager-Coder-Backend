@@ -12,17 +12,16 @@ class Product {
         thumbnails = [],
         id = null
     ) {
-        if (
-            !title ||
-            !description ||
-            !code ||
-            !price ||
-            !stock ||
-            !category ||
-            !thumbnails
-        ) {
+        if (!title || !description || !code || !price || !stock || !category) {
             throw new Error(
-                'All the arguments must be passed to the constructor method.'
+                `All the arguments must be passed to the constructor method.
+                  - title: ${title}
+                  - description: ${description}
+                  - code: ${code}
+                  - price: ${price}
+                  - stock: ${stock}
+                  - category: ${category}
+                `
             );
         }
 
