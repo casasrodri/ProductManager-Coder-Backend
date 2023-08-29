@@ -8,7 +8,7 @@
 		"status": false,
 		"stock": 200,
 		"category": "Comedor",
-		"thumbnails": "mesita.jpg"
+		"thumbnails": []
 	},
 	{
 		"id": 2,
@@ -19,7 +19,7 @@
 		"status": true,
 		"stock": 3,
 		"category": "Habitación",
-		"thumbnails": "placard.jpg"
+		"thumbnails": []
 	},
 	{
 		"id": 3,
@@ -30,7 +30,7 @@
 		"status": true,
 		"stock": 50,
 		"category": "Habitación",
-		"thumbnails": "baul.jpg"
+		"thumbnails": []
 	},
 	{
 		"id": 4,
@@ -41,7 +41,7 @@
 		"status": false,
 		"stock": 100,
 		"category": "Comedor",
-		"thumbnails": "silla.jpg"
+		"thumbnails": []
 	},
 	{
 		"id": 5,
@@ -52,7 +52,7 @@
 		"status": true,
 		"stock": 30,
 		"category": "Oficina",
-		"thumbnails": "escritorio.jpg"
+		"thumbnails": []
 	},
 	{
 		"id": 6,
@@ -63,7 +63,7 @@
 		"status": false,
 		"stock": 20,
 		"category": "Living",
-		"thumbnails": "sofa.jpg"
+		"thumbnails": []
 	},
 	{
 		"id": 7,
@@ -74,7 +74,7 @@
 		"status": true,
 		"stock": 15,
 		"category": "Comedor",
-		"thumbnails": "mesa_comedor.jpg"
+		"thumbnails": []
 	},
 	{
 		"id": 8,
@@ -85,7 +85,7 @@
 		"status": true,
 		"stock": 5,
 		"category": "Habitación",
-		"thumbnails": "cama_queen.jpg"
+		"thumbnails": []
 	},
 	{
 		"id": 9,
@@ -96,7 +96,7 @@
 		"status": true,
 		"stock": 40,
 		"category": "Escritorio",
-		"thumbnails": "estanteria.jpg"
+		"thumbnails": []
 	},
 	{
 		"id": 10,
@@ -107,7 +107,7 @@
 		"status": false,
 		"stock": 25,
 		"category": "Comedor",
-		"thumbnails": "mesa_centro.jpg"
+		"thumbnails": []
 	},
 	{
 		"id": 11,
@@ -118,7 +118,7 @@
 		"status": true,
 		"stock": 12,
 		"category": "Habitación",
-		"thumbnails": "comoda.jpg"
+		"thumbnails": []
 	},
 	{
 		"id": 12,
@@ -129,7 +129,7 @@
 		"status": true,
 		"stock": 60,
 		"category": "Habitación",
-		"thumbnails": "mesa_noche.jpg"
+		"thumbnails": []
 	},
 	{
 		"id": 13,
@@ -140,9 +140,7 @@
 		"status": true,
 		"stock": 18,
 		"category": "Oficina",
-		"thumbnails": [
-			"mesa_estudio.jpg"
-		]
+		"thumbnails": []
 	},
 	{
 		"id": 14,
@@ -153,7 +151,7 @@
 		"status": true,
 		"stock": 28,
 		"category": "Comedor",
-		"thumbnails": "mesa_tv.jpg"
+		"thumbnails": []
 	},
 	{
 		"id": 15,
@@ -164,7 +162,7 @@
 		"status": true,
 		"stock": 10,
 		"category": "Habitación",
-		"thumbnails": "armario.jpg"
+		"thumbnails": []
 	},
 	{
 		"id": 16,
@@ -175,7 +173,7 @@
 		"status": false,
 		"stock": 15,
 		"category": "Habitación",
-		"thumbnails": "sofa_cama.jpg"
+		"thumbnails": []
 	},
 	{
 		"id": 17,
@@ -186,7 +184,7 @@
 		"status": true,
 		"stock": 50,
 		"category": "Oficina",
-		"thumbnails": "estante_flotante.jpg"
+		"thumbnails": []
 	},
 	{
 		"id": 18,
@@ -197,7 +195,7 @@
 		"status": true,
 		"stock": 35,
 		"category": "Oficina",
-		"thumbnails": "silla_oficina.jpg"
+		"thumbnails": []
 	},
 	{
 		"id": 19,
@@ -208,7 +206,7 @@
 		"status": true,
 		"stock": 70,
 		"category": "Oficina",
-		"thumbnails": "cajonera.jpg"
+		"thumbnails": []
 	},
 	{
 		"id": 20,
@@ -219,7 +217,7 @@
 		"status": true,
 		"stock": 42,
 		"category": "Jardín",
-		"thumbnails": "mesa_plegable.jpg"
+		"thumbnails": []
 	},
 	{
 		"id": 21,
@@ -230,7 +228,7 @@
 		"status": true,
 		"stock": 8,
 		"category": "Habitación",
-		"thumbnails": "cabecero_cama.jpg"
+		"thumbnails": []
 	},
 	{
 		"id": 22,
@@ -241,7 +239,7 @@
 		"status": false,
 		"stock": 22,
 		"category": "Jardín",
-		"thumbnails": "mesa_jardin.jpg"
+		"thumbnails": []
 	},
 	{
 		"id": 23,
@@ -252,6 +250,6 @@
 		"status": true,
 		"stock": 60,
 		"category": "Comedor",
-		"thumbnails": "silla_infantil.jpg"
+		"thumbnails": []
 	}
 ]
