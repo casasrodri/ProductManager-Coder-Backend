@@ -39,9 +39,10 @@ class ProductManager {
     async addProduct(product) {
         await this.readJson();
 
-        if (this.products.find((p) => p.code == product.code)) {
+        const exists = this.products.find((p) => p.code == product.code);
+        if (exists) {
             throw new Error(
-                `The code "${product.code}" already exists for the product ${product.title} (id=${product.id}).`
+                `The code "${product.code}" already exists for the product ${product.title} (id=${exists.id}).`
             );
         }
 
