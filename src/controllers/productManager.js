@@ -41,7 +41,7 @@ class ProductManager {
 
         if (this.products.find((p) => p.code == product.code)) {
             throw new Error(
-                `The code "${product.code}" already exists for the product ${product.title}.`
+                `The code "${product.code}" already exists for the product ${product.title} (id=${product.id}).`
             );
         }
 
