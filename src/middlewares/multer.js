@@ -1,10 +1,16 @@
 import multer from 'multer';
+import path from 'path';
 
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => cb(null, './public'),
-    filename: (req, file, cb) => cb(null, file.originalname),
+    destination: 'public/thumbnails',
+    filename: (req, file, callback) => {
+        const originalName = path.parse(file.originalname).name;
+        const timestamp = Date.now();
+        const extension = path.extname(file.originalname);
+        callback(null, `${originalName}_${timestamp}${extension}`);
+    },
 });
 
-const uploader = multer({ storage });
+const thumbnailsUploader = multer({ storage });
 
-export default uploader;
+export { thumbnailsUploader };

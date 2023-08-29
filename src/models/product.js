@@ -85,6 +85,10 @@ class Product {
         this.category = category || this.category;
         this.thumbnails = thumbnails || this.thumbnails;
     }
+
+    addThumbnail(path) {
+        this.thumbnails.push(path);
+    }
 }
 
 export default Product;

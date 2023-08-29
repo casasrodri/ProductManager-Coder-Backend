@@ -73,6 +73,14 @@ class ProductManager {
         return found;
     }
 
+    async addThumbnail(id, path) {
+        const found = await this.getProductById(id);
+        found.addThumbnail(path);
+
+        await this.saveJson();
+        return found;
+    }
+
     async deleteProductById(id) {
         const found = await this.getProductById(id);
         this.products = this.products.filter((p) => p !== found);

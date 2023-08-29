@@ -2,6 +2,7 @@ import { Router } from 'express';
 import ProductManager from '../controllers/productManager.js';
 import Product from '../models/product.js';
 import { parseProductId, getBodyProduct } from '../middlewares/products.js';
+import { thumbnailsUploader } from '../middlewares/multer.js';
 
 // Instantiate the manager
 const pm = new ProductManager();
@@ -30,11 +31,14 @@ router.get('/:pid', parseProductId, async (req, res) => {
         const product = await pm.getProductById(pid);
         res.send(product);
     } catch (err) {
-        res.status(404).send({ productId: pid, status: 'Not found' });
+        res.status(404).send({
+            productId: pid,
+            status: err.message,
+            data: { productId: pid },
+        });
     }
 });
 
-// TODO: Agregar un producto a la base de datos (lleva middleware multer, campo opcional)
 router.post('/', getBodyProduct, async (req, res) => {
     let newProduct;
 
@@ -85,6 +89,29 @@ router.post('/', getBodyProduct, async (req, res) => {
     });
 });
 
+router.post(
+    '/:pid/thumbnails',
+    parseProductId,
+    thumbnailsUploader.array('thumbnails'),
+    async (req, res) => {
+        const pid = req.params.pid;
+
+        try {
+            for (const f of req.files) {
+                await pm.addThumbnail(pid, f.path);
+            }
+        } catch (err) {
+            res.status(404).send({
+                productId: pid,
+                status: err.message,
+                data: { productId: pid },
+            });
+        }
+
+        res.send({ archivos: req.files, productId: pid });
+    }
+);
+
 router.put('/:pid', parseProductId, getBodyProduct, async (req, res) => {
     const pid = req.params.pid;
     const updatedProduct = req.body.product;
@@ -93,7 +120,11 @@ router.put('/:pid', parseProductId, getBodyProduct, async (req, res) => {
     try {
         updated = await pm.updateProductById(pid, updatedProduct);
     } catch (err) {
-        return res.status(404).send({ productId: pid, status: 'Not found' });
+        return res.status(404).send({
+            status: 'error',
+            description: err.message,
+            data: { productId: pid },
+        });
     }
 
     res.status(200).send({
@@ -110,7 +141,11 @@ router.delete('/:pid', parseProductId, async (req, res) => {
     try {
         deleted = await pm.deleteProductById(pid);
     } catch (err) {
-        return res.status(404).send({ productId: pid, status: 'Not found' });
+        return res.status(404).send({
+            status: 'error',
+            description: err.message,
+            data: { productId: pid },
+        });
     }
 
     return res.status(204).send({
