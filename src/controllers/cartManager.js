@@ -62,7 +62,6 @@ class CartManager {
         let item = cart.products.find((p) => p.product == productId);
 
         if (item) {
-            console.log('Entro aca', item);
             item.quantity++;
         } else {
             item = {
