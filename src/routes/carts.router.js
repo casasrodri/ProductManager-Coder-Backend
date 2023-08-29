@@ -1,7 +1,5 @@
 import { Router } from 'express';
 import CartManager from '../controllers/cartManager.js';
-import { parseCartId } from '../middlewares/carts.js';
-import { parseProductId } from '../middlewares/products.js';
 
 // Instantiate the manager
 const cm = new CartManager();
@@ -10,16 +8,23 @@ const router = Router();
 
 router.post('/', async (req, res) => {
     const newCart = await cm.addCart();
-    res.status(201).send(newCart);
+    res.status(201).send({
+        status: 'ok',
+        description: 'Cart created.',
+        data: newCart,
+    });
 });
 
-router.get('/:cid', parseCartId, async (req, res) => {
-    const cid = req.params.cid;
+router.get('/:cid', async (req, res) => {
+    const cid = parseInt(req.params.cid);
     try {
         const found = await cm.getCartById(cid);
-        return res.status(200).send(found.products);
+        return res.status(200).send({
+            status: 'ok',
+            description: `Products in cart id=${cid}.`,
+            data: found.products,
+        });
     } catch (err) {
-        console.log('Entró en el error.');
         return res.status(404).send({
             status: 'error',
             description: err.message,
@@ -28,32 +33,25 @@ router.get('/:cid', parseCartId, async (req, res) => {
     }
 });
 
-router.post(
-    '/:cid/product/:pid',
-    parseCartId,
-    parseProductId,
-    async (req, res) => {
-        const cid = req.params.cid;
-        const pid = req.params.pid;
+router.post('/:cid/product/:pid', async (req, res) => {
+    const cid = parseInt(req.params.cid);
+    const pid = parseInt(req.params.pid);
 
-        let result;
+    try {
+        const result = await cm.addProductToCartId(cid, pid);
 
-        try {
-            result = await cm.addProductToCartId(cid, pid);
-        } catch (err) {
-            return res.status(404).send({
-                status: 'error',
-                description: err.message,
-                data: { cartId: cid },
-            });
-        }
-
-        res.status(200).send({
+        return res.status(200).send({
             status: 'ok',
-            description: 'Product added.',
+            description: 'Product added to cart.',
             data: result,
         });
+    } catch (err) {
+        return res.status(404).send({
+            status: 'error',
+            description: err.message,
+            data: { cartId: cid },
+        });
     }
-);
+});
 
 export default router;

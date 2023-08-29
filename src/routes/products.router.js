@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import ProductManager from '../controllers/productManager.js';
 import Product from '../models/product.js';
-import { parseProductId, getBodyProduct } from '../middlewares/products.js';
+import { getBodyProduct } from '../middlewares/products.js';
 import { thumbnailsUploader } from '../middlewares/multer.js';
 
 // Instantiate the manager
@@ -11,7 +11,7 @@ const router = Router();
 
 router.get('/', async (req, res) => {
     let products = await pm.getProducts();
-    const limit = parseInt(req.query.limit, 10);
+    const limit = parseInt(req.query.limit);
 
     if (limit) {
         products = products.slice(0, limit);
@@ -24,16 +24,16 @@ router.get('/', async (req, res) => {
     res.send(products);
 });
 
-router.get('/:pid', parseProductId, async (req, res) => {
-    const pid = req.params.pid;
+router.get('/:pid', async (req, res) => {
+    const pid = parseInt(req.params.pid);
 
     try {
         const product = await pm.getProductById(pid);
         res.send(product);
     } catch (err) {
         res.status(404).send({
-            productId: pid,
-            status: err.message,
+            status: 'error',
+            description: err.message,
             data: { productId: pid },
         });
     }
@@ -42,33 +42,14 @@ router.get('/:pid', parseProductId, async (req, res) => {
 router.post('/', getBodyProduct, async (req, res) => {
     let newProduct;
 
-    const {
-        title,
-        description,
-        code,
-        price,
-        status,
-        stock,
-        category,
-        thumbnails,
-    } = req.body.product;
-
     try {
-        newProduct = new Product(
-            title,
-            description,
-            code,
-            price,
-            status,
-            stock,
-            category,
-            thumbnails
-        );
+        newProduct = new Product.fromObject(req.body.product);
     } catch (err) {
         return res.status(400).send({
             status: 'error',
             description:
                 'Can not create a new product. Verify you are sending all the necesary fields.',
+            data: null,
         });
     }
 
@@ -79,6 +60,7 @@ router.post('/', getBodyProduct, async (req, res) => {
             status: 'error',
             description:
                 'Can not add a new product. The code already exists for the product.',
+            data: null,
         });
     }
 
@@ -91,10 +73,9 @@ router.post('/', getBodyProduct, async (req, res) => {
 
 router.post(
     '/:pid/thumbnails',
-    parseProductId,
     thumbnailsUploader.array('thumbnails'),
     async (req, res) => {
-        const pid = req.params.pid;
+        const pid = parseInt(req.params.pid);
 
         try {
             for (const f of req.files) {
@@ -108,12 +89,18 @@ router.post(
             });
         }
 
-        res.send({ archivos: req.files, productId: pid });
+        const product = await pm.getProductById(pid);
+
+        res.status(201).send({
+            status: 'ok',
+            description: 'Thumbnails added.',
+            data: product,
+        });
     }
 );
 
-router.put('/:pid', parseProductId, getBodyProduct, async (req, res) => {
-    const pid = req.params.pid;
+router.put('/:pid', getBodyProduct, async (req, res) => {
+    const pid = parseInt(req.params.pid);
     const updatedProduct = req.body.product;
     let updated;
 
@@ -134,8 +121,8 @@ router.put('/:pid', parseProductId, getBodyProduct, async (req, res) => {
     });
 });
 
-router.delete('/:pid', parseProductId, async (req, res) => {
-    const pid = req.params.pid;
+router.delete('/:pid', async (req, res) => {
+    const pid = parseInt(req.params.pid);
     let deleted;
 
     try {
