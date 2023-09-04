@@ -67,7 +67,7 @@
 	},
 	{
 		"id": 7,
-		"title": "Mesa de Comedor",
+		"title": "Mesa de comedor",
 		"description": "Mesa rectangular extensible para comedor, capacidad para 6 personas.",
 		"code": "8h7j6k5l",
 		"price": 1800,
@@ -78,7 +78,7 @@
 	},
 	{
 		"id": 8,
-		"title": "Cama Queen",
+		"title": "Cama queen",
 		"description": "Cama tamaño Queen con cabecero tapizado y almacenamiento en la base.",
 		"code": "3ws4e5r6t",
 		"price": 3200,
@@ -100,7 +100,7 @@
 	},
 	{
 		"id": 10,
-		"title": "Mesa de Centro",
+		"title": "Mesa de centro",
 		"description": "Mesa de centro con superficie de vidrio y patas metálicas.",
 		"code": "1qa2ws3ed",
 		"price": 1100,
@@ -122,7 +122,7 @@
 	},
 	{
 		"id": 12,
-		"title": "Mesa de Noche",
+		"title": "Mesa de noche",
 		"description": "Mesa de noche con un cajón y espacio de almacenamiento abierto.",
 		"code": "5rfv6tgb7",
 		"price": 250,
@@ -133,7 +133,7 @@
 	},
 	{
 		"id": 13,
-		"title": "Mesa de Estudio",
+		"title": "Mesa de estudio",
 		"description": "Mesa de estudio con diseño ergonómico y soporte para computadora portátil.",
 		"code": "2wsx3edc4",
 		"price": 900,
@@ -166,7 +166,7 @@
 	},
 	{
 		"id": 16,
-		"title": "Sofá Cama",
+		"title": "Sofá cama",
 		"description": "Sofá que se convierte en cama individual, ideal para invitados.",
 		"code": "9o8i7u6y5t",
 		"price": 1800,
@@ -177,7 +177,7 @@
 	},
 	{
 		"id": 17,
-		"title": "Estante Flotante",
+		"title": "Estante flotante",
 		"description": "Estante flotante para pared con diseño minimalista.",
 		"code": "0p9o8i7u6y",
 		"price": 300,
@@ -188,7 +188,7 @@
 	},
 	{
 		"id": 18,
-		"title": "Silla de Oficina",
+		"title": "Silla de oficina",
 		"description": "Silla ergonómica de oficina con soporte lumbar y ajustes.",
 		"code": "1a2s3d4f5g",
 		"price": 400,
@@ -210,7 +210,7 @@
 	},
 	{
 		"id": 20,
-		"title": "Mesa Plegable",
+		"title": "Mesa plegable",
 		"description": "Mesa plegable para espacios reducidos, fácil de guardar.",
 		"code": "3r4t5y6u7i",
 		"price": 180,
@@ -221,7 +221,7 @@
 	},
 	{
 		"id": 21,
-		"title": "Cabecero de Cama",
+		"title": "Cabecero de cama",
 		"description": "Cabecero acolchado para cama tamaño King, diseño elegante.",
 		"code": "4e5r6t7y8u",
 		"price": 320,
@@ -232,7 +232,7 @@
 	},
 	{
 		"id": 22,
-		"title": "Mesa de Jardín",
+		"title": "Mesa de jardín",
 		"description": "Mesa redonda de jardín con acabado resistente a la intemperie.",
 		"code": "5t6y7u8i9o",
 		"price": 500,
@@ -243,7 +243,7 @@
 	},
 	{
 		"id": 23,
-		"title": "Silla Infantil",
+		"title": "Silla infantil",
 		"description": "Silla pequeña y colorida diseñada para niños.",
 		"code": "6y7u8i9o0p",
 		"price": 150,
