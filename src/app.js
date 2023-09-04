@@ -28,6 +28,7 @@ app.use('/', views);
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
 
+// Socket server configuration
 socketServer.on('connection', (socket) => {
     console.log('New connection', socket.id);
 
