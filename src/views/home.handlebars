@@ -1,0 +1,26 @@
+<div class="sticky dark:bg-gray-900/75 block top-0 p-1">
+    <h2
+        class="font-bold text-2xl bg-gradient-to-r from-emerald-500 to-emerald-700 bg-clip-text text-transparent block top-0 my-4 text-center">
+        LIST OF PRODUCTS
+    </h2>
+</div>
+
+<div class="h-screen flex justify-center flex-wrap py-7">
+    <div class="max-w-5xl px-5 grid grid-cols-3 gap-3 flex items-center">
+
+        {{#each products}}
+        <div id="card-{{this.id}}"
+            class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white" id="title-{{this.id}}">
+                {{ this.title }}
+            </h5>
+            <p class="font-normal text-gray-700 dark:text-gray-400" id="description-{{this.id}}">
+                {{ this.description }}
+            </p>
+            <div class="flex justify-end gap-2 font-medium text-xl" id="price-{{this.id}}">
+                $ {{ this.price }}
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>
