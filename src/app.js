@@ -37,13 +37,13 @@ socketServer.on('connection', (socket) => {
         socketServer.emit('deletedProduct', id);
     })
 
-    socket.on('editProduct', (id) => {
-        console.log('Edited product', id);
-        socketServer.emit('editedProduct', id);
+    socket.on('editProduct', (product) => {
+        console.log('Edited product', product);
+        socketServer.emit('editedProduct', product);
     })
 
-    socket.on('newProduct', (id) => {
-        console.log('Added product', id);
-        socketServer.emit('addedProduct', id);
+    socket.on('newProduct', (product) => {
+        console.log('Added product', product);
+        socketServer.emit('addedProduct', product);
     })
 })

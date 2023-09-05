@@ -14,10 +14,4 @@ router.get('/realtimeproducts', async (req, res) => {
     res.render('realtimeproducts', { products: products })
 });
 
-// TODO: Luego borrar
-router.get('/rtp', async (req, res) => {
-    const products = await pm.getProducts();
-    res.render('realtimeproducts', { products: products })
-});
-
 export default router;

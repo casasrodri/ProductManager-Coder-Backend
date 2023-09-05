@@ -16,32 +16,26 @@ function deleteProduct(id) {
         })
             .then(function (response) {
                 if (response.ok) {
-                    console.log("Solicitud DELETE exitosa");
                     socket.emit('deleteProduct', id)
                 } else {
-                    console.error("Error en la solicitud DELETE " + response.statusText);
+                    console.error("Error on DELETE: " + response.statusText);
                 }
             })
             .catch(function (error) {
-                console.error("Error en la solicitud DELETE 2:", error);
+                console.error("Error on DELETE:", error);
             });
     }
 }
 
 socket.addEventListener('deletedProduct', (id) => {
-    console.log('deleteProduct', id)
     const card = document.getElementById(`card-${id}`)
     card.remove()
 })
 
 function editProduct(id) {
-    const modal = document.getElementById('openModal')
-    let infoProduct
 
     // Getting info about the product
-    fetch(`/api/products/${id}`).then(response => response.json()).then(data => {
-        infoProduct = data
-        console.log(infoProduct)
+    fetch(`/api/products/${id}`).then(response => response.json()).then(infoProduct => {
         document.getElementById('updating-id').innerHTML = infoProduct.id
         document.getElementById('title').value = infoProduct.title
         document.getElementById('description').value = infoProduct.description
@@ -51,12 +45,12 @@ function editProduct(id) {
         document.getElementById('category').value = infoProduct.category
     })
 
-    modal.click()
+    // Open the modal
+    document.getElementById('openModal').click()
 
     // Setting the title and button of the modal
     document.getElementById('titleModal').innerHTML = 'Edit product'
     document.getElementById('btnModal').innerHTML = 'Edit'
-
 
     // Set the action of the button
     document.getElementById('btnModal').addEventListener('click', () => {
@@ -92,26 +86,26 @@ function saveEditProduct() {
     })
         .then(function (response) {
             if (response.ok) {
-                console.log("Solicitud PUT exitosa");
-                socket.emit('editProduct', id)
+                socket.emit('editProduct', product)
             } else {
-                console.error("Error en la solicitud PUT " + response.statusText);
+                console.error("Error on PUT " + response.statusText);
             }
         })
         .catch(function (error) {
-            console.error("Error en la solicitud PUT 2:", error);
+            console.error("Error on PUT:", error);
         });
 
+    // Close the modal
     document.getElementById('btnCancel').click()
 }
 
-socket.addEventListener('editedProduct', (id) => {
-    // Getting info about the product
-    fetch(`/api/products/${id}`).then(response => response.json()).then(data => {
-        document.getElementById(`title-${id}`).innerHTML = data.title
-        document.getElementById(`description-${id}`).innerHTML = data.description
-        document.getElementById(`price-${id}`).innerHTML = `$ ${data.price}`
-    })
+socket.addEventListener('editedProduct', (product) => {
+    const { id, title, description, price } = product
+
+    // Updating product info
+    document.getElementById(`title-${id}`).innerHTML = title
+    document.getElementById(`description-${id}`).innerHTML = description
+    document.getElementById(`price-${id}`).innerHTML = `$ ${price}`
 })
 
 function newProduct() {
@@ -145,7 +139,6 @@ function saveNewProduct() {
         category
     }
 
-    let idNewProduct
     fetch(`/api/products/`, {
         method: "POST",
         headers: {
@@ -155,36 +148,32 @@ function saveNewProduct() {
     })
         .then(function (response) {
             if (response.ok) {
-                console.log("Solicitud POST exitosa");
                 response.json().then(data => {
-                    idNewProduct = data.data.id
-                    socket.emit('newProduct', idNewProduct)
+                    product.id = data.data.id
+                    socket.emit('newProduct', product)
                 })
             } else {
-                console.error("Error en la solicitud POST " + response.statusText);
+                console.error("Error on POST " + response.statusText);
             }
         })
         .catch(function (error) {
-            console.error("Error en la solicitud POST 2:", error);
+            console.error("Error on POST:", error);
         });
 
     // Close the modal
     document.getElementById('btnCancel').click()
 }
 
-socket.addEventListener('addedProduct', (id) => {
-    console.log(id)
+socket.addEventListener('addedProduct', (product) => {
     const cardContainer = document.getElementById('card-container')
+    const { id, title, description, price } = product
 
-    // Getting info about the product
-    fetch(`/api/products/${id}`).then(response => response.json()).then(product => {
-        console.log(product)
+    // Creating a new card
+    const card = document.createElement('div')
+    card.setAttribute('id', `card-${id}`)
+    card.setAttribute('class', 'block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700')
 
-        const card = document.createElement('div')
-        card.setAttribute('id', `card-${id}`)
-        card.setAttribute('class', 'block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700')
-
-        card.innerHTML = `
+    card.innerHTML = `
             <div class="flex justify-end gap-2">
                 <div class="edit cursor-pointer" id="edit-${id}">
                     <svg class="w-5 h-5 hover:text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -204,27 +193,26 @@ socket.addEventListener('addedProduct', (id) => {
                 </div>
             </div>
             <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white" id="title-${id}">
-                ${product.title}
+                ${title}
             </h5>
             <p class="font-normal text-gray-700 dark:text-gray-400" id="description-${id}">
-                ${product.description}
+                ${description}
             </p>
             <div class="flex justify-end gap-2 font-medium text-xl" id="price-${id}">
-                $ ${product.price}
+                $ ${price}
             </div>
         `
-        cardContainer.appendChild(card)
+    cardContainer.appendChild(card)
 
-        editBtn = document.getElementById(`edit-${id}`)
-        deleteBtn = document.getElementById(`delete-${id}`)
+    editBtn = document.getElementById(`edit-${id}`)
+    deleteBtn = document.getElementById(`delete-${id}`)
 
-        editBtn.addEventListener('click', () => {
-            editProduct(id)
-        })
+    editBtn.addEventListener('click', () => {
+        editProduct(id)
+    })
 
-        deleteBtn.addEventListener('click', () => {
-            deleteProduct(id)
-        })
+    deleteBtn.addEventListener('click', () => {
+        deleteProduct(id)
     })
 })
 
