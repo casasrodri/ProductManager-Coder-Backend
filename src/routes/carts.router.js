@@ -16,7 +16,7 @@ router.post('/', async (req, res) => {
 });
 
 router.get('/:cid', async (req, res) => {
-    const cid = parseInt(req.params.cid);
+    const cid = cm.getId(req.params.cid);
     try {
         const found = await cm.getCartById(cid);
         return res.status(200).send({
@@ -34,8 +34,8 @@ router.get('/:cid', async (req, res) => {
 });
 
 router.post('/:cid/product/:pid', async (req, res) => {
-    const cid = parseInt(req.params.cid);
-    const pid = parseInt(req.params.pid);
+    const cid = cm.getId(req.params.cid);
+    const pid = cm.getId(req.params.pid);
 
     try {
         return res.status(200).send({

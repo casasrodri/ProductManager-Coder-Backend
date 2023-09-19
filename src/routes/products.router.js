@@ -1,5 +1,6 @@
 import { Router } from 'express';
-import ProductManager from '../dao/fs/controllers/productManager.js';
+// import ProductManager from '../dao/fs/controllers/productManager.js';
+import ProductManager from '../dao/mongo/controllers/productManager.js';
 import Product from '../dao/fs/models/product.js';
 import { getBodyProduct } from '../middlewares/products.js';
 import { thumbnailsUploader } from '../middlewares/multer.js';
@@ -25,7 +26,7 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:pid', async (req, res) => {
-    const pid = parseInt(req.params.pid);
+    const pid = pm.getId(req.params.pid);
 
     try {
         const product = await pm.getProductById(pid);
@@ -73,7 +74,7 @@ router.post(
     '/:pid/thumbnails',
     thumbnailsUploader.array('thumbnails'),
     async (req, res) => {
-        const pid = parseInt(req.params.pid);
+        const pid = pm.getId(req.params.pid);
 
         try {
             for (const f of req.files) {
@@ -98,7 +99,7 @@ router.post(
 );
 
 router.put('/:pid', getBodyProduct, async (req, res) => {
-    const pid = parseInt(req.params.pid);
+    const pid = pm.getId(req.params.pid);
     const updatedProduct = req.body.product;
     let updated;
 
@@ -118,7 +119,7 @@ router.put('/:pid', getBodyProduct, async (req, res) => {
 });
 
 router.delete('/:pid', async (req, res) => {
-    const pid = parseInt(req.params.pid);
+    const pid = pm.getId(req.params.pid);
 
     try {
         return res.status(204).send({
