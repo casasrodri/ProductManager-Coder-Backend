@@ -1,12 +1,6 @@
-import { Server } from 'socket.io';
-
-export default (httpServer) => {
-    // Socket server
-    const socketServer = new Server(httpServer);
-
-    // Socket server configuration
+export default (socketServer) => {
     socketServer.on('connection', (socket) => {
-        console.log('New connection', socket.id);
+        console.log('[Product] New connection', socket.id);
 
         socket.on('deleteProduct', (id) => {
             console.log('Delete product', id);

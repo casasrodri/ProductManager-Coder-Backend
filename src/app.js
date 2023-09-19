@@ -5,7 +5,9 @@ import mongoose from 'mongoose';
 import views from './routes/views.router.js';
 import productsRouter from './routes/products.router.js';
 import cartsRouter from './routes/carts.router.js';
+import { Server } from 'socket.io';
 import productsSocket from './sockets/products.socket.js';
+import chatSocket from './sockets/chat.socket.js';
 
 // Instantiate the express application:
 const app = express();
@@ -33,5 +35,7 @@ app.use('/', views);
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
 
-// Sockets
-productsSocket(httpServer);
+// Socket server configuration
+const socketServer = new Server(httpServer);
+productsSocket(socketServer);
+chatSocket(socketServer);
