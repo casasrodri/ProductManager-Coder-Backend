@@ -7,7 +7,7 @@ export default (socketServer) => {
 
         socket.on('newMessage', async (user, text) => {
             await mm.addMessage(user, text);
-            socketServer.emit('messages', await mm.getMessages());
+            socketServer.emit('allMessages', await mm.getMessages());
         });
     });
 };
