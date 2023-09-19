@@ -5,7 +5,7 @@ import Product from '../models/product.js';
 
 class ProductManager {
     constructor() {
-        this.path = 'src/databases/products.json';
+        this.path = 'src/dao/fs/databases/products.json';
         this.products = [];
 
         if (!existsSync(this.path)) {

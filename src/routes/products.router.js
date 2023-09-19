@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import ProductManager from '../controllers/productManager.js';
-import Product from '../models/product.js';
+import ProductManager from '../dao/fs/controllers/productManager.js';
+import Product from '../dao/fs/models/product.js';
 import { getBodyProduct } from '../middlewares/products.js';
 import { thumbnailsUploader } from '../middlewares/multer.js';
 

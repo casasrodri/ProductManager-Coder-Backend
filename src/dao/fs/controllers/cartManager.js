@@ -5,7 +5,7 @@ import Cart from '../models/cart.js';
 
 class CartManager {
     constructor() {
-        this.path = 'src/databases/carrito.json';
+        this.path = 'src/dao/fs/databases/carrito.json';
         this.carts = [];
 
         if (!existsSync(this.path)) {
