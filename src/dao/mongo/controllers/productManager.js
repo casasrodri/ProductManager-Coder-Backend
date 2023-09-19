@@ -13,7 +13,7 @@ class ProductManager {
     }
 
     async getProducts() {
-        return await Product.find();
+        return await Product.find().lean();
     }
 
     async getProductById(id) {
