@@ -89,6 +89,10 @@ class ProductManager {
         await this.saveJson();
         return found;
     }
+
+    getId(id) {
+        return parseInt(id, 10);
+    }
 }
 
 export default ProductManager;

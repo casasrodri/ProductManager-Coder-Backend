@@ -75,6 +75,10 @@ class CartManager {
         await this.saveJson();
         return item;
     }
+
+    getId(id) {
+        return parseInt(id, 10);
+    }
 }
 
 export default CartManager;
