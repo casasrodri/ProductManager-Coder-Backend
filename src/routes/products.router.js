@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
         products = products.slice(0, limit);
     }
 
-    if (products === []) {
+    if (products.length === 0) {
         return res.status(204).send(products);
     }
 
