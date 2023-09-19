@@ -1,12 +1,13 @@
 import MessageManager from '../dao/mongo/controllers/messsageManager.js';
+const mm = new MessageManager();
 
 export default (socketServer) => {
     socketServer.on('connection', (socket) => {
         console.log('[Chat] New connection', socket.id);
 
         socket.on('newMessage', async (user, text) => {
-            await MessageManager.addMessage(user, text);
-            socketServer.emit('messages', await MessageManager.getMessages());
+            await mm.addMessage(user, text);
+            socketServer.emit('messages', await mm.getMessages());
         });
     });
 };

@@ -1,23 +1,20 @@
-import { log } from 'node:console';
 import express from 'express';
 import handlebars from 'express-handlebars';
 import mongoose from 'mongoose';
-import views from './routes/views.router.js';
-import productsRouter from './routes/products.router.js';
-import cartsRouter from './routes/carts.router.js';
-import { Server } from 'socket.io';
-import productsSocket from './sockets/products.socket.js';
-import chatSocket from './sockets/chat.socket.js';
+import setRouters from './routes/router.js';
+import setSockets from './sockets/sockets.js';
 
 // Instantiate the express application:
 const app = express();
-const httpServer = app.listen(8080, () =>
-    log('🚀 Server listening on http://localhost:8080')
+const PORT = 8080;
+const httpServer = app.listen(PORT, () =>
+    console.log(`🚀 Server listening on http://localhost:${PORT}`)
 );
 
 // Connect to MongoDB
+const database = 'ecommerce';
 mongoose.connect(
-    'mongodb+srv://rodri:rodri@cluster0.fhf3wmo.mongodb.net/ecommerce?retryWrites=true&w=majority'
+    `mongodb+srv://rodri:rodri@cluster0.fhf3wmo.mongodb.net/${database}?retryWrites=true&w=majority`
 );
 
 // Handlebars configuration
@@ -31,11 +28,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/static', express.static(process.cwd() + '/public'));
 
 // Using routers
-app.use('/', views);
-app.use('/api/products', productsRouter);
-app.use('/api/carts', cartsRouter);
+setRouters(app);
 
-// Socket server configuration
-const socketServer = new Server(httpServer);
-productsSocket(socketServer);
-chatSocket(socketServer);
+// Socket server
+setSockets(httpServer);
