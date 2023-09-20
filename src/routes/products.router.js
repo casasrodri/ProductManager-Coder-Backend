@@ -1,16 +1,10 @@
-import { Router } from 'express';
-import ProductManager from '../dao/fs/controllers/productManager.js';
-// import ProductManager from '../dao/mongo/controllers/productManager.js';
 import { getBodyProduct } from '../middlewares/products.js';
 import { thumbnailsUploader } from '../middlewares/multer.js';
-
-// Instantiate the manager
-const pm = new ProductManager();
-
+import { Router } from 'express';
 const router = Router();
 
 router.get('/', async (req, res) => {
-    let products = await pm.getProducts();
+    let products = await req.productManager.getProducts();
     const limit = parseInt(req.query.limit);
 
     if (limit) {
@@ -25,10 +19,10 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:pid', async (req, res) => {
-    const pid = pm.getId(req.params.pid);
+    const pid = req.productManager.getId(req.params.pid);
 
     try {
-        const product = await pm.getProductById(pid);
+        const product = await req.productManager.getProductById(pid);
         res.send(product);
     } catch (err) {
         res.status(404).send({
@@ -44,7 +38,7 @@ router.post('/', getBodyProduct, async (req, res) => {
         return res.status(201).send({
             status: 'ok',
             description: 'Created.',
-            data: await pm.addProduct(req.body.product),
+            data: await req.productManager.addProduct(req.body.product),
         });
     } catch (err) {
         return res.status(400).send({
@@ -59,14 +53,14 @@ router.post(
     '/:pid/thumbnails',
     thumbnailsUploader.array('thumbnails'),
     async (req, res) => {
-        const pid = pm.getId(req.params.pid);
+        const pid = req.productManager.getId(req.params.pid);
 
         try {
             for (const f of req.files) {
-                await pm.addThumbnail(pid, f.path);
+                await req.productManager.addThumbnail(pid, f.path);
             }
 
-            const product = await pm.getProductById(pid);
+            const product = await req.productManager.getProductById(pid);
 
             return res.status(201).send({
                 status: 'ok',
@@ -84,7 +78,7 @@ router.post(
 );
 
 router.put('/:pid', getBodyProduct, async (req, res) => {
-    const pid = pm.getId(req.params.pid);
+    const pid = req.productManager.getId(req.params.pid);
     const updatedProduct = req.body.product;
     let updated;
 
@@ -92,7 +86,10 @@ router.put('/:pid', getBodyProduct, async (req, res) => {
         return res.status(200).send({
             status: 'ok',
             description: 'Updated.',
-            data: await pm.updateProductById(pid, updatedProduct),
+            data: await req.productManager.updateProductById(
+                pid,
+                updatedProduct
+            ),
         });
     } catch (err) {
         return res.status(404).send({
@@ -104,13 +101,13 @@ router.put('/:pid', getBodyProduct, async (req, res) => {
 });
 
 router.delete('/:pid', async (req, res) => {
-    const pid = pm.getId(req.params.pid);
+    const pid = req.productManager.getId(req.params.pid);
 
     try {
         return res.status(204).send({
             status: 'ok',
             description: 'Deleted.',
-            data: await pm.deleteProductById(pid),
+            data: await req.productManager.deleteProductById(pid),
         });
     } catch (err) {
         return res.status(404).send({

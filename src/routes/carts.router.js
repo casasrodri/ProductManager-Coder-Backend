@@ -1,14 +1,8 @@
 import { Router } from 'express';
-// import CartManager from '../dao/fs/controllers/cartManager.js';
-import CartManager from '../dao/mongo/controllers/cartManager.js';
-
-// Instantiate the manager
-const cm = new CartManager();
-
 const router = Router();
 
 router.post('/', async (req, res) => {
-    const newCart = await cm.addCart();
+    const newCart = await req.cartManager.addCart();
     res.status(201).send({
         status: 'ok',
         description: 'Cart created.',
@@ -17,9 +11,9 @@ router.post('/', async (req, res) => {
 });
 
 router.get('/:cid', async (req, res) => {
-    const cid = cm.getId(req.params.cid);
+    const cid = req.cartManager.getId(req.params.cid);
     try {
-        const found = await cm.getCartById(cid);
+        const found = await req.cartManager.getCartById(cid);
         return res.status(200).send({
             status: 'ok',
             description: `Products in cart id=${cid}.`,
@@ -35,14 +29,14 @@ router.get('/:cid', async (req, res) => {
 });
 
 router.post('/:cid/product/:pid', async (req, res) => {
-    const cid = cm.getId(req.params.cid);
-    const pid = cm.getId(req.params.pid);
+    const cid = req.cartManager.getId(req.params.cid);
+    const pid = req.cartManager.getId(req.params.pid);
 
     try {
         return res.status(200).send({
             status: 'ok',
             description: 'Product added to cart.',
-            data: await cm.addProductToCartId(cid, pid),
+            data: await req.cartManager.addProductToCartId(cid, pid),
         });
     } catch (err) {
         return res.status(404).send({

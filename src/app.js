@@ -3,12 +3,7 @@ import handlebars from 'express-handlebars';
 import mongoose from 'mongoose';
 import setRouters from './routes/router.js';
 import setSockets from './sockets/sockets.js';
-
-// Connect to MongoDB
-const database = 'ecommerce';
-mongoose.connect(
-    `mongodb+srv://rodri:rodri@cluster0.fhf3wmo.mongodb.net/${database}?retryWrites=true&w=majority`
-);
+import { DaoConnector, daoManagersMiddleware } from './dao/connector.js';
 
 // Instantiate the express application:
 const app = express();
@@ -16,6 +11,10 @@ const PORT = 8080;
 const httpServer = app.listen(PORT, () =>
     console.log(`🚀 Server listening on http://localhost:${PORT}`)
 );
+
+// Connect to databases
+DaoConnector.setConnectionType('fs');
+app.use(daoManagersMiddleware);
 
 // Handlebars configuration
 app.engine('handlebars', handlebars.engine());
