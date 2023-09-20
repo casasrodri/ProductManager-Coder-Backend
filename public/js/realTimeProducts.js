@@ -1,71 +1,75 @@
-
 // Socket.io
-const socket = io()
+const socket = io();
 
 // Variables for the buttons
-let deleteBtn
-let editBtn
+let deleteBtn;
+let editBtn;
 
 // Functions to delete, edit and add products
 function deleteProduct(id) {
-    const confirmation = window.confirm(`Are you sure to delete the product with id ${id}?`)
+    const confirmation = window.confirm(
+        `Are you sure to delete the product with id ${id}?`
+    );
 
     if (confirmation) {
         fetch(`/api/products/${id}`, {
-            method: "DELETE",
+            method: 'DELETE',
         })
             .then(function (response) {
                 if (response.ok) {
-                    socket.emit('deleteProduct', id)
+                    socket.emit('deleteProduct', id);
                 } else {
-                    console.error("Error on DELETE: " + response.statusText);
+                    console.error('Error on DELETE: ' + response.statusText);
                 }
             })
             .catch(function (error) {
-                console.error("Error on DELETE:", error);
+                console.error('Error on DELETE:', error);
             });
     }
 }
 
 socket.addEventListener('deletedProduct', (id) => {
-    const card = document.getElementById(`card-${id}`)
-    card.remove()
-})
+    const card = document.getElementById(`card-${id}`);
+    card.remove();
+});
 
 function editProduct(id) {
-
     // Getting info about the product
-    fetch(`/api/products/${id}`).then(response => response.json()).then(infoProduct => {
-        document.getElementById('updating-id').innerHTML = infoProduct.id
-        document.getElementById('title').value = infoProduct.title
-        document.getElementById('description').value = infoProduct.description
-        document.getElementById('code').value = infoProduct.code
-        document.getElementById('price').value = infoProduct.price
-        document.getElementById('stock').value = infoProduct.stock
-        document.getElementById('category').value = infoProduct.category
-    })
+    fetch(`/api/products/${id}`)
+        .then((response) => response.json())
+        .then((infoProduct) => {
+            document.getElementById('updating-id').innerHTML =
+                infoProduct.id || infoProduct._id;
+            document.getElementById('title').value = infoProduct.title;
+            document.getElementById('description').value =
+                infoProduct.description;
+            document.getElementById('code').value = infoProduct.code;
+            document.getElementById('price').value = infoProduct.price;
+            document.getElementById('stock').value = infoProduct.stock;
+            document.getElementById('category').value = infoProduct.category;
+        });
 
     // Open the modal
-    document.getElementById('openModal').click()
+    document.getElementById('openModal').click();
 
     // Setting the title and button of the modal
-    document.getElementById('titleModal').innerHTML = 'Edit product'
-    document.getElementById('btnModal').innerHTML = 'Edit'
+    document.getElementById('titleModal').innerHTML = 'Edit product';
+    document.getElementById('btnModal').innerHTML = 'Edit';
 
     // Set the action of the button
     document.getElementById('btnModal').addEventListener('click', () => {
-        saveEditProduct()
-    })
+        saveEditProduct();
+    });
 }
 
 function saveEditProduct() {
-    const id = document.getElementById('updating-id').innerHTML
-    const title = document.getElementById('title').value
-    const description = document.getElementById('description').value
-    const code = document.getElementById('code').value
-    const price = document.getElementById('price').value
-    const stock = document.getElementById('stock').value
-    const category = document.getElementById('category').value
+    const id = document.getElementById('updating-id').innerHTML;
+    const title = document.getElementById('title').value;
+    const description = document.getElementById('description').value;
+    const code = document.getElementById('code').value;
+    const price = document.getElementById('price').value;
+    const stock = document.getElementById('stock').value;
+    const category = document.getElementById('category').value;
 
     const product = {
         id,
@@ -74,61 +78,61 @@ function saveEditProduct() {
         code,
         price,
         stock,
-        category
-    }
+        category,
+    };
 
     fetch(`/api/products/${id}`, {
-        method: "PUT",
+        method: 'PUT',
         headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify(product),
     })
         .then(function (response) {
             if (response.ok) {
-                socket.emit('editProduct', product)
+                socket.emit('editProduct', product);
             } else {
-                console.error("Error on PUT " + response.statusText);
+                console.error('Error on PUT ' + response.statusText);
             }
         })
         .catch(function (error) {
-            console.error("Error on PUT:", error);
+            console.error('Error on PUT:', error);
         });
 
     // Close the modal
-    document.getElementById('btnCancel').click()
+    document.getElementById('btnCancel').click();
 }
 
 socket.addEventListener('editedProduct', (product) => {
-    const { id, title, description, price } = product
+    const { id, title, description, price } = product;
 
     // Updating product info
-    document.getElementById(`title-${id}`).innerHTML = title
-    document.getElementById(`description-${id}`).innerHTML = description
-    document.getElementById(`price-${id}`).innerHTML = `$ ${price}`
-})
+    document.getElementById(`title-${id}`).innerHTML = title;
+    document.getElementById(`description-${id}`).innerHTML = description;
+    document.getElementById(`price-${id}`).innerHTML = `$ ${price}`;
+});
 
 function newProduct() {
     // Open the modal
-    document.getElementById('openModal').click()
+    document.getElementById('openModal').click();
 
     // Setting the title and button of the modal
-    document.getElementById('titleModal').innerHTML = 'Add product'
-    document.getElementById('btnModal').innerHTML = 'Save'
+    document.getElementById('titleModal').innerHTML = 'Add product';
+    document.getElementById('btnModal').innerHTML = 'Save';
 
     // Set the action of the button
     document.getElementById('btnModal').addEventListener('click', () => {
-        saveNewProduct()
-    })
+        saveNewProduct();
+    });
 }
 
 function saveNewProduct() {
-    const title = document.getElementById('title').value
-    const description = document.getElementById('description').value
-    const code = document.getElementById('code').value
-    const price = document.getElementById('price').value
-    const stock = document.getElementById('stock').value
-    const category = document.getElementById('category').value
+    const title = document.getElementById('title').value;
+    const description = document.getElementById('description').value;
+    const code = document.getElementById('code').value;
+    const price = document.getElementById('price').value;
+    const stock = document.getElementById('stock').value;
+    const category = document.getElementById('category').value;
 
     const product = {
         title,
@@ -136,42 +140,49 @@ function saveNewProduct() {
         code,
         price,
         stock,
-        category
-    }
+        category,
+    };
 
+    // FIX: Se me está duplicando el producto en la vista
     fetch(`/api/products/`, {
-        method: "POST",
+        method: 'POST',
         headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify(product),
     })
         .then(function (response) {
             if (response.ok) {
-                response.json().then(data => {
-                    product.id = data.data.id
-                    socket.emit('newProduct', product)
-                })
+                response.json().then((data) => {
+                    product.id = data.data.id || data.data._id;
+                    socket.emit('newProduct', product);
+                    console.log(
+                        `Se avisó la creación del producto ${product.id}`
+                    );
+                });
             } else {
-                console.error("Error on POST " + response.statusText);
+                console.error('Error on POST ' + response.statusText);
             }
         })
         .catch(function (error) {
-            console.error("Error on POST:", error);
+            console.error('Error on POST:', error);
         });
 
     // Close the modal
-    document.getElementById('btnCancel').click()
+    document.getElementById('btnCancel').click();
 }
 
 socket.addEventListener('addedProduct', (product) => {
-    const cardContainer = document.getElementById('card-container')
-    const { id, title, description, price } = product
+    const cardContainer = document.getElementById('card-container');
+    const { id, title, description, price } = product;
 
     // Creating a new card
-    const card = document.createElement('div')
-    card.setAttribute('id', `card-${id}`)
-    card.setAttribute('class', 'block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700')
+    const card = document.createElement('div');
+    card.setAttribute('id', `card-${id}`);
+    card.setAttribute(
+        'class',
+        'block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700'
+    );
 
     card.innerHTML = `
             <div class="flex justify-end gap-2">
@@ -201,26 +212,26 @@ socket.addEventListener('addedProduct', (product) => {
             <div class="flex justify-end gap-2 font-medium text-xl" id="price-${id}">
                 $ ${price}
             </div>
-        `
-    cardContainer.appendChild(card)
+        `;
+    cardContainer.appendChild(card);
 
-    editBtn = document.getElementById(`edit-${id}`)
-    deleteBtn = document.getElementById(`delete-${id}`)
+    editBtn = document.getElementById(`edit-${id}`);
+    deleteBtn = document.getElementById(`delete-${id}`);
 
     editBtn.addEventListener('click', () => {
-        editProduct(id)
-    })
+        editProduct(id);
+    });
 
     deleteBtn.addEventListener('click', () => {
-        deleteProduct(id)
-    })
-})
+        deleteProduct(id);
+    });
+});
 
 // Prevent default action of the form
 document.getElementById('formModal').addEventListener('submit', (e) => {
-    e.preventDefault()
-})
+    e.preventDefault();
+});
 
 document.getElementById('cardNewProduct').addEventListener('click', () => {
-    newProduct()
-})
+    newProduct();
+});

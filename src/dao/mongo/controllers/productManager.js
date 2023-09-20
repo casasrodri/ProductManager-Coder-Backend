@@ -17,7 +17,7 @@ class ProductManager {
     }
 
     async getProductById(id) {
-        const found = Product.findById(id);
+        const found = Product.findById(id).lean();
 
         if (!found) throw new Error(`Product with id=${id}: Not found.`);
         return found;

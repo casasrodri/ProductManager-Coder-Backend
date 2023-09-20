@@ -1,182 +1,289 @@
-<div class="sticky dark:bg-gray-900/75 block top-0 p-1">
+<div class='sticky dark:bg-gray-900/75 block top-0 p-1'>
     <h2
-        class="font-bold text-2xl bg-gradient-to-r from-emerald-500 to-emerald-700 bg-clip-text text-transparent block top-0 my-4 text-center">
+        class='font-bold text-2xl bg-gradient-to-r from-emerald-500 to-emerald-700 bg-clip-text text-transparent block top-0 my-4 text-center'
+    >
         LIST OF PRODUCTS
         <span
-            class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300 animate-pulse">
-            <span class="w-2 h-2 mr-1 bg-green-500 rounded-full"></span>
+            class='inline-flex items-center bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300 animate-pulse'
+        >
+            <span class='w-2 h-2 mr-1 bg-green-500 rounded-full'></span>
             Real time
         </span>
     </h2>
 </div>
 
-{{!-- Button for open the modal --}}
-<button data-modal-target="defaultModal" data-modal-toggle="defaultModal" id="openModal" class="hidden">
+{{! Button for open the modal }}
+<button
+    data-modal-target='defaultModal'
+    data-modal-toggle='defaultModal'
+    id='openModal'
+    class='hidden'
+>
 </button>
 
-<div class="h-screen flex justify-center flex-wrap py-7">
-    <div class="max-w-5xl px-5 grid grid-cols-3 gap-3 flex items-center" id="card-container">
+<div class='h-screen flex justify-center flex-wrap py-7'>
+    <div
+        class='max-w-5xl px-5 grid grid-cols-3 gap-3 flex items-center'
+        id='card-container'
+    >
 
-        {{!-- Card for new products --}}
-        <button id="cardNewProduct"
-            class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-green-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-green-900">
-            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+        {{! Card for new products }}
+        <button
+            id='cardNewProduct'
+            class='block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-green-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-green-900'
+        >
+            <h5
+                class='mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white'
+            >
                 +
             </h5>
-            <p class="font-normal text-gray-700 dark:text-gray-400">
+            <p class='font-normal text-gray-700 dark:text-gray-400'>
                 New product
             </p>
         </button>
 
-        {{#each products}}
-        <div id="card-{{this.id}}"
-            class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-            <div class="flex justify-end gap-2">
-                <div class="edit cursor-pointer" id="edit-{{this.id}}">
-                    <svg class="w-5 h-5 hover:text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none"
-                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
-                    </svg>
-
-                </div>
-                <div class="delete cursor-pointer" id="delete-{{this.id}}">
-                    <svg class="w-5 h-5 hover:text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none"
-                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
-                    </svg>
-
-                </div>
-            </div>
-            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white" id="title-{{this.id}}">
-                {{ this.title }}
-            </h5>
-            <p class="font-normal text-gray-700 dark:text-gray-400" id="description-{{this.id}}">
-                {{ this.description }}
-            </p>
-            <div class="flex justify-end gap-2 font-medium text-xl" id="price-{{this.id}}">
-                $ {{ this.price }}
-            </div>
-        </div>
-
         <script>
-            editBtn = document.getElementById('edit-{{this.id}}')
-            deleteBtn = document.getElementById('delete-{{this.id}}')
-
-            editBtn.addEventListener('click', () => {
-                editProduct({{ this.id }})
-            })
-
-            deleteBtn.addEventListener('click', () => {
-                deleteProduct({{ this.id }})
-            })
+            let id;
         </script>
+
+        {{#each products}}
+            <div
+                id='card-{{this.id}}'
+                class='block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700'
+            >
+                <div class='flex justify-end gap-2'>
+                    <div class='edit cursor-pointer' id='edit-{{this.id}}'>
+                        <svg
+                            class='w-5 h-5 hover:text-green-400'
+                            xmlns='http://www.w3.org/2000/svg'
+                            fill='none'
+                            viewBox='0 0 24 24'
+                            stroke-width='1.5'
+                            stroke='currentColor'
+                            class='w-6 h-6'
+                        >
+                            <path
+                                stroke-linecap='round'
+                                stroke-linejoin='round'
+                                d='M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10'
+                            />
+                        </svg>
+
+                    </div>
+                    <div class='delete cursor-pointer' id='delete-{{this.id}}'>
+                        <svg
+                            class='w-5 h-5 hover:text-red-500'
+                            xmlns='http://www.w3.org/2000/svg'
+                            fill='none'
+                            viewBox='0 0 24 24'
+                            stroke-width='1.5'
+                            stroke='currentColor'
+                            class='w-6 h-6'
+                        >
+                            <path
+                                stroke-linecap='round'
+                                stroke-linejoin='round'
+                                d='M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0'
+                            />
+                        </svg>
+
+                    </div>
+                </div>
+                <h5
+                    class='mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white'
+                    id='title-{{this.id}}'
+                >
+                    {{this.title}}
+                </h5>
+                <p
+                    class='font-normal text-gray-700 dark:text-gray-400'
+                    id='description-{{this.id}}'
+                >
+                    {{this.description}}
+                </p>
+                <div
+                    class='flex justify-end gap-2 font-medium text-xl'
+                    id='price-{{this.id}}'
+                >
+                    $
+                    {{this.price}}
+                </div>
+            </div>
+
+            <script>
+                document.getElementById('edit-{{this.id}}').addEventListener(
+                'click', () => editProduct('{{this.id}}') );
+                document.getElementById('delete-{{this.id}}').addEventListener('click',
+                () => deleteProduct('{{this.id}}') );
+            </script>
 
         {{/each}}
     </div>
 </div>
 
 <!-- Form for new products -->
-<div id="defaultModal" tabindex="-1" aria-hidden="true"
-    class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
-    <div class="relative w-full max-w-2xl max-h-full">
-        <form class="text-sm text-gray-500 dark:text-gray-400" id="formModal">
+<div
+    id='defaultModal'
+    tabindex='-1'
+    aria-hidden='true'
+    class='fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full'
+>
+    <div class='relative w-full max-w-2xl max-h-full'>
+        <form class='text-sm text-gray-500 dark:text-gray-400' id='formModal'>
             <!-- Modal content -->
-            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <div class='relative bg-white rounded-lg shadow dark:bg-gray-700'>
                 <!-- Modal header -->
-                <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
-                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white" id="titleModal">
+                <div
+                    class='flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600'
+                >
+                    <h3
+                        class='text-xl font-semibold text-gray-900 dark:text-white'
+                        id='titleModal'
+                    >
                         New product
                     </h3>
-                    <button type="button"
-                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                        data-modal-hide="defaultModal">
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                    <button
+                        type='button'
+                        class='text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white'
+                        data-modal-hide='defaultModal'
+                    >
+                        <svg
+                            class='w-3 h-3'
+                            aria-hidden='true'
+                            xmlns='http://www.w3.org/2000/svg'
+                            fill='none'
+                            viewBox='0 0 14 14'
+                        >
+                            <path
+                                stroke='currentColor'
+                                stroke-linecap='round'
+                                stroke-linejoin='round'
+                                stroke-width='2'
+                                d='m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6'
+                            />
                         </svg>
-                        <span class="sr-only">Close modal</span>
+                        <span class='sr-only'>Close modal</span>
                     </button>
                 </div>
                 <!-- Modal body -->
-                <div class="p-5">
+                <div class='p-5'>
 
-                    {{!-- Inicio form --}}
-                    <div id="updating-id" class="hidden"></div>
+                    {{! Inicio form }}
+                    <div id='updating-id' class='hidden'></div>
 
-                    <div class="mb-6">
-                        <label for="title"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
-                        <input type="text" id="title"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Title" required>
+                    <div class='mb-6'>
+                        <label
+                            for='title'
+                            class='block mb-2 text-sm font-medium text-gray-900 dark:text-white'
+                        >Title</label>
+                        <input
+                            type='text'
+                            id='title'
+                            class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                            placeholder='Title'
+                            required
+                        />
                     </div>
 
-                    <div class="mb-6">
+                    <div class='mb-6'>
 
-                        <label for="description"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-                        <textarea id="description" rows="4"
-                            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Description"></textarea>
+                        <label
+                            for='description'
+                            class='block mb-2 text-sm font-medium text-gray-900 dark:text-white'
+                        >Description</label>
+                        <textarea
+                            id='description'
+                            rows='4'
+                            class='block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                            placeholder='Description'
+                        ></textarea>
 
                     </div>
 
-                    <div class="mb-6">
-                        <label for="code"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Code</label>
-                        <input type="text" id="code"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Code" required>
+                    <div class='mb-6'>
+                        <label
+                            for='code'
+                            class='block mb-2 text-sm font-medium text-gray-900 dark:text-white'
+                        >Code</label>
+                        <input
+                            type='text'
+                            id='code'
+                            class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                            placeholder='Code'
+                            required
+                        />
                     </div>
 
-                    <div class="mb-6">
-                        <label for="price"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
-                        <input type="number" id="price"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="$" required>
+                    <div class='mb-6'>
+                        <label
+                            for='price'
+                            class='block mb-2 text-sm font-medium text-gray-900 dark:text-white'
+                        >Price</label>
+                        <input
+                            type='number'
+                            id='price'
+                            class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                            placeholder='$'
+                            required
+                        />
                     </div>
 
-                    <div class="mb-6">
-                        <label for="stock"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Stock</label>
-                        <input type="number" id="stock"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Units" required>
+                    <div class='mb-6'>
+                        <label
+                            for='stock'
+                            class='block mb-2 text-sm font-medium text-gray-900 dark:text-white'
+                        >Stock</label>
+                        <input
+                            type='number'
+                            id='stock'
+                            class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                            placeholder='Units'
+                            required
+                        />
                     </div>
 
-                    <div class="mb-6">
-                        <label for="category"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
-                        <select id="category"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <option value="Comedor">Comedor</option>
-                            <option value="Jardín">Jardín</option>
-                            <option value="Habitación">Habitación</option>
-                            <option value="Oficina">Oficina</option>
-                            <option value="Escritorio">Escritorio</option>
-                            <option value="Living">Living</option>
+                    <div class='mb-6'>
+                        <label
+                            for='category'
+                            class='block mb-2 text-sm font-medium text-gray-900 dark:text-white'
+                        >Category</label>
+                        <select
+                            id='category'
+                            class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                        >
+                            <option value='Comedor'>Comedor</option>
+                            <option value='Jardín'>Jardín</option>
+                            <option value='Habitación'>Habitación</option>
+                            <option value='Oficina'>Oficina</option>
+                            <option value='Escritorio'>Escritorio</option>
+                            <option value='Living'>Living</option>
                         </select>
 
                     </div>
                 </div>
 
                 <!-- Modal footer -->
-                <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-                    <button {{!-- data-modal-hide="defaultModal" --}} id="btnModal"
-                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                <div
+                    class='flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600'
+                >
+                    <button
+                        {{! data-modal-hide="defaultModal" }}
+                        id='btnModal'
+                        class='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
+                    >
                         Save
                     </button>
 
-                    <button data-modal-hide="defaultModal" type="button" id="btnCancel"
-                        class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Cancel</button>
+                    <button
+                        data-modal-hide='defaultModal'
+                        type='button'
+                        id='btnCancel'
+                        class='text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600'
+                    >Cancel</button>
                 </div>
             </div>
         </form>
     </div>
 </div>
 
-<script src="/static/js/realTimeProducts.js"></script>
+<script src='/static/js/realTimeProducts.js'></script>

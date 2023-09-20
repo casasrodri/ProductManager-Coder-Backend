@@ -11,12 +11,15 @@ export class DaoConnector {
     static async setConnectionType(type) {
         switch (type) {
             case 'mongo':
+                DaoConnector.type = type;
+
                 const database = 'ecommerce';
                 await mongoose.connect(
                     `mongodb+srv://rodri:rodri@cluster0.fhf3wmo.mongodb.net/${database}?retryWrites=true&w=majority`
                 );
 
-                DaoConnector.type = type;
+                console.log('Connection to MongoDB established successfully');
+
                 break;
             case 'fs':
                 DaoConnector.type = type;

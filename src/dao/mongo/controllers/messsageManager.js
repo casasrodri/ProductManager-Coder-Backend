@@ -1,8 +1,8 @@
 import Message from '../models/message.js';
 
 class MessageManager {
-    async addMessage(user, text) {
-        return await Message.create({ user, text });
+    async addMessage(user, name, text) {
+        return await Message.create({ user, name, text });
     }
 
     async getMessages() {

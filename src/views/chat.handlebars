@@ -1,0 +1,92 @@
+<div class='sticky dark:bg-gray-900/75 block top-0 p-1'>
+    <h2
+        class='font-bold text-2xl bg-gradient-to-r from-emerald-500 to-emerald-700 bg-clip-text text-transparent block top-0 my-4 text-center'
+    >
+        CHAT
+    </h2>
+</div>
+
+<div id='container-user' class='flex justify-center'>
+
+    <div class='grid md:grid-cols-2 md:gap-6 mt-5 max-w-lg'>
+        <div class='relative z-0 w-full mb-6 group'>
+            <input
+                type='text'
+                name='username'
+                id='username'
+                class='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+                placeholder=' '
+                required
+            />
+            <label
+                for='username'
+                class='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'
+            >Username</label>
+        </div>
+        <div class='relative z-0 w-full mb-6 group'>
+            <input
+                type='email'
+                name='email'
+                id='email'
+                class='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+                placeholder=' '
+                required
+            />
+            <label
+                for='email'
+                class='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'
+            >E-mail</label>
+        </div>
+    </div>
+</div>
+
+<div id='container-user' class='flex justify-center'>
+
+    <div class="grid md:grid-cols-1 w-2/3">
+
+
+    <div
+        id='container-sms'
+        class='grid md:grid-cols-1 gap-2 mt-5 max-w-4xl border border-gray-200 rounded-md p-3 dark:border-gray-700 overflow-auto'
+    ></div>
+
+    <div
+        id='container-new-sms'
+        class='block overflow-y-auto flex mt-1 max-w-4xl border border-gray-200 rounded-md p-2 dark:border-gray-700'
+    >
+
+        <div class='w-full'>
+            <input
+                type='text'
+                id='input-message'
+                class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+            />
+        </div>
+
+        <button
+            id="send-message"
+            type='button'
+            class='ml-1 text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-xs p-2 text-center inline-flex items-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800'
+        >
+            Send
+            <svg
+                class='w-3.5 h-3.5 ml-2'
+                aria-hidden='true'
+                xmlns='http://www.w3.org/2000/svg'
+                fill='none'
+                viewBox='0 0 14 10'
+            >
+                <path
+                    stroke='currentColor'
+                    stroke-linecap='round'
+                    stroke-linejoin='round'
+                    stroke-width='2'
+                    d='M1 5h12m0 0L9 1m4 4L9 9'
+                />
+            </svg>
+        </button>
+    </div>
+
+</div>
+
+<script src='/static/js/chat.js'></script>
