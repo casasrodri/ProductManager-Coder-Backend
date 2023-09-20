@@ -13,7 +13,7 @@ const httpServer = app.listen(PORT, () =>
 );
 
 // Connect to databases
-DaoConnector.setConnectionType('fs');
+DaoConnector.setConnectionType('mongo');
 app.use(daoManagersMiddleware);
 
 // Handlebars configuration
