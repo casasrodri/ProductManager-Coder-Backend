@@ -1,6 +1,5 @@
 import express from 'express';
 import handlebars from 'express-handlebars';
-import mongoose from 'mongoose';
 import setRouters from './routes/router.js';
 import setSockets from './sockets/sockets.js';
 import { DaoConnector, daoManagersMiddleware } from './dao/connector.js';
