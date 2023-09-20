@@ -61,6 +61,5 @@ export class DaoConnector {
 export const daoManagersMiddleware = (req, res, next) => {
     req.productManager = DaoConnector.productManager();
     req.cartManager = DaoConnector.cartManager();
-    req.msgManager = new MessageManagerMongo();
     next();
 };
