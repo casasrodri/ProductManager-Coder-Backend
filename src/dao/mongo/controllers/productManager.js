@@ -21,7 +21,7 @@ class ProductManager {
     }
 
     async getProductById(id) {
-        const found = Product.findById(id).lean();
+        const found = Product.findById(id);
 
         if (!found) throw new Error(`Product with id=${id}: Not found.`);
         return found;
@@ -40,7 +40,7 @@ class ProductManager {
     async addThumbnail(id, path) {
         const found = await this.getProductById(id);
 
-        found.thumbnail.push(path);
+        found.thumbnails.push(path);
         found.save();
 
         return found;
