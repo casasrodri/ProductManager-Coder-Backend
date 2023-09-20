@@ -71,11 +71,6 @@ function editProduct(id) {
     // Setting the title and button of the modal
     document.getElementById('titleModal').innerHTML = 'Edit product';
     document.getElementById('btnModal').innerHTML = 'Edit';
-
-    // Set the action of the button
-    document.getElementById('btnModal').addEventListener('click', () => {
-        saveEditProduct();
-    });
 }
 
 function saveEditProduct() {
@@ -107,6 +102,7 @@ function saveEditProduct() {
         .then(function (response) {
             if (response.ok) {
                 socket.emit('editProduct', product);
+                document.getElementById('updating-id').innerHTML = '';
             } else {
                 console.error('Error on PUT ' + response.statusText);
             }
@@ -135,11 +131,6 @@ function newProduct() {
     // Setting the title and button of the modal
     document.getElementById('titleModal').innerHTML = 'Add product';
     document.getElementById('btnModal').innerHTML = 'Save';
-
-    // Set the action of the button
-    document.getElementById('btnModal').addEventListener('click', () => {
-        saveNewProduct();
-    });
 }
 
 function saveNewProduct() {
@@ -159,7 +150,6 @@ function saveNewProduct() {
         category,
     };
 
-    // FIXME: Se me está duplicando el producto en la vista
     fetch(`/api/products/`, {
         method: 'POST',
         headers: {
@@ -172,9 +162,6 @@ function saveNewProduct() {
                 response.json().then((data) => {
                     product.id = data.data.id || data.data._id;
                     socket.emit('newProduct', product);
-                    console.log(
-                        `Se avisó la creación del producto ${product.id}`
-                    );
                 });
             } else {
                 console.error('Error on POST ' + response.statusText);
@@ -236,4 +223,13 @@ document.getElementById('formModal').addEventListener('submit', (e) => {
 
 document.getElementById('cardNewProduct').addEventListener('click', () => {
     newProduct();
+});
+
+// Set the action of the button
+document.getElementById('btnModal').addEventListener('click', () => {
+    if (document.getElementById('updating-id').innerHTML) {
+        saveEditProduct();
+    } else {
+        saveNewProduct();
+    }
 });
