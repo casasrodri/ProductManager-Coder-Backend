@@ -16,6 +16,10 @@ class ProductManager {
         return await Product.find().lean();
     }
 
+    async getProductsLimit(limit) {
+        return await Product.find().limit(limit).lean();
+    }
+
     async getProductById(id) {
         const found = Product.findById(id).lean();
 

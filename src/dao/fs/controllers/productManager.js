@@ -60,6 +60,11 @@ class ProductManager {
         return this.products;
     }
 
+    async getProductsLimit(limit) {
+        await this.readJson();
+        return this.products.slice(0, limit);
+    }
+
     async getProductById(id) {
         await this.readJson();
         const found = this.products.find((p) => p.id === id);
