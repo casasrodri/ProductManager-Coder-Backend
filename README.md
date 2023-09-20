@@ -2,14 +2,6 @@
 
 This repository contains the code associated with the pre deliverable of the course of back-end development at CoderHouse.
 
-## GUI - Available endpoints
-
-### Products
-
--   http://localhost:8080/ : visualization of all the products.
--   http://localhost:8080/realtimeproducts : visualization of the products using web sockets for real-time updates. You can add, edit or delete products in this view.
--   http://localhost:8080/chat : online chat using web sockets for real-time updates.
-
 ## Install and run
 
 In order to execute the API, you just need Node.js.
@@ -28,6 +20,14 @@ npm run dev
 ```
 
 4. The server will be available on the url: http://localhost:8080
+
+## GUI - Available endpoints
+
+### Products
+
+-   http://localhost:8080/ : visualization of all the products.
+-   http://localhost:8080/realtimeproducts : visualization of the products using web sockets for real-time updates. You can add, edit or delete products in this view.
+-   http://localhost:8080/chat : online chat using web sockets for real-time updates.
 
 ## API - Available endpoints
 
