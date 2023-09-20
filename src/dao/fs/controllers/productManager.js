@@ -39,18 +39,20 @@ class ProductManager {
     async addProduct(product) {
         await this.readJson();
 
-        const exists = this.products.find((p) => p.code == product.code);
+        const newProduct = Product.fromObject(product);
+
+        const exists = this.products.find((p) => p.code == newProduct.code);
         if (exists) {
             throw new Error(
-                `The code "${product.code}" already exists for the product ${product.title} (id=${exists.id}).`
+                `The code "${newProduct.code}" already exists for the product ${newProduct.title} (id=${exists.id}).`
             );
         }
 
-        product.id = Product.nextId++;
+        newProduct.id = Product.nextId++;
 
-        this.products.push(product);
+        this.products.push(newProduct);
         await this.saveJson();
-        return product;
+        return newProduct;
     }
 
     async getProducts() {

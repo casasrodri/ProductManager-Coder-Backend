@@ -1,7 +1,6 @@
 import { Router } from 'express';
-// import ProductManager from '../dao/fs/controllers/productManager.js';
-import ProductManager from '../dao/mongo/controllers/productManager.js';
-import Product from '../dao/fs/models/product.js';
+import ProductManager from '../dao/fs/controllers/productManager.js';
+// import ProductManager from '../dao/mongo/controllers/productManager.js';
 import { getBodyProduct } from '../middlewares/products.js';
 import { thumbnailsUploader } from '../middlewares/multer.js';
 
@@ -41,25 +40,11 @@ router.get('/:pid', async (req, res) => {
 });
 
 router.post('/', getBodyProduct, async (req, res) => {
-    let newProduct;
-
-    // Create product
-    try {
-        newProduct = Product.fromObject(req.body.product);
-    } catch (err) {
-        return res.status(400).send({
-            status: 'error',
-            description: 'Can not create a new product. ' + err.message,
-            data: null,
-        });
-    }
-
-    // Save product
     try {
         return res.status(201).send({
             status: 'ok',
             description: 'Created.',
-            data: await pm.addProduct(newProduct),
+            data: await pm.addProduct(req.body.product),
         });
     } catch (err) {
         return res.status(400).send({
