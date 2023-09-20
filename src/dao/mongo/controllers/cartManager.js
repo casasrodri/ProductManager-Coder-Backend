@@ -1,4 +1,3 @@
-import { log } from 'node:console';
 import Cart from '../models/cart.js';
 
 class CartManager {
@@ -21,11 +20,7 @@ class CartManager {
         if (item) {
             item.quantity++;
         } else {
-            item = {
-                product: productId,
-                quantity: 1,
-            };
-
+            item = { product: productId, quantity: 1 };
             cart.products.push(item);
         }
 
