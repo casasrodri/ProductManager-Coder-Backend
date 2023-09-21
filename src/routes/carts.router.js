@@ -65,7 +65,6 @@ router.delete('/:cid/product/:pid', async (req, res) => {
 
 router.delete('/:cid', async (req, res) => {
     // TODO: Eliminar todos los productos del carrito con id = cid.
-    // FIXME: El carrito no se elimina? Por qué?
 });
 
 export default router;

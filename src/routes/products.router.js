@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
     // - page: página de productos a devolver (default: 1)
     // - sort: criterio de ordenación de productos ('asc', 'desc' del precio)
     // - query: criterio de búsqueda de productos (default: busqueda general)
-    // FIXME: Consultar como se envían los parámetros por query... ejemplo: categoria=jardin
+    // FIXME: Consultar como se envían los parámetros por query... ejemplo: categoria=jardin ... el video habla de disponibilidad basado en stock, pero hay un campo de status.
 
     // ejemplo: /products?limit=5&page=2&sort=asc&query=camiseta
 

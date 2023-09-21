@@ -23,7 +23,7 @@ router.get('/realtimeproducts', async (req, res) => {
 });
 
 router.get('/carts/:cid', (req, res) => {
-    res.render('cartsId');
+    res.render('cart');
 });
 
 router.get('/chat', (req, res) => {
