@@ -6,6 +6,10 @@ router.get('/', async (req, res) => {
     res.render('home', { products: products });
 });
 
+router.get('/products', async (req, res) => {
+    res.render('products');
+});
+
 router.get('/realtimeproducts', async (req, res) => {
     let products = await req.productManager.getProducts();
 
@@ -16,6 +20,10 @@ router.get('/realtimeproducts', async (req, res) => {
     });
 
     res.render('realtimeproducts', { products: products });
+});
+
+router.get('/carts/:cid', (req, res) => {
+    res.render('cartsId');
 });
 
 router.get('/chat', (req, res) => {

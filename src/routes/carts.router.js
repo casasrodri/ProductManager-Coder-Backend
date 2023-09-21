@@ -11,6 +11,9 @@ router.post('/', async (req, res) => {
 });
 
 router.get('/:cid', async (req, res) => {
+    // TODO: Hacer un populate de los productos del carrito.
+    // FIXME: EL populate se hace en el endpoint o en el manager?
+
     const cid = req.cartManager.getId(req.params.cid);
     try {
         const found = await req.cartManager.getCartById(cid);
@@ -45,6 +48,24 @@ router.post('/:cid/product/:pid', async (req, res) => {
             data: { cartId: cid },
         });
     }
+});
+
+router.put('/:cid', async (req, res) => {
+    // TODO: Actualizar todos los productos del carrito con id = cid.
+    // Recibir el arreglo de productos con el formato correspondiente.
+});
+
+router.put('/:cid/product/:pid', async (req, res) => {
+    // TODO: Actualizar SOLO la cantidad del producto con id = pid del carrito con id = cid.
+});
+
+router.delete('/:cid/product/:pid', async (req, res) => {
+    // TODO: Eliminar del carrito el producto con id = pid.
+});
+
+router.delete('/:cid', async (req, res) => {
+    // TODO: Eliminar todos los productos del carrito con id = cid.
+    // FIXME: El carrito no se elimina? Por qué?
 });
 
 export default router;
