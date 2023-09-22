@@ -10,7 +10,9 @@ router.get('/', async (req, res) => {
     // - sort: criterio de ordenación de productos ('asc', 'desc' del precio)
     // - query: criterio de búsqueda de productos (default: busqueda general)
     // FIXME: Consultar como se envían los parámetros por query... ejemplo: categoria=jardin ... el video habla de disponibilidad basado en stock, pero hay un campo de status.
-
+    // query='{category:'jardin'}'
+    // query='{available:true}'
+    // https://www.npmjs.com/package/mongoose-paginate-v2
     // ejemplo: /products?limit=5&page=2&sort=asc&query=camiseta
 
     let products = await req.productManager.getProducts();
@@ -41,8 +43,8 @@ router.get('/', async (req, res) => {
     };
 
     // Se deberá poder buscar prodcutos por:
-    // - categoría
-    // - disponibilidad
+    // - categoría (category=jardin)
+    // - disponibilidad (available=true)
 
     // Se deberá poder ordenar ascendentemente o descendentemente por precio
 });

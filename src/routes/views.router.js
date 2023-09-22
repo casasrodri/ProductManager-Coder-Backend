@@ -19,7 +19,7 @@ router.get('/realtimeproducts', async (req, res) => {
         }
     });
 
-    res.render('realtimeproducts', { products: products });
+    res.render('realTimeProducts', { products: products });
 });
 
 router.get('/carts/:cid', (req, res) => {
