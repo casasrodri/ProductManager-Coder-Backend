@@ -11,9 +11,6 @@ router.post('/', async (req, res) => {
 });
 
 router.get('/:cid', async (req, res) => {
-    // TODO: Hacer un populate de los productos del carrito.
-    // FIXME: EL populate se hace en el endpoint o en el manager?
-
     const cid = req.cartManager.getId(req.params.cid);
     try {
         const found = await req.cartManager.getCartById(cid);

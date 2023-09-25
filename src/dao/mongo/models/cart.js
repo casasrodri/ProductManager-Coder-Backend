@@ -4,7 +4,10 @@ const cartCollection = 'carts';
 const cartSchema = new mongoose.Schema({
     products: [
         {
-            product: String, // TODO: Hacer que este referencie al modelo de products.
+            product: {
+                type: mongoose.Types.ObjectId,
+                ref: 'products',
+            },
             quantity: Number,
         },
     ],

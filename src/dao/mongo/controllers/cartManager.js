@@ -6,7 +6,7 @@ class CartManager {
     }
 
     async getCartById(id) {
-        const found = Cart.findById(id);
+        const found = Cart.findById(id).populate('products.product').exec();
 
         if (!found) throw new Error(`Cart with id=${id}: Not found.`);
         return found;
