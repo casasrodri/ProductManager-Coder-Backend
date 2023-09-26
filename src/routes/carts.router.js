@@ -48,20 +48,101 @@ router.post('/:cid/product/:pid', async (req, res) => {
 });
 
 router.put('/:cid', async (req, res) => {
-    // TODO: Actualizar todos los productos del carrito con id = cid.
-    // Recibir el arreglo de productos con el formato correspondiente.
+    const cid = req.cartManager.getId(req.params.cid);
+    const products = req.body.products;
+
+    if (!products)
+        return res.status(404).send({
+            status: 'error',
+            description: 'Products not found in body request.',
+            data: { cartId: cid },
+        });
+
+    try {
+        return res.status(200).send({
+            status: 'ok',
+            description: 'Products updated.',
+            data: await req.cartManager.updateProducts(cid, products),
+        });
+    } catch (err) {
+        return res.status(404).send({
+            status: 'error',
+            description: err.message,
+            data: { cartId: cid, products: products },
+        });
+    }
 });
 
 router.put('/:cid/product/:pid', async (req, res) => {
-    // TODO: Actualizar SOLO la cantidad del producto con id = pid del carrito con id = cid.
+    const cid = req.cartManager.getId(req.params.cid);
+    const pid = req.cartManager.getId(req.params.pid);
+    const quantity = req.body.quantity;
+
+    if (!quantity)
+        return res.status(404).send({
+            status: 'error',
+            description: 'Quantity not found in body request.',
+            data: { cartId: cid, productId: pid },
+        });
+
+    try {
+        return res.status(200).send({
+            status: 'ok',
+            description: 'Quantity updated.',
+            data: await req.cartManager.updateProductQuantity(
+                cid,
+                pid,
+                quantity
+            ),
+        });
+    } catch (err) {
+        return res.status(404).send({
+            status: 'error',
+            description: err.message,
+            data: { cartId: cid, productId: pid, quantity: quantity },
+        });
+    }
 });
 
 router.delete('/:cid/product/:pid', async (req, res) => {
-    // TODO: Eliminar del carrito el producto con id = pid.
+    const cid = req.cartManager.getId(req.params.cid);
+    const pid = req.cartManager.getId(req.params.pid);
+
+    try {
+        await req.cartManager.removeProductFromCartId(cid, pid);
+
+        return res.status(200).send({
+            status: 'ok',
+            description: 'Product removed from cart.',
+            data: { cartId: cid, productId: pid },
+        });
+    } catch (err) {
+        return res.status(404).send({
+            status: 'error',
+            description: err.message,
+            data: { cartId: cid, productId: pid },
+        });
+    }
 });
 
 router.delete('/:cid', async (req, res) => {
-    // TODO: Eliminar todos los productos del carrito con id = cid.
+    const cid = req.cartManager.getId(req.params.cid);
+
+    try {
+        await req.cartManager.clearCartById(cid);
+
+        return res.status(200).send({
+            status: 'ok',
+            description: 'All products have been removed from cart.',
+            data: { cartId: cid },
+        });
+    } catch (err) {
+        return res.status(404).send({
+            status: 'error',
+            description: err.message,
+            data: { cartId: cid },
+        });
+    }
 });
 
 export default router;
