@@ -16,8 +16,36 @@ class ProductManager {
         return await Product.find().lean();
     }
 
-    async getProductsLimit(limit) {
-        return await Product.find().limit(limit).lean();
+    async getProductsPaginate(options) {
+        const opts = {
+            limit: parseInt(options.limit) || 10,
+            page: parseInt(options.page) || 1,
+            query: {},
+            lean: true,
+            customLabels: { docs: 'payload' },
+        };
+
+        if (options.query) {
+            const [key, value] = options.query.split(':');
+
+            if (key === 'category') {
+                opts.query = { category: { $regex: value, $options: 'ix' } };
+            }
+
+            if (key === 'available') {
+                if (value === 'true') {
+                    opts.query = { stock: { $gt: 0 } };
+                } else {
+                    opts.query = { stock: { $eq: 0 } };
+                }
+            }
+        }
+
+        if (options.sort) {
+            opts.sort = options.sort === 'asc' ? 'price' : '-price';
+        }
+
+        return await Product.paginate(opts.query, opts);
     }
 
     async getProductById(id) {

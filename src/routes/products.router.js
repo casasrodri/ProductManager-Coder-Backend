@@ -4,49 +4,20 @@ import { Router } from 'express';
 const router = Router();
 
 router.get('/', async (req, res) => {
-    // TODO Recibir por query.params:
-    // - limit: número de productos a devolver (default: 10)
-    // - page: página de productos a devolver (default: 1)
-    // - sort: criterio de ordenación de productos ('asc', 'desc' del precio)
-    // - query: criterio de búsqueda de productos (default: busqueda general)
-    // FIXME: Consultar como se envían los parámetros por query... ejemplo: categoria=jardin ... el video habla de disponibilidad basado en stock, pero hay un campo de status.
-    // query='{category:'jardin'}'
-    // query='{available:true}'
-    // https://www.npmjs.com/package/mongoose-paginate-v2
-    // ejemplo: /products?limit=5&page=2&sort=asc&query=camiseta
+    try {
+        const result = await req.productManager.getProductsPaginate(req.query);
+        result['status'] = 'success';
+        result['prevLink'] = createLink(result, req.url, 'prev');
+        result['nextLink'] = createLink(result, req.url, 'next');
+        res.send(result);
 
-    let products = await req.productManager.getProducts();
-    const limit = parseInt(req.query.limit);
-
-    if (limit) {
-        products = await req.productManager.getProductsLimit(limit);
+        // FIXME Se debe enviar un error si consulto la página 9 de 3... es decir, páginas que no existen.
+        // FIXME Ver si el link debe ser /?page=2 o  /products?page=2 (que está en otro router).
+    } catch (err) {
+        return res
+            .status(404)
+            .send({ status: 'error', description: err.message, payload: [] });
     }
-
-    if (products.length === 0) {
-        return res.status(204).send(products);
-    }
-
-    res.send(products);
-
-    // Debe devolver el siguiente objeto JSON:
-    return {
-        status: 'success/error',
-        payload: ['productos'],
-        totalPages: 10,
-        prevPage: 1,
-        nextPage: 3,
-        page: 2,
-        hasPrevPage: true,
-        hasNextPage: true,
-        prevLink: 'http://localhost:3000/products?page=1' || null,
-        nextLink: 'http://localhost:3000/products?page=3' || null,
-    };
-
-    // Se deberá poder buscar prodcutos por:
-    // - categoría (category=jardin)
-    // - disponibilidad (available=true)
-
-    // Se deberá poder ordenar ascendentemente o descendentemente por precio
 });
 
 router.get('/:pid', async (req, res) => {
@@ -148,5 +119,21 @@ router.delete('/:pid', async (req, res) => {
         });
     }
 });
+
+function createLink(result, url, type) {
+    const currentPage = 'page=' + result.page;
+
+    if (type === 'prev') {
+        if (result.hasPrevPage) {
+            return url.replace(currentPage, 'page=' + result.prevPage);
+        }
+    } else {
+        if (result.hasNextPage) {
+            return url.replace(currentPage, 'page=' + result.nextPage);
+        }
+    }
+
+    return null;
+}
 
 export default router;
