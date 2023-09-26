@@ -1,1 +1,48 @@
-<!-- TODO Listar sólo los productos que están en este carrito.. -->
+<div class='sticky dark:bg-gray-900/75 block top-0 p-1'>
+    <h2
+        class='font-bold text-2xl bg-gradient-to-r from-emerald-500 to-emerald-700 bg-clip-text text-transparent block top-0 my-4 text-center'
+    >
+        MY CART
+    </h2>
+</div>
+<div id='cartID' style='display: none;'>{{cid}}</div>
+
+<div id='container-products'>
+</div>
+
+<div id='totalCart'></div>
+
+<div class='relative overflow-x-auto max-w-2xl'>
+    <table class='w-full text-sm text-left text-gray-500 dark:text-gray-400'>
+        <thead
+            class='text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400'
+        >
+            <tr>
+                <th scope='col' class='px-4 py-2 rounded-l-lg'>
+                    Product name
+                </th>
+                <th scope='col' class='px-4 py-2'>
+                    Qty
+                </th>
+                <th scope='col' class='px-4 py-2'>
+                    Price
+                </th>
+                <th scope='col' class='px-4 py-2 rounded-r-lg'>
+                    Subtotal
+                </th>
+            </tr>
+        </thead>
+        <tbody id='tbody-products'>
+        </tbody>
+        <tfoot>
+            <tr class='font-semibold text-gray-900 dark:text-white'>
+                <th scope='row' class='px-4 py-3 text-base'>Total</th>
+                <td class='px-4 py-3' id='totalQ'></td>
+                <td class='px-4 py-3' id=''></td>
+                <td class='px-4 py-3' id='totalP'></td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+<script src='/static/js/cart.js'></script>
