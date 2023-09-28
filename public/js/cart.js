@@ -15,7 +15,7 @@ document.getElementById('clearCart').addEventListener('click', async () => {
 
 async function deleteItem(id) {
     const confirm = window.confirm(
-        'Are you sure to delete the product from your cart?'
+        'Are you sure to remove the product from your cart?'
     );
     if (!confirm) return;
 
