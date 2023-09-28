@@ -1,4 +1,5 @@
 import Product from '../models/product.js';
+import { createLink } from '../../../helpers/pagination.js';
 
 class ProductManager {
     async addProduct(product) {
@@ -16,7 +17,9 @@ class ProductManager {
         return await Product.find().lean();
     }
 
-    async getProductsPaginate(options) {
+    async getProductsPaginate(req) {
+        const options = req.query;
+
         const opts = {
             limit: parseInt(options.limit) || 10,
             page: parseInt(options.page) || 1,
@@ -28,10 +31,12 @@ class ProductManager {
         if (options.query) {
             const [key, value] = options.query.split(':');
 
+            // [example] category:habitac | category:jard
             if (key === 'category') {
                 opts.query = { category: { $regex: value, $options: 'ix' } };
             }
 
+            // [example] available:true | available:false
             if (key === 'available') {
                 if (value === 'true') {
                     opts.query = { stock: { $gt: 0 } };
@@ -41,11 +46,18 @@ class ProductManager {
             }
         }
 
+        // [example] sort:desc | sort:asc
         if (options.sort) {
             opts.sort = options.sort === 'asc' ? 'price' : '-price';
         }
 
-        return await Product.paginate(opts.query, opts);
+        const result = await Product.paginate(opts.query, opts);
+
+        result['status'] = 'success';
+        result['prevLink'] = createLink(result, req, 'prev');
+        result['nextLink'] = createLink(result, req, 'next');
+
+        return result;
     }
 
     async getProductById(id) {

@@ -5,14 +5,7 @@ const router = Router();
 
 router.get('/', async (req, res) => {
     try {
-        const result = await req.productManager.getProductsPaginate(req.query);
-        result['status'] = 'success';
-        result['prevLink'] = createLink(result, req.url, 'prev');
-        result['nextLink'] = createLink(result, req.url, 'next');
-        res.send(result);
-
-        // FIXME Se debe enviar un error si consulto la página 9 de 3... es decir, páginas que no existen.
-        // FIXME Ver si el link debe ser /?page=2 o  /products?page=2 (que está en otro router).
+        res.send(await req.productManager.getProductsPaginate(req));
     } catch (err) {
         return res
             .status(404)
@@ -119,21 +112,5 @@ router.delete('/:pid', async (req, res) => {
         });
     }
 });
-
-function createLink(result, url, type) {
-    const currentPage = 'page=' + result.page;
-
-    if (type === 'prev') {
-        if (result.hasPrevPage) {
-            return url.replace(currentPage, 'page=' + result.prevPage);
-        }
-    } else {
-        if (result.hasNextPage) {
-            return url.replace(currentPage, 'page=' + result.nextPage);
-        }
-    }
-
-    return null;
-}
 
 export default router;

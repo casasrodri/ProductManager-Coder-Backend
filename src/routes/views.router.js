@@ -7,39 +7,16 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/products', async (req, res) => {
-    // FIXME Mejorar en el endpoint de productos?
-    function createLink(result, url, type) {
-        const currentPage = 'page=' + result.page || 'page=1';
-        const url_ = url.includes('?') ? url : url + '?';
-
-        if (type === 'prev') {
-            if (result.hasPrevPage) {
-                if (url.includes('page=')) {
-                    return url_.replace(currentPage, 'page=' + result.prevPage);
-                } else {
-                    return url_ + '&page=' + result.prevPage;
-                }
-            }
-        } else {
-            if (result.hasNextPage) {
-                if (url.includes('page=')) {
-                    return url_.replace(currentPage, 'page=' + result.nextPage);
-                } else {
-                    return url_ + '&page=' + result.nextPage;
-                }
-            }
-        }
-
-        return null;
+    try {
+        res.render(
+            'products',
+            await req.productManager.getProductsPaginate(req)
+        );
+    } catch (err) {
+        return res
+            .status(404)
+            .send({ status: 'error', description: err.message, payload: [] });
     }
-    // FIXME Creo que no está bueno duplicar este código (create link y el de abajo)
-    const result = await req.productManager.getProductsPaginate(req.query);
-
-    result['status'] = 'success';
-    result['prevLink'] = createLink(result, req.url, 'prev');
-    result['nextLink'] = createLink(result, req.url, 'next');
-
-    res.render('products', result);
 });
 
 router.get('/realtimeproducts', async (req, res) => {
