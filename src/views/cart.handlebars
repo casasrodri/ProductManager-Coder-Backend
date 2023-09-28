@@ -7,42 +7,72 @@
 </div>
 <div id='cartID' style='display: none;'>{{cid}}</div>
 
-<div id='container-products'>
-</div>
+<div class='grid justify-items-center mt-5'>
 
-<div id='totalCart'></div>
-
-<div class='relative overflow-x-auto max-w-2xl'>
-    <table class='w-full text-sm text-left text-gray-500 dark:text-gray-400'>
-        <thead
-            class='text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400'
+    <div class='relative overflow-x-auto max-w-2xl'>
+        <table
+            class='w-full text-sm text-left text-gray-600 dark:text-gray-300 mb-4'
         >
-            <tr>
-                <th scope='col' class='px-4 py-2 rounded-l-lg'>
-                    Product name
-                </th>
-                <th scope='col' class='px-4 py-2'>
-                    Qty
-                </th>
-                <th scope='col' class='px-4 py-2'>
-                    Price
-                </th>
-                <th scope='col' class='px-4 py-2 rounded-r-lg'>
-                    Subtotal
-                </th>
-            </tr>
-        </thead>
-        <tbody id='tbody-products'>
-        </tbody>
-        <tfoot>
-            <tr class='font-semibold text-gray-900 dark:text-white'>
-                <th scope='row' class='px-4 py-3 text-base'>Total</th>
-                <td class='px-4 py-3' id='totalQ'></td>
-                <td class='px-4 py-3' id=''></td>
-                <td class='px-4 py-3' id='totalP'></td>
-            </tr>
-        </tfoot>
-    </table>
+            <thead
+                class='text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-300'
+            >
+                <tr>
+                    <th scope='col' class='px-4 py-2 rounded-l-lg'>
+                        Product name
+                    </th>
+                    <th scope='col' class='px-4 py-2'>
+                        Qty
+                    </th>
+                    <th scope='col' class='px-4 py-2'>
+                        Price
+                    </th>
+                    <th scope='col' class='px-4 py-2'>
+                        Subtotal
+                    </th>
+                    <th scope='col' class='px-4 py-2 rounded-r-lg'>
+                        Delete
+                    </th>
+                </tr>
+            </thead>
+            <tbody id='tbody-products'>
+            </tbody>
+            <tfoot class='bg-gray-100 dark:bg-gray-700'>
+                <tr class='font-semibold text-gray-900 dark:text-white'>
+                    <th
+                        scope='row'
+                        class='px-4 py-1 text-base rounded-l-lg'
+                    >Total</th>
+                    <td class='px-4 py-1' id='totalQ'></td>
+                    <td class='px-4 py-1' id=''></td>
+                    <td class='px-4 py-1' id='totalP'></td>
+                    <td class='px-4 py-1 rounded-r-lg'></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <button
+        id='clearCart'
+        type='button'
+        class='relative inline-flex items-center px-2 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800 ml-3'
+    >
+        <svg
+            xmlns='http://www.w3.org/2000/svg'
+            width='16'
+            height='16'
+            fill='currentColor'
+            class='h-5 w-5'
+            viewBox='0 0 16 16'
+        >
+            <path
+                fill='white'
+                d='M15.898,4.045c-0.271-0.272-0.713-0.272-0.986,0l-4.71,4.711L5.493,4.045c-0.272-0.272-0.714-0.272-0.986,0s-0.272,0.714,0,0.986l4.709,4.711l-4.71,4.711c-0.272,0.271-0.272,0.713,0,0.986c0.136,0.136,0.314,0.203,0.492,0.203c0.179,0,0.357-0.067,0.493-0.203l4.711-4.711l4.71,4.711c0.137,0.136,0.314,0.203,0.494,0.203c0.178,0,0.355-0.067,0.492-0.203c0.273-0.273,0.273-0.715,0-0.986l-4.711-4.711l4.711-4.711C16.172,4.759,16.172,4.317,15.898,4.045z'
+            ></path>
+        </svg>
+        <span class='ml-2'>
+            Clear
+        </span>
+    </button>
 </div>
 
 <script src='/static/js/cart.js'></script>
