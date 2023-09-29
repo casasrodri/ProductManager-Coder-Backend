@@ -1,7 +1,7 @@
 import express from 'express';
 import handlebars from 'express-handlebars';
-import setRouters from './routes/router.js';
-import setSockets from './sockets/sockets.js';
+import setRouters from './routes/index.js';
+import setSockets from './sockets/index.js';
 import { DaoConnector, daoManagersMiddleware } from './dao/connector.js';
 
 // Instantiate the express application:
