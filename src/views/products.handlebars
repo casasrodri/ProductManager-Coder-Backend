@@ -4,76 +4,65 @@
     >
         SHOPPING PRODUCTS
     </h2>
-</div>
-
-<div id='cartBar' class='grid justify-items-end mr-3'>
-    <a href='' id='cartLink'>
-        <div id='cartId' class='hidden'></div>
-
-        <button
-            type='button'
-            class='relative inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
-        >
-            <svg
-                xmlns='http://www.w3.org/2000/svg'
-                width='16'
-                height='16'
-                fill='currentColor'
-                class='h-5 w-5'
-                viewBox='0 0 16 16'
-            >
-                <path
-                    d='M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z'
-                />
-            </svg>
-            <span class='ml-2'>
-                My cart
-            </span>
-
-            <div id='hideNumber' class='hidden'>
-                <div
-                    id='cartCount'
-                    class='absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-gray-900'
-                ></div>
+    <div class='w-full flex justify-end items-center'>
+        {{#if user}}
+            <div class='mr-4'>
+                Hello
+                <span class="italic">
+                    {{user}} 👋
+                </span>
             </div>
-        </button>
+            <div class='mr-4'>
+                <a href='/logout' class="text-red-500">Logout</a>
+            </div>
+        {{else}}
+            <div class='mr-4'>
+                <a href='/signup'>Signup</a>
+            </div>
+            <div class='mr-4'>
+                <a href='/login'>Login</a>
+            </div>
+        {{/if}}
 
-    </a>
+    </div>
 </div>
 
+{{!-- {{ session }} --}}
 <div id='container'>
-    <div class='h-screen flex justify-center flex-wrap py-7'>
+    <div class='flex justify-center flex-wrap py-7'>
         <div
             class='max-w-5xl px-5 grid grid-cols-3 gap-3 flex items-center'
             id='card-container'
         >
 
-            {{#each payload}}
+            {{#each products.payload}}
 
                 <div
                     id='card-{{id}}'
                     class='block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700'
                 >
-                    <div class='flex justify-end gap-2'>
-                        <div
-                            id='addCart-{{id}}'
-                            style='cursor: pointer;'
-                            class='h-10 w-10'
-                        >
-                            <svg
-                                xmlns='http://www.w3.org/2000/svg'
-                                width='16'
-                                height='16'
-                                fill='currentColor'
-                                class='h-5 w-5'
-                                viewBox='0 0 16 16'
+                    {{#if ../user}}
+                        <div class='flex justify-end gap-2'>
+                            <div
+                                id='addCart-{{id}}'
+                                style='cursor: pointer;'
+                                class='h-10 w-10'
                             >
-                                <path
-                                    d='M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z'
-                                />
-                            </svg>
+                                <svg
+                                    xmlns='http://www.w3.org/2000/svg'
+                                    width='16'
+                                    height='16'
+                                    fill='currentColor'
+                                    class='h-5 w-5'
+                                    viewBox='0 0 16 16'
+                                >
+                                    <path
+                                        d='M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z'
+                                    />
+                                </svg>
+                            </div>
                         </div>
-                    </div>
+                    {{/if}}
                     <h5
                         class='mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white'
                         id='title-${id}'
@@ -104,54 +93,92 @@
     </div>
 </div>
 
-<div class='flex pagination-container dark:bg-gray-800/90'>
-    {{#if hasPrevPage}}
-        <a
-            href='{{prevLink}}'
-            class='flex items-center justify-center px-3 h-8 mr-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
-        >
-            <svg
-                class='w-3.5 h-3.5 mr-2'
-                aria-hidden='true'
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 14 10'
+<div class="w-full flex justify-between items-center pagination-container dark:bg-gray-800/90">
+    <!-- LEFT -->
+    <div class="flex ml-4">
+        {{#if products.hasPrevPage}}
+            <a
+                href='{{products.prevLink}}'
+                class='flex items-center justify-center px-3 h-8 mr-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
             >
-                <path
-                    stroke='currentColor'
-                    stroke-linecap='round'
-                    stroke-linejoin='round'
-                    stroke-width='2'
-                    d='M13 5H1m0 0 4 4M1 5l4-4'
-                />
-            </svg>
-            Previous
-        </a>
-    {{/if}}
-    {{#if hasNextPage}}
-        <a
-            href='{{nextLink}}'
-            class='flex items-center justify-center px-3 h-8 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
-        >
-            Next
-            <svg
-                class='w-3.5 h-3.5 ml-2'
-                aria-hidden='true'
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 14 10'
+                <svg
+                    class='w-3.5 h-3.5 mr-2'
+                    aria-hidden='true'
+                    xmlns='http://www.w3.org/2000/svg'
+                    fill='none'
+                    viewBox='0 0 14 10'
+                >
+                    <path
+                        stroke='currentColor'
+                        stroke-linecap='round'
+                        stroke-linejoin='round'
+                        stroke-width='2'
+                        d='M13 5H1m0 0 4 4M1 5l4-4'
+                    />
+                </svg>
+                Previous
+            </a>
+        {{/if}}
+        {{#if products.hasNextPage}}
+            <a
+                href='{{products.nextLink}}'
+                class='flex items-center justify-center px-3 h-8 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
             >
-                <path
-                    stroke='currentColor'
-                    stroke-linecap='round'
-                    stroke-linejoin='round'
-                    stroke-width='2'
-                    d='M1 5h12m0 0L9 1m4 4L9 9'
-                />
-            </svg>
-        </a>
-    {{/if}}
+                Next
+                <svg
+                    class='w-3.5 h-3.5 ml-2'
+                    aria-hidden='true'
+                    xmlns='http://www.w3.org/2000/svg'
+                    fill='none'
+                    viewBox='0 0 14 10'
+                >
+                    <path
+                        stroke='currentColor'
+                        stroke-linecap='round'
+                        stroke-linejoin='round'
+                        stroke-width='2'
+                        d='M1 5h12m0 0L9 1m4 4L9 9'
+                    />
+                </svg>
+            </a>
+        {{/if}}
+    </div>
+    <!-- RIGHT -->
+    <div class="mr-4 mb-2">
+        {{#if user}}
+            <a href='' id='cartLink'>
+                <div id='cartId' class='hidden'></div>
 
+                <button
+                    type='button'
+                    class='relative inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
+                >
+                    <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        width='16'
+                        height='16'
+                        fill='currentColor'
+                        class='h-5 w-5'
+                        viewBox='0 0 16 16'
+                    >
+                        <path
+                            d='M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z'
+                        />
+                    </svg>
+                    <span class='ml-2'>
+                        My cart
+                    </span>
+
+                    <div id='hideNumber' class='hidden'>
+                        <div
+                            id='cartCount'
+                            class='absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-gray-900'
+                        ></div>
+                    </div>
+                </button>
+            </a>
+        {{/if}}
+    </div>
 </div>
 
 <link
