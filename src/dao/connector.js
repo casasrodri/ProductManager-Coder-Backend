@@ -4,6 +4,10 @@ import ProductManagerMongo from './mongo/controllers/productManager.js';
 import CartManagerFs from './fs/controllers/cartManager.js';
 import CartManagerMongo from './mongo/controllers/cartManager.js';
 
+const MONGO_DB_URI =
+    'mongodb+srv://rodri:rodri@cluster0.fhf3wmo.mongodb.net/ecommerce?retryWrites=true&w=majority';
+export { MONGO_DB_URI };
+
 export class DaoConnector {
     static type;
 
@@ -11,12 +15,7 @@ export class DaoConnector {
         switch (type) {
             case 'mongo':
                 DaoConnector.type = type;
-
-                const database = 'ecommerce';
-                await mongoose.connect(
-                    `mongodb+srv://rodri:rodri@cluster0.fhf3wmo.mongodb.net/${database}?retryWrites=true&w=majority`
-                );
-
+                await mongoose.connect(MONGO_DB_URI);
                 console.log('Connection to MongoDB established successfully');
 
                 break;
