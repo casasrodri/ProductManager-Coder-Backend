@@ -10,7 +10,8 @@ document.getElementById('clearCart').addEventListener('click', async () => {
     });
     const data = await response.json();
     console.log(data);
-    location.reload();
+    // location.reload();
+    window.location.replace('/products');
 });
 
 async function deleteItem(id) {
