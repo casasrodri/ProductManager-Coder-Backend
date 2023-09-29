@@ -1,8 +1,10 @@
 import express from 'express';
 import handlebars from 'express-handlebars';
+import sessionMiddleware from './middlewares/session.js';
 import setRouters from './routes/index.js';
 import setSockets from './sockets/index.js';
 import { DaoConnector, daoManagersMiddleware } from './dao/connector.js';
+import consoleActivity from './middlewares/console.js';
 
 // Instantiate the express application:
 const app = express();
@@ -24,6 +26,8 @@ app.set('view engine', 'handlebars');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/static', express.static(process.cwd() + '/public'));
+app.use(sessionMiddleware);
+app.use(consoleActivity({ ip: false, color: true, body: true }));
 
 // Using routers
 setRouters(app);
