@@ -1,17 +1,17 @@
-import { COLORS, color } from '../helpers/colors.js';
+import { COLORS, color } from '../utils/colors.js';
 
 function coloredMethod(method) {
-    switch (method) {
-        case 'GET':
-            return color(method, COLORS.green);
-        case 'POST':
-            return color(method, COLORS.blue);
-        case 'PUT':
-            return color(method, COLORS.magenta);
-        case 'DELETE':
-            return color(method, COLORS.red);
-        default:
-            return color(method, COLORS.black);
+    const colors = {
+        GET: COLORS.green,
+        POST: COLORS.blue,
+        PUT: COLORS.magenta,
+        DELETE: COLORS.red,
+    };
+
+    if (method in colors) {
+        return color(method, colors[method]);
+    } else {
+        return color(method, COLORS.black);
     }
 }
 

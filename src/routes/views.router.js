@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { alreadyLogged, notLogged } from '../middlewares/session.js';
 const router = Router();
 
 router.get('/', (req, res) => {
@@ -46,18 +47,15 @@ router.get('/chat', (req, res) => {
     res.render('chat');
 });
 
-router.get('/signup', (req, res) => {
-    // TODO si está logueado ya, mandar a /
+router.get('/signup', alreadyLogged, (req, res) => {
     res.render('signup');
 });
 
-router.get('/login', (req, res) => {
-    // TODO si está logueado ya, mandar a /
+router.get('/login', alreadyLogged, (req, res) => {
     res.render('login');
 });
 
-router.get('/logout', (req, res) => {
-    // TODO si no está logueado, mandar a /login
+router.get('/logout', notLogged, (req, res) => {
     req.session.destroy((err) => {
         if (err) {
             return res.status(500).send({

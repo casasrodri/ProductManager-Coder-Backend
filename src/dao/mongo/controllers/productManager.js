@@ -1,5 +1,5 @@
 import Product from '../models/product.js';
-import { createLink } from '../../../helpers/pagination.js';
+import { createLink } from '../../../utils/pagination.js';
 
 class ProductManager {
     async addProduct(product) {

@@ -1,10 +1,9 @@
 import express from 'express';
-import handlebars from 'express-handlebars';
-import sessionMiddleware from './middlewares/session.js';
+import { DaoConnector, daoManagersMiddleware } from './dao/connector.js';
+import configHandlebars from './config/handlebars.js';
+import setMiddlewares from './middlewares/index.js';
 import setRouters from './routes/index.js';
 import setSockets from './sockets/index.js';
-import { DaoConnector, daoManagersMiddleware } from './dao/connector.js';
-import consoleActivity from './middlewares/console.js';
 
 // Instantiate the express application:
 const app = express();
@@ -18,16 +17,10 @@ DaoConnector.setConnectionType('mongo');
 app.use(daoManagersMiddleware);
 
 // Handlebars configuration
-app.engine('handlebars', handlebars.engine());
-app.set('views', process.cwd() + '/src/views');
-app.set('view engine', 'handlebars');
+configHandlebars(app);
 
 // Middlewares
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use('/static', express.static(process.cwd() + '/public'));
-app.use(sessionMiddleware);
-app.use(consoleActivity({ ip: false, color: true, body: true }));
+setMiddlewares(app);
 
 // Using routers
 setRouters(app);

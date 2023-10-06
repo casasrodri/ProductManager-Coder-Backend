@@ -20,8 +20,7 @@ router.post('/signup', async (req, res) => {
         });
 
     // Hash password
-    const salt = await bcrypt.genSalt(10);
-    password = await bcrypt.hash(password, salt);
+    password = bcrypt.hashSync(password, 10);
 
     // Create user
     const newUser = await User.create({
@@ -47,11 +46,10 @@ router.post('/signup', async (req, res) => {
     });
 });
 
-// FIXME Dejar el verdadero valor
 const USER_ADMIN = {
     first_name: 'ADMINISTRATOR',
-    email: 'admin', //'adminCoder@coder.com',
-    password: 'admin', //'adminCod3r123',
+    email: 'adminCoder@coder.com',
+    password: 'adminCod3r123',
     role: 'admin',
 };
 
@@ -65,7 +63,7 @@ router.post('/login', async (req, res) => {
     } else {
         try {
             user = await User.findOne({ email });
-            const isMatch = await bcrypt.compare(password, user.password);
+            const isMatch = await bcrypt.compareSync(password, user.password);
             if (!user || !isMatch) throw new Error('Invalid credentials');
         } catch (error) {
             return res.status(403).send({
