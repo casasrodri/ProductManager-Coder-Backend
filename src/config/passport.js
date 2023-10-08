@@ -124,7 +124,7 @@ export default () => {
                         const newUser = await User.create({
                             first_name: profile.displayName,
                             email,
-                            password: 'github',
+                            password: '',
                         });
 
                         return done(null, newUser);
