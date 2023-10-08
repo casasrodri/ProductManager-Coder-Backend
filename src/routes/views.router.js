@@ -3,7 +3,7 @@ import { alreadyLogged, notLogged } from '../middlewares/session.js';
 const router = Router();
 
 router.get('/', (req, res) => {
-    res.redirect('/products');
+    res.redirect('/login');
 });
 
 router.get('/viewproducts', async (req, res) => {
