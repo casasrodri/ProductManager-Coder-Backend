@@ -7,6 +7,7 @@ import bcrypt, { hash } from 'bcrypt';
 const LocalStrategy = local.Strategy;
 
 const USER_ADMIN = {
+    _id: 'admin_id',
     first_name: 'ADMINISTRATOR',
     email: 'adminCoder@coder.com',
     password: 'adminCod3r123',
@@ -19,6 +20,8 @@ export default () => {
     });
 
     passport.deserializeUser(async (_id, done) => {
+        if (_id === USER_ADMIN._id) return done(null, USER_ADMIN);
+
         const user = await User.findById(_id);
         done(null, user);
     });
@@ -77,7 +80,7 @@ export default () => {
                     email === USER_ADMIN.email &&
                     password === USER_ADMIN.password
                 ) {
-                    user = USER_ADMIN;
+                    return done(null, USER_ADMIN);
                 } else {
                     try {
                         user = await User.findOne({ email });
