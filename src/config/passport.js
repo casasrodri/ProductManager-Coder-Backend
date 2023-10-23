@@ -3,15 +3,26 @@ import local from 'passport-local';
 import GitHubStrategy from 'passport-github2';
 import User from '../dao/mongo/models/user.js';
 import bcrypt, { hash } from 'bcrypt';
+import jwt from 'passport-jwt';
 
 const LocalStrategy = local.Strategy;
+const JWTStrategy = jwt.Strategy;
+const ExtractJWT = jwt.ExtractJwt;
 
-const USER_ADMIN = {
+export const USER_ADMIN = {
     _id: 'admin_id',
     first_name: 'ADMINISTRATOR',
     email: 'adminCoder@coder.com',
     password: 'adminCod3r123',
     role: 'admin',
+};
+
+const cookieExtractor = (req) => {
+    let token = null;
+    if (req && req.cookies) {
+        token = req.cookies['jwt'];
+    }
+    return token;
 };
 
 export default () => {
@@ -138,6 +149,23 @@ export default () => {
                     return done(null, user);
                 } catch (error) {
                     return done(error);
+                }
+            }
+        )
+    );
+
+    passport.use(
+        'jwt',
+        new JWTStrategy(
+            {
+                jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
+                secretOrKey: 's3cr3t0',
+            },
+            async (jwtPayload, done) => {
+                try {
+                    return done(null, jwtPayload);
+                } catch (err) {
+                    return done(err);
                 }
             }
         )
