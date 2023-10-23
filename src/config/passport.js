@@ -85,12 +85,17 @@ export default () => {
                     try {
                         user = await User.findOne({ email });
 
+                        if (!user)
+                            return done(null, false, {
+                                message: 'Invalid credentials',
+                            });
+
                         const isMatch = await bcrypt.compare(
                             password,
                             user.password
                         );
 
-                        if (!user || !isMatch)
+                        if (!isMatch)
                             return done(null, false, {
                                 message: 'Invalid credentials',
                             });
