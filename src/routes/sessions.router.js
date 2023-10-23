@@ -2,6 +2,9 @@ import { Router } from 'express';
 import User from '../dao/mongo/models/user.js';
 import bcrypt from 'bcrypt';
 import passport from 'passport';
+import jwt from 'jsonwebtoken';
+import USER_ADMIN from '../config/passport.js';
+import { loadUser } from '../middlewares/jwt.js';
 
 const router = Router();
 
@@ -37,7 +40,7 @@ router.get('/failRegister', (req, res) => {
 });
 
 router.post(
-    '/login',
+    '/localLogin',
     passport.authenticate('localLogin', {
         failureRedirect: '/api/sessions/failLogin',
         failureMessage: true,
@@ -81,7 +84,7 @@ router.get('/failLogin', (req, res) => {
 router.post('/logout', async (req, res) => {
     const { redirect } = req.query;
 
-    await req.session.destroy((err) => {
+    req.session.destroy((err) => {
         if (err) {
             return res.status(500).send({
                 status: 'error',
@@ -90,6 +93,8 @@ router.post('/logout', async (req, res) => {
             });
         }
     });
+
+    res.cookie('jwt', '', { maxAge: 1 });
 
     // Redirect to home
     if (redirect) return res.status(200).redirect('/products');
@@ -117,6 +122,59 @@ router.get(
         req.session.isLogged = true;
 
         res.redirect('/products');
+    }
+);
+
+router.post('/login', async (req, res) => {
+    const { redirect } = req.query;
+    const { email, password } = req.body;
+
+    res.cookie('jwt', '', { maxAge: 1 });
+
+    let userId;
+    if (email === USER_ADMIN.email && password === USER_ADMIN.password) {
+        userId = USER_ADMIN._id;
+    } else {
+        const user = await User.findOne({ email });
+
+        if (!user)
+            return res.status(401).json({
+                status: 'error',
+                message: 'Invalid credentials',
+                data: { email },
+            });
+
+        const isMatch = bcrypt.compareSync(password, user.password);
+
+        if (!isMatch)
+            return res.status(401).json({
+                status: 'error',
+                message: 'Invalid credentials',
+                data: { email },
+            });
+
+        userId = user._id;
+    }
+
+    const token = jwt.sign({ userId }, 's3cr3t0', { expiresIn: '24h' });
+    res.cookie('jwt', token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
+
+    // Redirect to home
+    if (redirect) return res.redirect('/products');
+
+    return res.json({
+        status: 'success',
+        message: 'Login successfull',
+        data: { email },
+    });
+});
+
+router.get(
+    '/current',
+    passport.authenticate('jwt', { session: false }),
+    loadUser,
+    async (req, res) => {
+        res.json(req.user);
     }
 );
 
