@@ -1,14 +1,14 @@
 import MongoStore from 'connect-mongo';
 import session from 'express-session';
-import { MONGO_DB_URI } from '../dao/connector.js';
+import config from '../config/config.js';
 
 export default session({
     store: MongoStore.create({
-        mongoUrl: MONGO_DB_URI,
+        mongoUrl: config.mongoUri,
         mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
         ttl: 60 * 5, // 5 minutes
     }),
-    secret: 'sasaCogirdoRnairdA',
+    secret: config.sessionSecret,
     resave: false,
     saveUninitialized: false,
 });

@@ -4,18 +4,13 @@ import GitHubStrategy from 'passport-github2';
 import User from '../dao/mongo/models/user.js';
 import bcrypt, { hash } from 'bcrypt';
 import jwt from 'passport-jwt';
+import config from '../config/config.js';
 
 const LocalStrategy = local.Strategy;
 const JWTStrategy = jwt.Strategy;
 const ExtractJWT = jwt.ExtractJwt;
 
-export const USER_ADMIN = {
-    _id: 'admin_id',
-    first_name: 'ADMINISTRATOR',
-    email: 'adminCoder@coder.com',
-    password: 'adminCod3r123',
-    role: 'admin',
-};
+export const USER_ADMIN = config.userAdmin;
 
 const cookieExtractor = (req) => {
     let token = null;
@@ -124,11 +119,10 @@ export default () => {
         'github',
         new GitHubStrategy(
             {
-                clientID: 'Iv1.7229790bba006a45',
-                clientSecret: '522aee1df6c90fc8ad621ad98f51ddc18c26dad1',
+                clientID: config.githubLogin.clientID,
+                clientSecret: config.githubLogin.clientSecret,
                 scope: ['user:email'],
-                callbackURL:
-                    'http://localhost:8080/api/sessions/githubcallback',
+                callbackURL: config.githubLogin.callbackURL,
             },
             async (accessToken, refreshToken, profile, done) => {
                 try {
@@ -159,7 +153,7 @@ export default () => {
         new JWTStrategy(
             {
                 jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
-                secretOrKey: 's3cr3t0',
+                secretOrKey: config.jwtSecret,
             },
             async (jwtPayload, done) => {
                 try {

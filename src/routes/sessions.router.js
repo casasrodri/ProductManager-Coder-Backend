@@ -5,6 +5,7 @@ import passport from 'passport';
 import jwt from 'jsonwebtoken';
 import USER_ADMIN from '../config/passport.js';
 import { loadUser } from '../middlewares/jwt.js';
+import config from '../config/config.js';
 
 const router = Router();
 
@@ -156,7 +157,7 @@ router.post('/login', async (req, res) => {
         userId = user._id;
     }
 
-    const token = jwt.sign({ userId }, 's3cr3t0', { expiresIn: '24h' });
+    const token = jwt.sign({ userId }, config.jwtSecret, { expiresIn: '24h' });
     res.cookie('jwt', token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
 
     // Redirect to home

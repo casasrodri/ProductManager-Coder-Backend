@@ -3,10 +3,9 @@ import ProductManagerFs from './fs/controllers/productManager.js';
 import ProductManagerMongo from './mongo/controllers/productManager.js';
 import CartManagerFs from './fs/controllers/cartManager.js';
 import CartManagerMongo from './mongo/controllers/cartManager.js';
+import config from '../config/config.js';
 
-const MONGO_DB_URI =
-    'mongodb+srv://rodri:rodri@cluster0.fhf3wmo.mongodb.net/ecommerce?retryWrites=true&w=majority';
-export { MONGO_DB_URI };
+const MONGO_DB_URI = config.mongoUri;
 
 export class DaoConnector {
     static type;
