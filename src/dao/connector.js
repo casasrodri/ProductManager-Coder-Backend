@@ -1,11 +1,8 @@
-import mongoose from 'mongoose';
+import MongoSingleton from './mongo/singleton.js';
 import ProductManagerFs from './fs/controllers/productManager.js';
 import ProductManagerMongo from './mongo/controllers/productManager.js';
 import CartManagerFs from './fs/controllers/cartManager.js';
 import CartManagerMongo from './mongo/controllers/cartManager.js';
-import config from '../config/config.js';
-
-const MONGO_DB_URI = config.mongoUri;
 
 export class DaoConnector {
     static type;
@@ -14,9 +11,7 @@ export class DaoConnector {
         switch (type) {
             case 'mongo':
                 DaoConnector.type = type;
-                await mongoose.connect(MONGO_DB_URI);
-                console.log('Connection to MongoDB established successfully');
-
+                await MongoSingleton.getInstance();
                 break;
             case 'fs':
                 DaoConnector.type = type;
