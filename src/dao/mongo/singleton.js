@@ -5,10 +5,7 @@ export default class MongoSingleton {
     static #instance;
 
     constructor() {
-        mongoose.connect(config.mongoUri, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
+        mongoose.connect(config.mongoUri, {});
         console.log('Ⓜ️  Connection to MongoDB established successfully');
     }
 

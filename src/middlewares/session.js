@@ -5,7 +5,7 @@ import config from '../config/config.js';
 export default session({
     store: MongoStore.create({
         mongoUrl: config.mongoUri,
-        mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
+        mongoOptions: {},
         ttl: 60 * 5, // 5 minutes
     }),
     secret: config.sessionSecret,
