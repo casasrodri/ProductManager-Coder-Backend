@@ -1,6 +1,6 @@
 import express from 'express';
 import config from './config/config.js';
-import { DaoConnector, daoManagersMiddleware } from './dao/connector.js';
+import MongoSingleton from './dao/mongo/singleton.js';
 import configHandlebars from './config/handlebars.js';
 import setMiddlewares from './middlewares/index.js';
 import setRouters from './routes/index.js';
@@ -14,8 +14,7 @@ const httpServer = app.listen(PORT, () =>
 );
 
 // Connect to databases
-DaoConnector.setConnectionType('mongo');
-app.use(daoManagersMiddleware);
+MongoSingleton.getInstance();
 
 // Handlebars configuration
 configHandlebars(app);

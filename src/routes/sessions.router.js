@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import User from '../dao/mongo/models/user.js';
+import UserController from '../controllers/user.controller.js';
 import bcrypt from 'bcrypt';
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
@@ -8,6 +8,7 @@ import { loadUser } from '../middlewares/jwt.js';
 import config from '../config/config.js';
 
 const router = Router();
+const userController = new UserController();
 
 router.post(
     '/signup',
@@ -136,7 +137,7 @@ router.post('/login', async (req, res) => {
     if (email === USER_ADMIN.email && password === USER_ADMIN.password) {
         userId = USER_ADMIN._id;
     } else {
-        const user = await User.findOne({ email });
+        const user = await userController.getByEmail(email);
 
         if (!user)
             return res.status(401).json({

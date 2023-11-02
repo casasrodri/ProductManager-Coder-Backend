@@ -1,7 +1,7 @@
 import passport from 'passport';
 import local from 'passport-local';
 import GitHubStrategy from 'passport-github2';
-import User from '../dao/mongo/models/user.js';
+import UserController from '../controllers/user.controller.js';
 import bcrypt, { hash } from 'bcrypt';
 import jwt from 'passport-jwt';
 import config from '../config/config.js';
@@ -11,6 +11,7 @@ const JWTStrategy = jwt.Strategy;
 const ExtractJWT = jwt.ExtractJwt;
 
 export const USER_ADMIN = config.userAdmin;
+const userController = new UserController();
 
 const cookieExtractor = (req) => {
     let token = null;
@@ -28,7 +29,7 @@ export default () => {
     passport.deserializeUser(async (_id, done) => {
         if (_id === USER_ADMIN._id) return done(null, USER_ADMIN);
 
-        const user = await User.findById(_id);
+        const user = await userController.getById(_id);
         done(null, user);
     });
 
@@ -48,7 +49,7 @@ export default () => {
                 }
 
                 try {
-                    let user = await User.findOne({ email });
+                    let user = await userController.getByEmail(email);
                     if (user) {
                         return done(null, false, {
                             message:
@@ -58,7 +59,7 @@ export default () => {
 
                     const hashedPassword = await bcrypt.hash(password, 10);
 
-                    user = await User.create({
+                    user = await userController.create({
                         first_name,
                         last_name,
                         email,
@@ -89,14 +90,14 @@ export default () => {
                     return done(null, USER_ADMIN);
                 } else {
                     try {
-                        user = await User.findOne({ email });
+                        user = await userController.getByEmail(email);
 
                         if (!user)
                             return done(null, false, {
                                 message: 'Invalid credentials',
                             });
 
-                        const isMatch = await bcrypt.compare(
+                        const isMatch = bcrypt.compareSync(
                             password,
                             user.password
                         );
@@ -128,10 +129,10 @@ export default () => {
                 try {
                     const email = profile.emails[0].value;
 
-                    const user = await User.findOne({ email });
+                    const user = await userController.getByEmail(email);
 
                     if (!user) {
-                        const newUser = await User.create({
+                        const newUser = await userController.create({
                             first_name: profile.displayName,
                             email,
                             password: '',

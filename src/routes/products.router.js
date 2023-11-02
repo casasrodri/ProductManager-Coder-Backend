@@ -1,11 +1,14 @@
 import { getBodyProduct } from '../middlewares/products.js';
 import { thumbnailsUploader } from '../middlewares/multer.js';
+import ProductController from '../controllers/product.controller.js';
 import { Router } from 'express';
+
 const router = Router();
+const productController = new ProductController();
 
 router.get('/', async (req, res) => {
     try {
-        res.send(await req.productManager.getProductsPaginate(req));
+        res.send(await productController.getProductsPaginate(req));
     } catch (err) {
         return res
             .status(404)
@@ -14,10 +17,10 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:pid', async (req, res) => {
-    const pid = req.productManager.getId(req.params.pid);
+    const pid = productController.getId(req.params.pid);
 
     try {
-        const product = await req.productManager.getProductById(pid);
+        const product = await productController.getProductById(pid);
         res.send(product);
     } catch (err) {
         res.status(404).send({
@@ -33,7 +36,7 @@ router.post('/', getBodyProduct, async (req, res) => {
         return res.status(201).send({
             status: 'ok',
             description: 'Created.',
-            data: await req.productManager.addProduct(req.body.product),
+            data: await productController.addProduct(req.body.product),
         });
     } catch (err) {
         return res.status(400).send({
@@ -48,14 +51,14 @@ router.post(
     '/:pid/thumbnails',
     thumbnailsUploader.array('thumbnails'),
     async (req, res) => {
-        const pid = req.productManager.getId(req.params.pid);
+        const pid = productController.getId(req.params.pid);
 
         try {
             for (const f of req.files) {
-                await req.productManager.addThumbnail(pid, f.path);
+                await productController.addThumbnail(pid, f.path);
             }
 
-            const product = await req.productManager.getProductById(pid);
+            const product = await productController.getProductById(pid);
 
             return res.status(201).send({
                 status: 'ok',
@@ -73,7 +76,7 @@ router.post(
 );
 
 router.put('/:pid', getBodyProduct, async (req, res) => {
-    const pid = req.productManager.getId(req.params.pid);
+    const pid = productController.getId(req.params.pid);
     const updatedProduct = req.body.product;
     let updated;
 
@@ -81,7 +84,7 @@ router.put('/:pid', getBodyProduct, async (req, res) => {
         return res.status(200).send({
             status: 'ok',
             description: 'Updated.',
-            data: await req.productManager.updateProductById(
+            data: await productController.updateProductById(
                 pid,
                 updatedProduct
             ),
@@ -96,13 +99,13 @@ router.put('/:pid', getBodyProduct, async (req, res) => {
 });
 
 router.delete('/:pid', async (req, res) => {
-    const pid = req.productManager.getId(req.params.pid);
+    const pid = productController.getId(req.params.pid);
 
     try {
         return res.status(204).send({
             status: 'ok',
             description: 'Deleted.',
-            data: await req.productManager.deleteProductById(pid),
+            data: await productController.deleteProductById(pid),
         });
     } catch (err) {
         return res.status(404).send({
