@@ -2,7 +2,7 @@
 // import CartManagerFs from '../dao/fs/managers/cart.manager.js';
 import Cart from '../dao/mongo/models/cart.js';
 
-export default class ProductService {
+export default class ProductRepository {
     async addCart() {
         return await Cart.create({ products: [] });
     }

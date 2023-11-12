@@ -1,6 +1,6 @@
 import Message from '../dao/mongo/models/message.js';
 
-export default class MessageService {
+export default class MessageRepository {
     async addMessage(user, name, text) {
         return await Message.create({ user, name, text });
     }

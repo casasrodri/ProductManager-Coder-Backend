@@ -1,6 +1,6 @@
 import User from '../dao/mongo/models/user.js';
 
-export default class UserService {
+export default class UserRepository {
     async getByEmail(email) {
         return await User.findOne({ email });
     }

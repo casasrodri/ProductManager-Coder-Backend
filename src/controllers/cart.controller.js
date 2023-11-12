@@ -1,30 +1,30 @@
-import CartService from '../services/cart.service.js';
+import CartRepository from '../repositories/cart.repository.js';
 
-const cartService = new CartService();
+const cartRepository = new CartRepository();
 
 export default class CartController {
     async addCart() {
-        return await cartService.addCart();
+        return await cartRepository.addCart();
     }
 
     async getCartById(id) {
-        return await cartService.getCartById(id);
+        return await cartRepository.getCartById(id);
     }
 
     async clearCartById(id) {
-        return await cartService.clearCartById(id);
+        return await cartRepository.clearCartById(id);
     }
 
     async addProductToCartId(cartId, productId) {
-        return await cartService.addProductToCartId(cartId, productId);
+        return await cartRepository.addProductToCartId(cartId, productId);
     }
 
     async removeProductFromCartId(cartId, productId) {
-        return await cartService.removeProductFromCartId(cartId, productId);
+        return await cartRepository.removeProductFromCartId(cartId, productId);
     }
 
     async updateProductQuantity(cartId, productId, quantity) {
-        return await cartService.updateProductQuantity(
+        return await cartRepository.updateProductQuantity(
             cartId,
             productId,
             quantity
@@ -32,10 +32,10 @@ export default class CartController {
     }
 
     async updateProducts(cartId, products) {
-        return await cartService.updateProducts(cartId, products);
+        return await cartRepository.updateProducts(cartId, products);
     }
 
     getId(id) {
-        return cartService.getId(id);
+        return cartRepository.getId(id);
     }
 }

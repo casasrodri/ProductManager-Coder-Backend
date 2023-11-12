@@ -1,17 +1,17 @@
-import MessageService from '../services/message.service.js';
+import MessageRepository from '../repositories/message.repository.js';
 
-const messageService = new MessageService();
+const messageRepository = new MessageRepository();
 
 export default class MessageController {
     async addMessage(user, name, text) {
-        return await messageService.addMessage(user, name, text);
+        return await messageRepository.addMessage(user, name, text);
     }
 
     async getMessages() {
-        return await messageService.getMessages();
+        return await messageRepository.getMessages();
     }
 
     getId(id) {
-        return messageService.getId(id);
+        return messageRepository.getId(id);
     }
 }

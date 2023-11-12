@@ -5,7 +5,7 @@
 import Product from '../dao/mongo/models/product.js';
 import { createLink } from '../utils/pagination.js';
 
-export default class ProductService {
+export default class ProductRepository {
     async addProduct(product) {
         const exists = await Product.findOne({ code: product.code });
         if (exists) {
