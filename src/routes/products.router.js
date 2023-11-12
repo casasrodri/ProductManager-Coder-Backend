@@ -1,119 +1,24 @@
 import { getBodyProduct } from '../middlewares/products.js';
 import { thumbnailsUploader } from '../middlewares/multer.js';
-import ProductController from '../controllers/product.controller.js';
+import { productController } from '../controllers/index.js';
 import { Router } from 'express';
 
 const router = Router();
-const productController = new ProductController();
 
-router.get('/', async (req, res) => {
-    try {
-        res.send(await productController.getProductsPaginate(req));
-    } catch (err) {
-        return res
-            .status(404)
-            .send({ status: 'error', description: err.message, payload: [] });
-    }
-});
+router.get('/', productController.getProductsPaginate);
 
-router.get('/:pid', async (req, res) => {
-    const pid = productController.getId(req.params.pid);
+router.get('/:pid', productController.getProductById);
 
-    try {
-        const product = await productController.getProductById(pid);
-        res.send(product);
-    } catch (err) {
-        res.status(404).send({
-            status: 'error',
-            description: err.message,
-            data: { productId: pid },
-        });
-    }
-});
-
-router.post('/', getBodyProduct, async (req, res) => {
-    try {
-        return res.status(201).send({
-            status: 'ok',
-            description: 'Created.',
-            data: await productController.addProduct(req.body.product),
-        });
-    } catch (err) {
-        return res.status(400).send({
-            status: 'error',
-            description: 'Can not add a new product. ' + err.message,
-            data: null,
-        });
-    }
-});
+router.post('/', getBodyProduct, productController.getProductById);
 
 router.post(
     '/:pid/thumbnails',
     thumbnailsUploader.array('thumbnails'),
-    async (req, res) => {
-        const pid = productController.getId(req.params.pid);
-
-        try {
-            for (const f of req.files) {
-                await productController.addThumbnail(pid, f.path);
-            }
-
-            const product = await productController.getProductById(pid);
-
-            return res.status(201).send({
-                status: 'ok',
-                description: 'Thumbnails added.',
-                data: product,
-            });
-        } catch (err) {
-            return res.status(404).send({
-                productId: pid,
-                status: err.message,
-                data: { productId: pid },
-            });
-        }
-    }
+    productController.addThumbnail
 );
 
-router.put('/:pid', getBodyProduct, async (req, res) => {
-    const pid = productController.getId(req.params.pid);
-    const updatedProduct = req.body.product;
-    let updated;
+router.put('/:pid', getBodyProduct, productController.updateProductById);
 
-    try {
-        return res.status(200).send({
-            status: 'ok',
-            description: 'Updated.',
-            data: await productController.updateProductById(
-                pid,
-                updatedProduct
-            ),
-        });
-    } catch (err) {
-        return res.status(404).send({
-            status: 'error',
-            description: err.message,
-            data: { productId: pid },
-        });
-    }
-});
-
-router.delete('/:pid', async (req, res) => {
-    const pid = productController.getId(req.params.pid);
-
-    try {
-        return res.status(204).send({
-            status: 'ok',
-            description: 'Deleted.',
-            data: await productController.deleteProductById(pid),
-        });
-    } catch (err) {
-        return res.status(404).send({
-            status: 'error',
-            description: err.message,
-            data: { productId: pid },
-        });
-    }
-});
+router.delete('/:pid', productController.deleteProductById);
 
 export default router;

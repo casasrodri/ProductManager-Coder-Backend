@@ -1,17 +1,17 @@
 import passport from 'passport';
 import local from 'passport-local';
 import GitHubStrategy from 'passport-github2';
-import UserController from '../controllers/user.controller.js';
 import bcrypt, { hash } from 'bcrypt';
 import jwt from 'passport-jwt';
 import config from '../config/config.js';
+
+import { userRepository } from '../repositories/index.js';
 
 const LocalStrategy = local.Strategy;
 const JWTStrategy = jwt.Strategy;
 const ExtractJWT = jwt.ExtractJwt;
 
 export const USER_ADMIN = config.userAdmin;
-const userController = new UserController();
 
 const cookieExtractor = (req) => {
     let token = null;
@@ -29,7 +29,7 @@ export default () => {
     passport.deserializeUser(async (_id, done) => {
         if (_id === USER_ADMIN._id) return done(null, USER_ADMIN);
 
-        const user = await userController.getById(_id);
+        const user = await userRepository.getById(_id);
         done(null, user);
     });
 
@@ -49,7 +49,7 @@ export default () => {
                 }
 
                 try {
-                    let user = await userController.getByEmail(email);
+                    let user = await userRepository.getByEmail(email);
                     if (user) {
                         return done(null, false, {
                             message:
@@ -59,7 +59,7 @@ export default () => {
 
                     const hashedPassword = await bcrypt.hash(password, 10);
 
-                    user = await userController.create({
+                    user = await userRepository.create({
                         first_name,
                         last_name,
                         email,
@@ -90,7 +90,7 @@ export default () => {
                     return done(null, USER_ADMIN);
                 } else {
                     try {
-                        user = await userController.getByEmail(email);
+                        user = await userRepository.getByEmail(email);
 
                         if (!user)
                             return done(null, false, {
@@ -129,10 +129,10 @@ export default () => {
                 try {
                     const email = profile.emails[0].value;
 
-                    const user = await userController.getByEmail(email);
+                    const user = await userRepository.getByEmail(email);
 
                     if (!user) {
-                        const newUser = await userController.create({
+                        const newUser = await userRepository.create({
                             first_name: profile.displayName,
                             email,
                             password: '',

@@ -1,8 +1,7 @@
-import UserController from '../controllers/user.controller.js';
-const userController = new UserController();
+import { userRepository } from '../repositories/index.js';
 
 export const loadUser = async (req, res, next) => {
     const { userId } = req.user;
-    req.user = await userController.getById(userId).populate('cart').lean();
+    req.user = await userRepository.getById(userId).populate('cart').lean();
     next();
 };
