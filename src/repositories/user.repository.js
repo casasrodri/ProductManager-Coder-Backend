@@ -1,4 +1,5 @@
 import User from '../dao/mongo/models/user.js';
+import { USER_ADMIN } from '../config/passport.js';
 
 export default class UserRepository {
     async getByEmail(email) {
@@ -6,6 +7,8 @@ export default class UserRepository {
     }
 
     async getById(id) {
+        if (USER_ADMIN._id) return USER_ADMIN;
+
         return await User.findById(id);
     }
 

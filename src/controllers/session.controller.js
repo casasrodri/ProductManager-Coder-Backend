@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import USER_ADMIN from '../config/passport.js';
+import { USER_ADMIN } from '../config/passport.js';
 import config from '../config/config.js';
 
 import { userRepository } from '../repositories/index.js';
@@ -116,7 +116,15 @@ export default class SessionController {
         res.cookie('jwt', '', { maxAge: 1 });
 
         let userId;
+        console.log(USER_ADMIN);
+        console.log(email, password);
+        console.log(email === USER_ADMIN.email);
+        console.log(USER_ADMIN.email);
+        console.log(password === USER_ADMIN.password);
+        console.log(USER_ADMIN.password);
+
         if (email === USER_ADMIN.email && password === USER_ADMIN.password) {
+            console.log('Se está loguando el admin');
             userId = USER_ADMIN._id;
         } else {
             const user = await userRepository.getByEmail(email);
