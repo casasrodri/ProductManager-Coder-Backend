@@ -9,7 +9,7 @@ router.get('/', productController.getProductsPaginate);
 
 router.get('/:pid', productController.getProductById);
 
-router.post('/', getBodyProduct, productController.getProductById);
+router.post('/', getBodyProduct, productController.addProduct);
 
 router.post(
     '/:pid/thumbnails',

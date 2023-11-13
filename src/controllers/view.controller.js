@@ -59,8 +59,6 @@ export default class ViewController {
     }
 
     logOut(req, res) {
-        console.log('Se ejecutó el logout del view');
-        console.log('El view logout mando JWT vacío');
         res.cookie('jwt', '', { maxAge: 1 });
 
         req.session.destroy((err) => {

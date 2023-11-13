@@ -22,25 +22,25 @@ const svgDelete = `
 `;
 
 // Functions to delete, edit and add products
-function deleteProduct(id) {
+async function deleteProduct(id) {
     const confirmation = window.confirm(
         `Are you sure to delete the product with id ${id}?`
     );
 
     if (confirmation) {
-        fetch(`/api/products/${id}`, {
-            method: 'DELETE',
-        })
-            .then(function (response) {
-                if (response.ok) {
-                    socket.emit('deleteProduct', id);
-                } else {
-                    console.error('Error on DELETE: ' + response.statusText);
-                }
-            })
-            .catch(function (error) {
-                console.error('Error on DELETE:', error);
+        try {
+            const res = await fetch(`/api/products/${id}`, {
+                method: 'DELETE',
             });
+
+            if (res.ok) {
+                socket.emit('deleteProduct', id);
+            } else {
+                console.error('Error on DELETE [resNotOk]: ' + res.statusText);
+            }
+        } catch (error) {
+            console.error('Error on DELETE [catchFetch]:', error);
+        }
     }
 }
 
@@ -133,7 +133,7 @@ function newProduct() {
     document.getElementById('btnModal').innerHTML = 'Save';
 }
 
-function saveNewProduct() {
+async function saveNewProduct() {
     const title = document.getElementById('title').value;
     const description = document.getElementById('description').value;
     const code = document.getElementById('code').value;
@@ -150,26 +150,24 @@ function saveNewProduct() {
         category,
     };
 
-    fetch(`/api/products/`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(product),
-    })
-        .then(function (response) {
-            if (response.ok) {
-                response.json().then((data) => {
-                    product.id = data.data.id || data.data._id;
-                    socket.emit('newProduct', product);
-                });
-            } else {
-                console.error('Error on POST ' + response.statusText);
-            }
-        })
-        .catch(function (error) {
-            console.error('Error on POST:', error);
+    console.log(product);
+
+    try {
+        const res = await fetch(`/api/products/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(product),
         });
+
+        const data = await res.json();
+
+        product.id = data.data.id || data.data._id;
+        socket.emit('newProduct', product);
+    } catch (error) {
+        console.error('Error on POST:', error);
+    }
 
     // Close the modal
     document.getElementById('btnCancel').click();

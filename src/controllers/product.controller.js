@@ -92,6 +92,7 @@ export default class ProductController {
 
     async deleteProductById(req, res) {
         const pid = productRepository.getId(req.params.pid);
+        console.log('intentnando borrar', pid);
 
         try {
             return res.status(204).send({
