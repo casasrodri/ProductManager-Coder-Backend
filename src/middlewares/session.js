@@ -14,14 +14,14 @@ export default session({
 });
 
 export const alreadyLogged = (req, res, next) => {
-    if (req.session.isLogged) {
+    if (req.session.isLogged || !req.user) {
         return res.redirect('/');
     }
     next();
 };
 
 export const notLogged = (req, res, next) => {
-    if (!req.session.isLogged) {
+    if (!req.session.isLogged || !req.user) {
         return res.redirect('/login');
     }
     next();

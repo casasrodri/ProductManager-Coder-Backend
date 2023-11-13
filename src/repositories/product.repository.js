@@ -1,7 +1,3 @@
-// import ProductManagerMongo from '../dao/mongo/managers/product.manager.js';
-// import ProductManagerFs from '../dao/fs/managers/product.manager.js';
-// const productManager = new ProductManagerMongo();
-
 import Product from '../dao/mongo/models/product.js';
 import { createLink } from '../utils/pagination.js';
 

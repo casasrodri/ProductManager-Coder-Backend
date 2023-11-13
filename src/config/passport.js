@@ -158,7 +158,10 @@ export default () => {
             },
             async (jwtPayload, done) => {
                 try {
-                    return done(null, jwtPayload);
+                    const user = await userRepository.getById(
+                        jwtPayload.userId
+                    );
+                    return done(null, user);
                 } catch (err) {
                     return done(err);
                 }

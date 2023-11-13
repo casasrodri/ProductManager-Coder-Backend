@@ -65,6 +65,7 @@ export default class SessionController {
     }
 
     async logout(req, res) {
+        console.log('Se ejecuta el logout de las ssiones');
         const { redirect } = req.query;
 
         req.session.destroy((err) => {
@@ -90,6 +91,15 @@ export default class SessionController {
     }
 
     githubCallback(req, res) {
+        const userId = req.user._id;
+        const token = jwt.sign({ userId }, config.jwtSecret, {
+            expiresIn: '24h',
+        });
+        res.cookie('jwt', token, {
+            httpOnly: true,
+            maxAge: 24 * 60 * 60 * 1000,
+        });
+
         // Save sessions
         req.session.name = req.user.first_name;
         req.session.email = req.user.email;
@@ -149,6 +159,13 @@ export default class SessionController {
     }
 
     async current(req, res) {
-        res.json(req.user);
+        const userDTO = {
+            _id: req.user._id,
+            name: `${req.user.first_name} ${req.user.last_name}`,
+            email: req.user.email,
+            role: req.user.role,
+        };
+
+        res.json(userDTO);
     }
 }

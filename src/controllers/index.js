@@ -7,3 +7,5 @@ export const cartController = new CartController();
 export const productController = new ProductController();
 export const sessionController = new SessionController();
 export const viewController = new ViewController();
+
+// TODO: Aplicar DTO en algún controller.

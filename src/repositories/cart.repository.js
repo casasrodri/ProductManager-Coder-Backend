@@ -1,5 +1,3 @@
-// import CartManagerMongo from '../dao/mongo/managers/cart.manager.js';
-// import CartManagerFs from '../dao/fs/managers/cart.manager.js';
 import Cart from '../dao/mongo/models/cart.js';
 
 export default class CartRepository {

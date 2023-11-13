@@ -1,14 +1,21 @@
 import { Router } from 'express';
 import { alreadyLogged, notLogged } from '../middlewares/session.js';
 import { viewController } from '../controllers/index.js';
+import authRole from '../middlewares/authorization.js';
+import passport from 'passport';
 
 const router = Router();
 
-router.get('/', viewController.logIn);
+router.get('/', viewController.redirectLogIn);
 
 router.get('/viewproducts', viewController.viewProducts);
 
-router.get('/products', viewController.products);
+router.get(
+    '/products',
+    passport.authenticate('jwt', { session: false }),
+    authRole(['user', 'admin']),
+    viewController.products
+);
 
 router.get('/realtimeproducts', viewController.realTimeProducts);
 
@@ -16,10 +23,13 @@ router.get('/carts/:cid', viewController.showCart);
 
 router.get('/chat', viewController.chat);
 
-router.get('/signup', alreadyLogged, viewController.signUp);
+// alreadyLogged
+router.get('/signup', viewController.signUp);
 
-router.get('/login', alreadyLogged, viewController.logIn);
+// alreadyLogged
+router.get('/login', viewController.logIn);
 
-router.get('/logout', notLogged, viewController.logOut);
+// notLogged
+router.get('/logout', viewController.logOut);
 
 export default router;

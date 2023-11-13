@@ -1,12 +1,16 @@
 import { productRepository } from '../repositories/index.js';
 
 export default class ViewController {
-    logIn(req, res) {
+    redirectLogIn(req, res) {
         res.redirect('/login');
     }
 
+    logIn(req, res) {
+        res.render('login');
+    }
+
     signUp(req, res) {
-        res.redirect('/signup');
+        res.render('signup');
     }
 
     async viewProducts(req, res) {
@@ -20,6 +24,8 @@ export default class ViewController {
         options['products'] = await productRepository.getProductsPaginate(req);
         options['user'] = req.session.name;
         options['session'] = JSON.stringify(req.session);
+
+        if (req.user) options.user = req.user.first_name;
 
         try {
             res.render('products', options);
@@ -53,6 +59,10 @@ export default class ViewController {
     }
 
     logOut(req, res) {
+        console.log('Se ejecutó el logout del view');
+        console.log('El view logout mando JWT vacío');
+        res.cookie('jwt', '', { maxAge: 1 });
+
         req.session.destroy((err) => {
             if (err) {
                 return res.status(500).send({
@@ -62,7 +72,8 @@ export default class ViewController {
                 });
             } else {
                 res.clearCookie('connect.sid');
-                res.redirect('/products');
+                res.clearCookie('jwt');
+                res.render('login');
             }
         });
     }
