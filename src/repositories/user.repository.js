@@ -7,7 +7,7 @@ export default class UserRepository {
     }
 
     async getById(id) {
-        if (USER_ADMIN._id) return USER_ADMIN;
+        if (id === USER_ADMIN._id) return USER_ADMIN;
 
         return await User.findById(id);
     }

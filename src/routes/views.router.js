@@ -13,15 +13,25 @@ router.get('/viewproducts', viewController.viewProducts);
 router.get(
     '/products',
     passport.authenticate('jwt', { session: false }),
-    authRole(['user', 'admin']),
+    authRole(['user']),
     viewController.products
 );
 
-router.get('/realtimeproducts', viewController.realTimeProducts);
+router.get(
+    '/realtimeproducts',
+    passport.authenticate('jwt', { session: false }),
+    authRole(['admin']),
+    viewController.realTimeProducts
+);
 
 router.get('/carts/:cid', viewController.showCart);
 
-router.get('/chat', viewController.chat);
+router.get(
+    '/chat',
+    passport.authenticate('jwt', { session: false }),
+    authRole(['user']),
+    viewController.chat
+);
 
 // alreadyLogged
 router.get('/signup', viewController.signUp);

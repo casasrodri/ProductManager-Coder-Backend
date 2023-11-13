@@ -11,6 +11,8 @@ export default (permittedRoles) => {
             }
         });
 
+        console.log(req.user);
+
         if (permittedRoles.includes(req.user.role)) {
             next();
         } else {
