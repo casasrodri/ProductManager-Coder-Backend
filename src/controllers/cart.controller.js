@@ -1,4 +1,11 @@
-import { cartRepository } from '../repositories/index.js';
+import {
+    cartRepository,
+    userRepository,
+    productRepository,
+    ticketRepository,
+} from '../repositories/index.js';
+
+import sendEmail from '../services/emailing.js';
 
 export default class CartController {
     async createCart(req, res) {
@@ -143,5 +150,93 @@ export default class CartController {
                 data: { cartId: cid },
             });
         }
+    }
+
+    async purchaseCartById(req, res) {
+        // retornar el arreglo con ids de productos que no pudieron procesarse
+        // mandar un correo con el resultado de la compra.
+
+        const cid = await cartRepository.getId(req.params.cid);
+        const cart = await cartRepository.getCartById(cid);
+
+        // Check if user exists
+        const userEmail = req.body.purchaser;
+        const user = await userRepository.getByEmail(userEmail);
+
+        if (!user) {
+            return res.status(404).send({
+                status: 'error',
+                description: 'User does not exist.',
+                data: { userEmail },
+            });
+        }
+
+        const productsInTicket = [];
+        const productsNotInTicket = [];
+        let total = 0;
+
+        for (const element of cart.products) {
+            const stock = element.product.stock;
+            const required = element.quantity;
+            const price = element.product.price;
+            const product = await productRepository.getProductById(
+                element.product._id
+            );
+
+            if (stock >= required) {
+                // Stock updated
+                product.stock -= required;
+                product.save();
+
+                // Product added to ticket
+                productsInTicket.push(element);
+                cartRepository.removeProductFromCartId(
+                    cid,
+                    element.product._id
+                );
+
+                total += required * price;
+            } else {
+                productsNotInTicket.push(element);
+            }
+        }
+
+        // Save changes in cart
+        cart.products = productsNotInTicket;
+        cart.save();
+
+        // Create ticket
+        const ticket = await ticketRepository.createTicket({
+            purchaser: user.email,
+            amount: total,
+        });
+
+        // Send email
+        let emailBody = `Hello ${user.first_name}!\n`;
+        emailBody += 'You have purchased the following products:\n';
+
+        for (const element of productsInTicket) {
+            emailBody += `${element.product.title} (${element.quantity} x $${element.product.price})\n`;
+        }
+
+        emailBody += `\nTOTAL: $${total}\n\n`;
+        emailBody += 'Sadly, the following products were not available:\n';
+
+        for (const element of productsNotInTicket) {
+            emailBody += `${element.product.title} (You want ${element.quantity}, but we have ${element.product.stock})\n`;
+        }
+
+        emailBody += 'Go to the store to check if they are available now.\n\n';
+        emailBody += 'Thanks for your purchase!\n';
+        emailBody += 'Kind regards,\n\n';
+        emailBody += 'The team at E-Commerce\n';
+
+        sendEmail(user.email, `Ticket #${ticket.code}`, emailBody);
+
+        return res.status(200).send({
+            status: 'success',
+            description: 'The cart was purchased.',
+            data: { ticket, productsInTicket, productsNotInTicket },
+        });
     }
 }

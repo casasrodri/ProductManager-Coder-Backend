@@ -1,5 +1,8 @@
 const cartIdDiv = document.getElementById('cartID');
 const tbodyProd = document.getElementById('tbody-products');
+// Modal items
+const modalBtn = document.getElementById('modalBtn');
+const ticketHeader = document.getElementById('ticketHeader');
 
 document.getElementById('clearCart').addEventListener('click', async () => {
     const confirm = window.confirm('Are you sure to empty your cart?');
@@ -12,6 +15,35 @@ document.getElementById('clearCart').addEventListener('click', async () => {
     console.log(data);
     // location.reload();
     window.location.replace('/products');
+});
+
+document.getElementById('modalBtnOk').addEventListener('click', async () => {
+    location.reload();
+});
+
+document.getElementById('purchaseCart').addEventListener('click', async () => {
+    const confirm = window.confirm('Are you sure to purchase your cart?');
+    if (!confirm) return;
+
+    const userEmail = await getUserEmail();
+
+    const response = await fetch(
+        '/api/carts/' + cartIdDiv.innerText + '/purchase',
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ purchaser: userEmail }),
+        }
+    );
+
+    const data = await response.json();
+    console.log(data);
+
+    ticketHeader.innerText = 'Ticket #' + data.data.ticket.code;
+
+    modalBtn.click();
 });
 
 async function deleteItem(id) {
@@ -89,4 +121,11 @@ function addRow(item) {
         </td>
     </tr>
     `;
+}
+
+async function getUserEmail() {
+    const res = await fetch('/api/sessions/current');
+    const data = await res.json();
+
+    return data.email;
 }
