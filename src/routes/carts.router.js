@@ -1,7 +1,5 @@
+import { Router } from '../services/errors/customRouter.js';
 import { cartController } from '../controllers/index.js';
-import passport from 'passport';
-
-import { Router } from 'express';
 
 const router = Router();
 
@@ -19,10 +17,6 @@ router.delete('/:cid/product/:pid', cartController.removeProductFromCartId);
 
 router.delete('/:cid', cartController.clearCartById);
 
-router.post(
-    '/:cid/purchase',
-    // passport.authenticate('jwt', { session: false }),
-    cartController.purchaseCartById
-);
+router.post('/:cid/purchase', cartController.purchaseCartById);
 
 export default router;
