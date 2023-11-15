@@ -1,4 +1,5 @@
 import { productRepository } from '../repositories/index.js';
+import { generateMockProducts } from '../utils/faker.js';
 
 export default class ViewController {
     redirectLogIn(req, res) {
@@ -74,5 +75,10 @@ export default class ViewController {
                 res.render('login');
             }
         });
+    }
+
+    async mockingProducts(req, res) {
+        const products = generateMockProducts(100);
+        res.json(products);
     }
 }

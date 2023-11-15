@@ -30,4 +30,6 @@ router.get('/login', viewController.logIn);
 // notLogged
 router.get('/logout', viewController.logOut);
 
+router.get('/mockingproducts', viewController.mockingProducts);
+
 export default router;
