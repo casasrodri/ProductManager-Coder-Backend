@@ -1,22 +1,26 @@
 const ROLES = ['user', 'admin'];
-import { userRepository } from '../repositories/index.js';
+import passport from 'passport';
 
 export default (permittedRoles) => {
-    return async (req, res, next) => {
-        permittedRoles.forEach((element) => {
-            if (!ROLES.includes(element)) {
-                return res
-                    .status(500)
-                    .json({ message: `Invalid role: ${element}` });
+    return [
+        // Necesary for deserialize the JWT token and get req.user
+        passport.authenticate('jwt', { session: false }),
+
+        // Middleware for limit access
+        async (req, res, next) => {
+            permittedRoles.forEach((element) => {
+                if (!ROLES.includes(element)) {
+                    return res
+                        .status(500)
+                        .json({ message: `Invalid role: ${element}` });
+                }
+            });
+
+            if (permittedRoles.includes(req.user.role)) {
+                next();
+            } else {
+                return res.status(403).json({ message: 'Forbidden' });
             }
-        });
-
-        console.log(req.user);
-
-        if (permittedRoles.includes(req.user.role)) {
-            next();
-        } else {
-            return res.status(403).json({ message: 'Forbidden' });
-        }
-    };
+        },
+    ];
 };

@@ -153,9 +153,6 @@ export default class CartController {
     }
 
     async purchaseCartById(req, res) {
-        // retornar el arreglo con ids de productos que no pudieron procesarse
-        // mandar un correo con el resultado de la compra.
-
         const cid = await cartRepository.getId(req.params.cid);
         const cart = await cartRepository.getCartById(cid);
 

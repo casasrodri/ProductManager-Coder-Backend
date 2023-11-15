@@ -3,6 +3,9 @@ const tbodyProd = document.getElementById('tbody-products');
 // Modal items
 const modalBtn = document.getElementById('modalBtn');
 const ticketHeader = document.getElementById('ticketHeader');
+const modalProducts = document.getElementById('modalProducts');
+const modalTotal = document.getElementById('modalTotal');
+const modalNoProducts = document.getElementById('modalNoProducts');
 
 document.getElementById('clearCart').addEventListener('click', async () => {
     const confirm = window.confirm('Are you sure to empty your cart?');
@@ -38,10 +41,20 @@ document.getElementById('purchaseCart').addEventListener('click', async () => {
         }
     );
 
-    const data = await response.json();
+    const { data } = await response.json();
     console.log(data);
 
-    ticketHeader.innerText = 'Ticket #' + data.data.ticket.code;
+    for (const item of data.productsInTicket) {
+        modalProducts.innerHTML += `  ${item.product.title} (${item.quantity} x $ ${item.product.price})<br>`;
+    }
+
+    modalTotal.innerText = data.ticket.amount;
+
+    for (const item of data.productsNotInTicket) {
+        modalNoProducts.innerHTML += `  ${item.product.title} (${item.quantity} x $ ${item.product.price})<br>`;
+    }
+
+    ticketHeader.innerText = 'Ticket #' + data.ticket.code;
 
     modalBtn.click();
 });
