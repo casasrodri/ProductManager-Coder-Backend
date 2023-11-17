@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router } from '../services/errors/customRouter.js';
 import passport from 'passport';
 import { sessionController } from '../controllers/index.js';
 

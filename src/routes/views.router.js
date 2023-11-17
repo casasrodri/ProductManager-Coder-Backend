@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router } from '../services/errors/customRouter.js';
 import { alreadyLogged, notLogged } from '../middlewares/session.js';
 import { viewController } from '../controllers/index.js';
 import authRole from '../middlewares/authorization.js';
@@ -6,6 +6,18 @@ import authRole from '../middlewares/authorization.js';
 const router = Router();
 
 router.get('/', viewController.redirectLogIn);
+
+import { CustomError, errorTypes } from '../services/errors/customError.js';
+
+router.get('/error', async (req, res) => {
+    throw new CustomError({
+        name: 'HomeErrorCus',
+        message: 'Error al ingresar a la home desde la clase Cus',
+        cause: 'El server no tiene ganas de responder a esta solicitud desde la clase Cus.',
+        type: errorTypes.DATABASE,
+        statusCode: 418,
+    });
+});
 
 router.get('/viewproducts', viewController.viewProducts);
 

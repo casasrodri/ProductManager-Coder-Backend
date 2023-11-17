@@ -5,7 +5,9 @@ import configHandlebars from './config/handlebars.js';
 import setMiddlewares from './middlewares/index.js';
 import setRouters from './routes/index.js';
 import setSockets from './sockets/index.js';
+import errorHandler from './services/errors/errorHandler.js';
 
+import './services/errors/customRouter.js';
 // Instantiate the express application:
 const app = express();
 const PORT = config.port;
@@ -27,3 +29,6 @@ setRouters(app);
 
 // Socket server
 setSockets(httpServer);
+
+// Error handler
+errorHandler(app);

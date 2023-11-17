@@ -1,7 +1,7 @@
+import { Router } from '../services/errors/customRouter.js';
 import { getBodyProduct } from '../middlewares/products.js';
 import { thumbnailsUploader } from '../middlewares/multer.js';
 import { productController } from '../controllers/index.js';
-import { Router } from 'express';
 
 const router = Router();
 
