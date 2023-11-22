@@ -5,6 +5,8 @@ import {
     ticketRepository,
 } from '../repositories/index.js';
 
+import { CustomError, errorTypes, getCartErrorInfo } from '../services/errors/customError.js';
+
 import sendEmail from '../services/emailing.js';
 
 export default class CartController {
@@ -27,10 +29,13 @@ export default class CartController {
                 data: found.products,
             });
         } catch (err) {
-            return res.status(404).send({
-                status: 'error',
-                description: err.message,
-                data: { cartId: cid },
+
+            throw new CustomError({
+                name: 'GetCartByIdError',
+                message: getCartErrorInfo(cid),
+                cause: err.message,
+                type: errorTypes.DATABASE,
+                statusCode: 404,
             });
         }
     }

@@ -7,6 +7,6 @@ export default (app) => {
             return;
         }
 
-        res.status(500).send('Error interno del server 🤖');
+        res.status(500).send('Internal error 🤖');
     });
 };

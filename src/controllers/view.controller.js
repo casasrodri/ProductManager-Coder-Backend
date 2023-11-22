@@ -1,5 +1,6 @@
 import { productRepository } from '../repositories/index.js';
 import { generateMockProducts } from '../utils/faker.js';
+import { CustomError, errorTypes } from '../services/errors/customError.js';
 
 export default class ViewController {
     redirectLogIn(req, res) {
@@ -31,10 +32,12 @@ export default class ViewController {
         try {
             res.render('products', options);
         } catch (err) {
-            return res.status(404).send({
-                status: 'error',
-                description: err.message,
-                payload: [],
+            throw new CustomError({
+                name: 'ViewProductsError',
+                message: err.message,
+                cause: 'Error rendering products',
+                type: errorTypes.ROUTING,
+                statusCode: 404,
             });
         }
     }

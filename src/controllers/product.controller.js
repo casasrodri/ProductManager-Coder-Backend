@@ -1,4 +1,6 @@
 import { productRepository } from '../repositories/index.js';
+import { CustomError, errorTypes, createProductErrorInfo } from '../services/errors/customError.js';
+
 export default class ProductController {
     async getProductsPaginate(req, res) {
         try {
@@ -35,10 +37,13 @@ export default class ProductController {
                 data: await productRepository.addProduct(req.body.product),
             });
         } catch (err) {
-            return res.status(400).send({
-                status: 'error',
-                description: 'Can not add a new product. ' + err.message,
-                data: null,
+
+            throw new CustomError({
+                name: 'AddProductError',
+                message: createProductErrorInfo(req.body.product),
+                cause: err.message,
+                type: errorTypes.INVALID_TYPES,
+                statusCode: 400,
             });
         }
     }

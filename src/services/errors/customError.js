@@ -1,10 +1,12 @@
-const errorTypes = {
+export const errorTypes = {
     ROUTING: 'ROUTING',
     INVALID_TYPES: 'INVALID_TYPES',
     DATABASE: 'DATABASE',
 };
 
-class CustomError extends Error {
+
+
+export class CustomError extends Error {
     constructor({ name, message, cause, type, statusCode = 500 }) {
         super(message);
         this.name = name;
@@ -15,4 +17,26 @@ class CustomError extends Error {
     }
 }
 
-export { CustomError, errorTypes };
+// Information about errors
+
+export const getCartErrorInfo = (cartId) => {
+    return `Error getting cart by id: ${cartId}
+    Cannot be found in the database.`;
+}
+
+export const createProductErrorInfo = (product) => {
+    return `One or more properties were incomplete or invalid:
+    List of required properties:
+
+    - title: (String)
+    - description: (String)
+    - code: (String)
+    - price: (Number)
+    - stock: (Number)
+    - category: (String)
+    - thumbnails: (String)
+    - status: (Boolea)
+
+    Received:
+    ${JSON.stringify(product)}`;
+}
