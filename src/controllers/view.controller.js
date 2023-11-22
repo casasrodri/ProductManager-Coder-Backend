@@ -1,6 +1,7 @@
 import { productRepository } from '../repositories/index.js';
 import { generateMockProducts } from '../utils/faker.js';
 import { CustomError, errorTypes } from '../services/errors/customError.js';
+import logger from '../utils/logger.js'
 
 export default class ViewController {
     redirectLogIn(req, res) {
@@ -83,5 +84,19 @@ export default class ViewController {
     async mockingProducts(req, res) {
         const products = generateMockProducts(100);
         res.json(products);
+    }
+
+    async loggerTest(req, res) {
+
+        const date = new Date();
+
+        logger.fatal('Info log at ' + date);
+        logger.error('Debug log at ' + date);
+        logger.warning('Error log at ' + date);
+        logger.info('Warning log at ' + date);
+        logger.http('HTTP log at ' + date);
+        logger.debug('Verbose log at ' + date);
+
+        res.send('Logger test at ' + date);
     }
 }
