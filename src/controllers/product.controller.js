@@ -1,6 +1,6 @@
 import { productRepository } from '../repositories/index.js';
 import { CustomError, errorTypes, createProductErrorInfo } from '../services/errors/customError.js';
-
+import logger from '../utils/logger.js';
 export default class ProductController {
     async getProductsPaginate(req, res) {
         try {
@@ -97,7 +97,7 @@ export default class ProductController {
 
     async deleteProductById(req, res) {
         const pid = productRepository.getId(req.params.pid);
-        console.log('intentnando borrar', pid);
+        logger.warning('intentnando borrar', pid)
 
         try {
             return res.status(204).send({

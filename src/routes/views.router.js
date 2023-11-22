@@ -44,4 +44,6 @@ router.get('/logout', viewController.logOut);
 
 router.get('/mockingproducts', viewController.mockingProducts);
 
+router.get('/loggerTest', viewController.loggerTest);
+
 export default router;

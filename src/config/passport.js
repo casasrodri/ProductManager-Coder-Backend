@@ -6,6 +6,7 @@ import jwt from 'passport-jwt';
 import config from '../config/config.js';
 
 import { userRepository } from '../repositories/index.js';
+import logger from '../utils/logger.js';
 
 const LocalStrategy = local.Strategy;
 const JWTStrategy = jwt.Strategy;
@@ -41,7 +42,13 @@ export default () => {
                 const { first_name, last_name } = req.body;
 
                 if (!first_name || !last_name || !email || !password) {
-                    console.log(req.body, first_name, last_name);
+                    logger.error(
+                        `Some information is missing: first_name, last_name, email and password.
+                        body: ${JSON.stringify(req.body)}
+                        first_name: ${first_name}
+                        last_name: ${last_name}`
+                    );
+
                     return done(null, false, {
                         message:
                             'You must send the following information: first_name, last_name, email and password.',

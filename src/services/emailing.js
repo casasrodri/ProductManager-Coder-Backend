@@ -1,5 +1,6 @@
 import nodemailer from 'nodemailer';
 import config from '../config/config.js';
+import logger from '../utils/logger.js';
 
 // https://myaccount.google.com/apppasswords
 // https://www.geeksforgeeks.org/how-to-send-email-with-nodemailer-using-gmail-account-in-node-js/
@@ -17,9 +18,9 @@ export default (to, subject, text) => {
     };
     mailTransporter.sendMail(email, function (err, data) {
         if (err) {
-            console.log('Error occurs:', err);
+            logger.error('Error occurs:', err);
         } else {
-            console.log('Email sent successfully to:', email.to, email.subject);
+            logger.http('Email sent successfully to:', email.to, email.subject);
         }
     });
 };

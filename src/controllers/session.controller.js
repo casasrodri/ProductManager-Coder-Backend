@@ -4,6 +4,7 @@ import { USER_ADMIN } from '../config/passport.js';
 import config from '../config/config.js';
 
 import { userRepository } from '../repositories/index.js';
+import logger from '../utils/logger.js';
 
 export default class SessionController {
     async localSignUp(req, res) {
@@ -65,7 +66,7 @@ export default class SessionController {
     }
 
     async logout(req, res) {
-        console.log('Se ejecuta el logout de las ssiones');
+        logger.debug('The logout method has been called')
         const { redirect } = req.query;
 
         req.session.destroy((err) => {
@@ -116,15 +117,10 @@ export default class SessionController {
         res.cookie('jwt', '', { maxAge: 1 });
 
         let userId;
-        console.log(USER_ADMIN);
-        console.log(email, password);
-        console.log(email === USER_ADMIN.email);
-        console.log(USER_ADMIN.email);
-        console.log(password === USER_ADMIN.password);
-        console.log(USER_ADMIN.password);
+
 
         if (email === USER_ADMIN.email && password === USER_ADMIN.password) {
-            console.log('Se está loguando el admin');
+            logger.info('The admin is trying to log in')
             userId = USER_ADMIN._id;
         } else {
             const user = await userRepository.getByEmail(email);

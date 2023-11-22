@@ -6,13 +6,13 @@ import setMiddlewares from './middlewares/index.js';
 import setRouters from './routes/index.js';
 import setSockets from './sockets/index.js';
 import errorHandler from './services/errors/errorHandler.js';
+import logger from './utils/logger.js';
 
-import './services/errors/customRouter.js';
 // Instantiate the express application:
 const app = express();
 const PORT = config.port;
 const httpServer = app.listen(PORT, () =>
-    console.log(`🚀 Server listening on http://localhost:${PORT}`)
+    logger.info(`🚀 Server listening on http://localhost:${PORT}`)
 );
 
 // Connect to databases
