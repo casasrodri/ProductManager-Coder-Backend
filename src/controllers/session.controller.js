@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import { USER_ADMIN } from '../config/passport.js';
 import config from '../config/config.js';
 
+import sendEmail from '../services/emailing.js';
 import { userRepository } from '../repositories/index.js';
 import logger from '../utils/logger.js';
 
@@ -171,5 +172,60 @@ export default class SessionController {
         };
 
         res.json(userDTO);
+    }
+
+    async forgotPassword(req, res) {
+        const { email } = req.body;
+
+        console.log(email)
+
+        const user = await userRepository.getByEmail(email);
+
+        if (!user)
+            return res.status(401).json({
+                status: 'error',
+                message: 'Email not registered.',
+                data: { email },
+            });
+
+        // Generate token
+        const token = jwt.sign({ user_reset: user._id }, config.jwtSecret, {
+            expiresIn: '1h',
+        });
+
+        // Send email
+        const emailBody = `
+        <p>
+            Hello ${user.first_name}!
+        </p>
+
+        <p>
+            You have requested a link to reset your password.
+        </p>
+
+        <p>
+            Please follow <a href="http://localhost:8080/reset-password/${token}">this link</a> to reset your password.
+            Take into account it will expire in 1 hour.
+        </p>
+
+        <p>
+            If you did not request this, please ignore this email.
+        </p>
+
+        <p>
+            Kind regards,
+            <br>
+            <b>The team at E-Commerce</b>
+        </p>
+        `;
+
+        sendEmail(user.email, `Reset your password`, emailBody);
+
+        // Send response
+        res.json({ status: 'ok', message: 'Email sent', data: { email } })
+    }
+
+    async resetPassword(req, res) {
+        console.log(req.params)
     }
 }

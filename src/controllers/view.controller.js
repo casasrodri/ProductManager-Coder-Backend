@@ -1,7 +1,9 @@
-import { productRepository } from '../repositories/index.js';
+import { productRepository, userRepository } from '../repositories/index.js';
 import { generateMockProducts } from '../utils/faker.js';
 import { CustomError, errorTypes } from '../services/errors/customError.js';
 import logger from '../utils/logger.js'
+import config from '../config/config.js';
+import jwt from 'jsonwebtoken'
 
 export default class ViewController {
     redirectLogIn(req, res) {
@@ -98,5 +100,29 @@ export default class ViewController {
         logger.debug('Verbose log at ' + date);
 
         res.send('Logger test at ' + date);
+    }
+
+    async forgotPassword(req, res) {
+        res.render('forgotPassword');
+    }
+
+
+    async resetPassword(req, res) {
+        const { token } = req.params
+        let verifiedToken, user
+
+        try {
+            // TODO: Tomar desde el .env
+            verifiedToken = jwt.verify(token, config.jwtSecret)
+
+            user = await userRepository.getById(verifiedToken.user_reset)
+        } catch (err) {
+            console.log(err)
+            return res.render('forgotPassword', { error: true, message: 'Invalid or expired token. Please try again.' })
+        }
+
+        // res.render('reset');
+        // res.json({ token })
+        res.render('resetPassword', { email: user.email, exp: verifiedToken.exp, token })
     }
 }

@@ -44,6 +44,10 @@ router.get('/logout', viewController.logOut);
 
 router.get('/mockingproducts', viewController.mockingProducts);
 
+router.get('/forgot-password', viewController.forgotPassword);
+router.get('/reset-password', viewController.forgotPassword);
+router.get('/reset-password/:token', viewController.resetPassword);
+
 router.get('/loggerTest', viewController.loggerTest);
 
 export default router;

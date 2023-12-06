@@ -9,12 +9,12 @@ let mailTransporter = nodemailer.createTransport({
     auth: config.gmailAuth,
 });
 
-export default (to, subject, text) => {
+export default (to, subject, html) => {
     const email = {
         from: config.gmailAuth.user,
         to,
         subject,
-        text,
+        html,
     };
     mailTransporter.sendMail(email, function (err, data) {
         if (err) {
