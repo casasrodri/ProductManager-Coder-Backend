@@ -67,9 +67,24 @@ const sendReset = async () => {
         password: password.value
     }
 
-    // TODO debe dar error si es el que está vigente.
+    const res = await fetch('/api/sessions/reset-password', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newPassword)
+    })
 
-    console.log(newPassword)
+    const data = await res.json()
+
+    console.log(data)
+
+    if (data.status === 'ok') {
+        window.location.href = '/login'
+    } else {
+        showError(data.message)
+    }
+
 }
 
 const showError = msg => {

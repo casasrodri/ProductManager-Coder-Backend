@@ -226,6 +226,49 @@ export default class SessionController {
     }
 
     async resetPassword(req, res) {
-        console.log(req.params)
+        const { token, email, password } = req.body;
+        let user;
+
+        try {
+            user = await userRepository.getByEmail(email);
+        } catch (error) {
+            return res.status(401).json({
+                status: 'error',
+                message: 'Invalid email.',
+                data: { email },
+            });
+        }
+
+        // Check if the token is valid
+        try {
+            jwt.verify(token, config.jwtSecret);
+        } catch (error) {
+            return res.status(401).json({
+                status: 'error',
+                message: 'Invalid token.',
+                data: { email },
+            });
+        }
+
+        // Check if the password is the same
+        const isMatch = bcrypt.compareSync(password, user.password);
+
+        if (isMatch)
+            return res.status(401).json({
+                status: 'error',
+                message: 'You cannot use the same password.',
+                data: { email },
+            });
+
+        // Encrypt password
+        const salt = bcrypt.genSaltSync(10);
+        const hash = bcrypt.hashSync(password, salt);
+
+        // Update user
+        user.password = hash;
+        user.save()
+
+        // Send response
+        res.json({ status: 'ok', message: 'Password updated', data: { email } })
     }
 }
