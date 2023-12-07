@@ -25,7 +25,7 @@ router.get('/products', authRole(['user']), viewController.products);
 
 router.get(
     '/realtimeproducts',
-    authRole(['admin']),
+    authRole(['admin', 'premium']),
     viewController.realTimeProducts
 );
 
