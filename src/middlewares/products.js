@@ -8,9 +8,10 @@ const getBodyProduct = (req, res, next) => {
         stock,
         category,
         thumbnails,
+        owner,
     } = req.body;
 
-    req.body.product = {
+    req.product = {
         title,
         description,
         code,
@@ -19,6 +20,7 @@ const getBodyProduct = (req, res, next) => {
         stock,
         category,
         thumbnails,
+        owner,
     };
 
     next();

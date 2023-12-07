@@ -35,7 +35,7 @@ export const createProductErrorInfo = (product) => {
     - stock: (Number)
     - category: (String)
     - thumbnails: (String)
-    - status: (Boolea)
+    - status: (Boolean)
 
     Received:
     ${JSON.stringify(product)}`;

@@ -1,4 +1,4 @@
-const ROLES = ['user', 'admin'];
+const ROLES = ['user', 'admin', 'premium'];
 import passport from 'passport';
 
 export default (permittedRoles) => {

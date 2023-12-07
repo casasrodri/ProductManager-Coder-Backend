@@ -4,6 +4,34 @@ const hideNumber = document.getElementById('hideNumber');
 const toast = document.getElementById('toast');
 let cartId = localStorage.getItem('cartId');
 
+async function getUser() {
+    const res = await fetch(`/api/sessions/current`);
+    const user = await res.json();
+
+    return user;
+}
+
+// Function to hide the actions buttons
+async function hideActionsButtons() {
+    const cartButtons = document.querySelectorAll('#cart-buttons');
+
+    const user = await getUser();
+
+    if (user.role === 'admin') {
+        return;
+    }
+
+    cartButtons.forEach((cartButton) => {
+        const productOwner = cartButton.dataset.owner;
+
+        if (productOwner !== user.email) {
+            cartButton.style.display = 'none';
+        }
+    })
+}
+
+hideActionsButtons();
+
 // FIXME: Actualizar a la sesión del usuario
 async function checkCartIdExists(id) {
     const res = await fetch('/api/carts/' + id, { method: 'HEAD' });

@@ -26,11 +26,22 @@ export default class ViewController {
     async products(req, res) {
         const options = {};
 
-        options['products'] = await productRepository.getProductsPaginate(req);
-        options['user'] = req.session.name;
-        options['session'] = JSON.stringify(req.session);
+        let products = await productRepository.getProductsPaginate(req);
 
-        if (req.user) options.user = req.user.first_name;
+        products.payload.forEach((product) => {
+            if (!product.id) {
+                product.id = product._id;
+            }
+            product.owner = product.owner || config.userAdmin.email;
+        });
+
+        options['products'] = products;
+        options['session'] = JSON.stringify(req.session);
+        options['user'] = {
+            name: req.user.first_name,
+            role: req.user.role,
+            email: req.user.email,
+        };
 
         try {
             res.render('products', options);
@@ -52,9 +63,10 @@ export default class ViewController {
             if (!product.id) {
                 product.id = product._id;
             }
+            product.owner = product.owner || config.userAdmin.email;
         });
 
-        res.render('realTimeProducts', { products: products });
+        res.render('realTimeProducts', { products: products, user: req.user });
     }
 
     async showCart(req, res) {

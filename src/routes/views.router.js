@@ -21,7 +21,7 @@ router.get('/error', async (req, res) => {
 
 router.get('/viewproducts', viewController.viewProducts);
 
-router.get('/products', authRole(['user']), viewController.products);
+router.get('/products', authRole(['user', 'premium']), viewController.products);
 
 router.get(
     '/realtimeproducts',

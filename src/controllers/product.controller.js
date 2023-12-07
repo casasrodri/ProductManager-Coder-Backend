@@ -34,13 +34,13 @@ export default class ProductController {
             return res.status(201).send({
                 status: 'ok',
                 description: 'Created.',
-                data: await productRepository.addProduct(req.body.product),
+                data: await productRepository.addProduct(req.product),
             });
         } catch (err) {
 
             throw new CustomError({
                 name: 'AddProductError',
-                message: createProductErrorInfo(req.body.product),
+                message: createProductErrorInfo(req.product),
                 cause: err.message,
                 type: errorTypes.INVALID_TYPES,
                 statusCode: 400,
