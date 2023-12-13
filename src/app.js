@@ -7,6 +7,7 @@ import setRouters from './routes/index.js';
 import setSockets from './sockets/index.js';
 import errorHandler from './services/errors/errorHandler.js';
 import logger from './utils/logger.js';
+import swagger from './utils/docs.js'
 
 // Instantiate the express application:
 const app = express();
