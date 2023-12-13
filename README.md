@@ -44,12 +44,8 @@ npm run dev
 
 ### Carts
 
--   `POST` http://localhost:8080/api/carts : Creates a new cart and returns the id associated.
--   `GET` http://localhost:8080/api/carts/:cid : Gets all the products in the cart with the id passed as argument (cid).
 -   `POST` http://localhost:8080/api/carts/:cid/product/:pid : Adds the productId (:pid) to the cartId (:cid).
--   `PUT` http://localhost:8080/api/carts/:cid : Updates all the products included in the cart.
 -   `PUT` http://localhost:8080/api/carts/:cid/product/:pid : Updates the quantity of the product in the cart.
--   `DELETE` http://localhost:8080/api/carts/:cid : Deletes all the products associated with the cart (empty).
 -   `DELETE` http://localhost:8080/api/carts/:cid/product/:pid : Removes a certain product of the cart.
 
 ## Databases

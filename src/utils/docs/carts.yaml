@@ -1,100 +1,76 @@
 paths:
-  /api/users:
-    get:
-      summary: Obtiene todos los usuarios
-      tags: 
-        - Users
-      responses:
-        "200":
-          description: Los usuarios fueron obtenidos satisfactoriamente desde la bd
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#components/schemas/User'
-        "500":
-          description: Algo falló en la búsqueda de usuarios en la base de datos
-  /api/users/{uid}:
-    get:
-      summary: Obtiene un usuario según su id
+  /api/carts:
+    post:
+      summary: New cart.
+      description: Creates a new cart.
       tags:
-        - Users
-      parameters:
-      - name: uid
-        in: path
-        required: true
-        description: Id del usuario a buscar
-        schema:
-          $type: String
-      responses:
-        "200":
-          description: Usuario encontrado
-          content:
-            application/json:
-              schema:
-                $ref: '#components/schemas/User'
+        - Carts
+
+  /api/carts/{cid}:
+    # parameters:
+    #   - $ref: '#/components/parameters/cid'
+
+    get:
+      summary: Get one cart.
+      description: Returns the cart with the associated cartId (cid).
+      tags:
+        - Carts
+
     put:
-      summary: Actualiza un usuario a partir de su id
+      summary: Update one cart.
+      description: Modifies the cart with the associated cartId (cid).
+      # requestBody:
+      #   required: true
+      #   content:
+      #     application/json:
+      #       schema:
+      #         $ref: '#components/requestBodies/updateCart'
+      #   description: You can send only the fields you want to update.
       tags:
-        - Users
-      parameters:
-      - name: uid
-        in: path
-        required: true
-        description: Id del usuario a buscar
-        schema:
-          $type: String
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#components/requestBodies/updateUser'
+        - Carts
+
+    delete:
+      summary: Delete one cart.
+      description: Deletes the cart with the associated cartId (cid).
+      tags:
+        - Carts
+
+  /api/carts/{cid}/product/{pid}:
+    parameters:
+      - $ref: 'products.yaml#/components/parameters/pid'
+      - $ref: '#/components/parameters/cid'
+
+    post:
+      summary: Add product to cart.
+      description: Adds the product with the associated productId (pid) to the cart with the associated cartId (cid).
+      tags:
+        - Carts
+
+    put:
+      summary: Update product quantity.
+      description: Modifies the product with the associated productId (pid) in the cart with the associated cartId (cid).
+      # requestBody:
+      #   required: true
+      #   content:
+      #     application/json:
+      #       schema:
+      #         $ref: '#components/requestBodies/updateProductInCart'
+      #   description: You can send only the fields you want to update.
+      tags:
+        - Carts
+
+    delete:
+      summary: Remove product from cart.
+      description: Removes the product with the associated productId (pid) from the cart with the associated cartId (cid).
+      tags:
+        - Carts
+
 components:
-  schemas:
-    User:
-      type: object
-      properties:
-        _id:
-          type: ObjectId
-          description: Id autogenerado de mongo
-        first_name:
-          type: String
-          description: Nombre del usuario
-        last_name:
-          type: String
-          description: Apellido del usuario
-        email:
-          type: String
-          description: Correo del usuario, campo único
-        password:
-          type: String
-          description: Contraseña hasheada del usuario
-      example:
-        _id: ObjectId("asd")
-        first_name: Jacinto
-        last_name: De las Mercedes
-        email: jacinto@coderhouse.com
-        password: asd123hasheado
-  requestBodies:
-    updateUser:
-      type: object
-      properties:
-        first_name:
-          type: String
-          description: Nombre del usuario
-        last_name:
-          type: String
-          description: Apellido del usuario
-        email:
-          type: String
-          description: Correo del usuario, campo único
-        password:
-          type: String
-          description: Contraseña hasheada del usuario
-      example:
-        first_name: Jacinto
-        last_name: De las Mercedes
-        email: jacinto@coderhouse.com
-        password: asd123hasheado
+  parameters:
+    cid:
+      name: cid
+      in: path
+      required: true
+      description: Cart ID
+      schema:
+        $type: String
