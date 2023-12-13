@@ -33,3 +33,6 @@ setSockets(httpServer);
 
 // Error handler
 errorHandler(app);
+
+// Documentation
+swagger(app);
