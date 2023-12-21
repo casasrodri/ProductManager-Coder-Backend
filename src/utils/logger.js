@@ -16,13 +16,26 @@ const customLevels = {
 switch (process.env.ENVIRONMENT) {
     case 'development':
         envTransports = [
-            new winston.transports.Console({ level: 'debug' }),
+            new winston.transports.Console({
+                level: 'debug',
+                format: winston.format.cli(),
+            }),
         ]
         break;
+
     case 'production':
         envTransports = [
             new winston.transports.Console({ level: 'info' }),
             new winston.transports.File({ name: 'errors-file', filename: 'logs/errors.log', level: 'error' }),
+        ]
+        break;
+
+    case 'testing':
+        envTransports = [
+            new winston.transports.Console({
+                level: 'debug',
+                format: winston.format.cli(),
+            })
         ]
         break;
 }

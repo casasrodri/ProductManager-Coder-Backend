@@ -2,8 +2,10 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export default {
+    environment: process.env.ENVIRONMENT,
     port: process.env.PORT || 8080,
     mongoUri: process.env.MONGO_DB_URI,
+    mongoUriTest: process.env.MONGO_DB_URI_TEST,
 
     userAdmin: {
         _id: 'admin_id',
