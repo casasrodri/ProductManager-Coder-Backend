@@ -7,31 +7,8 @@ const assert = Assert.strict
 
 
 describe('Product Repository', () => {
-    before(function connectMongoDB() {
-        connectMongo();
-    })
-
-    context('when getting products', () => {
-        let products
-
-        before(async function () {
-            this.timeout(5000);
-            products = await productRepository.getProducts()
-        })
-
-        it('should get an array of products', async function () {
-            assert.ok(Array.isArray(products))
-        })
-
-        it('should get an array with at least 1 product', async () => {
-            assert.ok(products.length > 0)
-        })
-
-        it('should get a product by id', async () => {
-            const product = await productRepository.getProductById(products[0]._id)
-            assert.ok(product)
-        })
-
+    before(() => {
+        connectMongo('test');
     })
 
     context('when adding a new product', () => {
@@ -70,9 +47,28 @@ describe('Product Repository', () => {
 
             assert.ok(newProduct2 === undefined)
         })
+    })
 
-        after(async () => {
-            await productRepository.deleteProductById(newProduct._id)
+    context('when getting products', () => {
+        let products
+
+        before(async function () {
+            this.timeout(5000);
+            products = await productRepository.getProducts()
         })
+
+        it('should get an array of products', async function () {
+            assert.ok(Array.isArray(products))
+        })
+
+        it('should get an array with at least 1 product', async () => {
+            assert.ok(products.length > 0)
+        })
+
+        it('should get a product by id', async () => {
+            const product = await productRepository.getProductById(products[0]._id)
+            assert.ok(product)
+        })
+
     })
 })
