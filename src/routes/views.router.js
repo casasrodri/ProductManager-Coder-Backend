@@ -2,6 +2,7 @@ import { Router } from '../services/errors/customRouter.js';
 import { alreadyLogged, notLogged } from '../middlewares/session.js';
 import { viewController } from '../controllers/index.js';
 import authRole from '../middlewares/authorization.js';
+import config from '../config/config.js';
 
 const router = Router();
 
@@ -49,5 +50,9 @@ router.get('/reset-password', viewController.forgotPassword);
 router.get('/reset-password/:token', viewController.resetPassword);
 
 router.get('/loggerTest', viewController.loggerTest);
+
+router.get('/env', (req, res) => {
+    res.json({ env: config.environment });
+});
 
 export default router;
