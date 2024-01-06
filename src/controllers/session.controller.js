@@ -119,7 +119,6 @@ export default class SessionController {
 
         let userId;
 
-
         if (email === USER_ADMIN.email && password === USER_ADMIN.password) {
             logger.info('The admin is trying to log in')
             userId = USER_ADMIN._id;
@@ -143,6 +142,11 @@ export default class SessionController {
                 });
 
             userId = user._id;
+        }
+
+        // Save datetime of last connection
+        if (userId !== USER_ADMIN._id) {
+            const usuario = await userRepository.updateLastConnection(userId);
         }
 
         const token = jwt.sign({ userId }, config.jwtSecret, {

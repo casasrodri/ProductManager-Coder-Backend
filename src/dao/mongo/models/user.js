@@ -1,3 +1,4 @@
+import { ar } from '@faker-js/faker';
 import mongoose from 'mongoose';
 
 const userCollection = 'users';
@@ -16,6 +17,13 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: 'carts',
     },
+    documents: [
+        {
+            name: String,
+            reference: String,
+        },
+    ],
+    last_connection: Date,
 });
 
 const User = mongoose.model(userCollection, userSchema);

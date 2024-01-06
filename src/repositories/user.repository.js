@@ -15,4 +15,10 @@ export default class UserRepository {
     async create(user) {
         return await User.create(user);
     }
+
+    async updateLastConnection(id) {
+        return await User.findByIdAndUpdate(id, {
+            last_connection: new Date(),
+        }, { new: true });
+    }
 }
