@@ -1,6 +1,7 @@
 import { userRepository } from '../repositories/index.js';
 import multer from 'multer';
 
+const PREMIUM_REQUIRED_DOCUMENTS = ['identification', 'address', 'accountStatus'];
 export default class UserController {
 
     async premiumSwith(req, res) {
@@ -17,6 +18,11 @@ export default class UserController {
 
         const oldRole = user.role || 'user';
         const newRole = oldRole === 'user' ? 'premium' : 'user';
+
+        if (newRole === 'premium') {
+            // TODO: verificar que ya haya cargado los documentos: PREMIUM_REQUIRED_DOCUMENTS
+        }
+
         user.role = newRole
         user.save();
 
@@ -39,14 +45,8 @@ export default class UserController {
                 });
             }
 
-            if (['identification', 'address', 'accountStatus'].includes(file.fieldname)) {
-                validFiles[file.fieldname] = {
-                    originalname: file.originalname,
-                    filename: file.filename,
-                    path: file.path,
-                    size: file.size,
-                    mimetype: file.mimetype,
-                }
+            if (PREMIUM_REQUIRED_DOCUMENTS.includes(file.fieldname)) {
+                validFiles[file.fieldname] = file
             }
         }
 
