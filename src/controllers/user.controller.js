@@ -20,7 +20,19 @@ export default class UserController {
         const newRole = oldRole === 'user' ? 'premium' : 'user';
 
         if (newRole === 'premium') {
-            // TODO: verificar que ya haya cargado los documentos: PREMIUM_REQUIRED_DOCUMENTS
+            const availableDocs = user.documents.map((document) => {
+                return document.name
+            })
+
+            const missingDocs = PREMIUM_REQUIRED_DOCUMENTS.filter(document => !availableDocs.includes(document));
+
+            if (missingDocs.length > 0) {
+                return res.status(400).json({
+                    status: 'error',
+                    message: 'Missing documents.',
+                    data: { missingDocs },
+                });
+            }
         }
 
         user.role = newRole
