@@ -7,6 +7,8 @@ import sendEmail from '../services/emailing.js';
 import { userRepository } from '../repositories/index.js';
 import logger from '../utils/logger.js';
 
+import UserDTO from '../dto/user.dto.js';
+
 export default class SessionController {
     async localSignUp(req, res) {
         const { redirect } = req.query;
@@ -168,13 +170,7 @@ export default class SessionController {
     }
 
     async current(req, res) {
-        const userDTO = {
-            _id: req.user._id,
-            name: `${req.user.first_name} ${req.user.last_name}`,
-            email: req.user.email,
-            role: req.user.role,
-        };
-
+        const userDTO = new UserDTO(req.user);
         res.json(userDTO);
     }
 
