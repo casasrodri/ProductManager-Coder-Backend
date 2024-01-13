@@ -18,9 +18,10 @@ export default (to, subject, html) => {
     };
     mailTransporter.sendMail(email, function (err, data) {
         if (err) {
-            logger.error('Error occurs:', err);
+            logger.error(`Error sending the email: "${email.subject}" to "${email.to}" `);
+            logger.error('Detailed email service error:', err);
         } else {
-            logger.http('Email sent successfully to:', email.to, email.subject);
+            logger.info(`Email sent successfully to: "${email.to}" with subject: "${email.subject}"`);
         }
     });
 };
