@@ -2,6 +2,10 @@ import User from '../dao/mongo/models/user.js';
 import { USER_ADMIN } from '../config/passport.js';
 
 export default class UserRepository {
+    async getAll() {
+        return await User.find();
+    }
+
     async getByEmail(email) {
         return await User.findOne({ email });
     }
@@ -20,5 +24,9 @@ export default class UserRepository {
         return await User.findByIdAndUpdate(id, {
             last_connection: new Date(),
         }, { new: true });
+    }
+
+    async delete(id) {
+        return await User.findByIdAndDelete(id);
     }
 }

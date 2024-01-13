@@ -4,6 +4,10 @@ import { documentsUploader } from '../middlewares/multer.js';
 
 const router = Router();
 
+router.get('/', userController.getAllUsers);
+
+router.delete('/', userController.cleanInactiveUsers);
+
 router.get('/premium/:uid', userController.premiumSwith);
 
 router.post(
