@@ -8,7 +8,9 @@ router.get('/', userController.getAllUsers);
 
 router.delete('/', userController.cleanInactiveUsers);
 
-router.get('/premium/:uid', userController.premiumSwith);
+router.delete('/:uid', userController.deleteUser);
+
+router.get('/premium/:uid', userController.premiumSwitch);
 
 router.post(
     '/:uid/documents',

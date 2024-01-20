@@ -55,4 +55,6 @@ router.get('/env', (req, res) => {
     res.json({ env: config.environment });
 });
 
+router.get('/admin/users', viewController.adminUsers); // TODO authRole(['admin']),
+
 export default router;

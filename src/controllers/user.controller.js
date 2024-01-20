@@ -16,7 +16,7 @@ export default class UserController {
         });
     }
 
-    async premiumSwith(req, res) {
+    async premiumSwitch(req, res) {
         const { uid } = req.params;
 
         const user = await userRepository.getById(uid);
@@ -125,5 +125,22 @@ export default class UserController {
         }
 
         res.json({ status: 'ok', message: 'Inactive users have been removed.' })
+    }
+
+    async deleteUser(req, res) {
+        const { uid } = req.params;
+
+        const user = await userRepository.getById(uid);
+
+        if (!user)
+            return res.status(401).json({
+                status: 'error',
+                message: 'User not found.',
+                data: { uid },
+            });
+
+        await userRepository.delete(uid);
+
+        res.json({ status: 'ok', message: 'User deleted', data: { uid } })
     }
 }

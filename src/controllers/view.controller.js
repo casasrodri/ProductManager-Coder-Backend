@@ -4,6 +4,7 @@ import { CustomError, errorTypes } from '../services/errors/customError.js';
 import logger from '../utils/logger.js'
 import config from '../config/config.js';
 import jwt from 'jsonwebtoken'
+import UserDTO from '../dto/user.dto.js';
 
 export default class ViewController {
     redirectLogIn(req, res) {
@@ -41,7 +42,9 @@ export default class ViewController {
             name: req.user.first_name,
             role: req.user.role,
             email: req.user.email,
+            logged: true,
         };
+        options.stringify = JSON.stringify(options)
 
         try {
             res.render('products', options);
@@ -136,5 +139,16 @@ export default class ViewController {
         // res.render('reset');
         // res.json({ token })
         res.render('resetPassword', { email: user.email, exp: verifiedToken.exp, token })
+    }
+
+    async adminUsers(req, res) {
+        const users = await userRepository.getAll();
+        const usersDTO = users.map((user) => {
+            const userDto = new UserDTO(user)
+            userDto.isPremium = userDto.role == 'premium'
+            return userDto
+        });
+
+        res.render('adminUsers', { users: usersDTO });
     }
 }
