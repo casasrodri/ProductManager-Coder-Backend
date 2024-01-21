@@ -14,7 +14,7 @@ const ticketSchema = new mongoose.Schema(
         amount: Number,
         purchaser: {
             type: String,
-            ref: 'users', // TODO: Ver si funciona esta referencia...
+            ref: 'users',
             required: true,
         },
     },

@@ -127,7 +127,6 @@ export default class ViewController {
         let verifiedToken, user
 
         try {
-            // TODO: Tomar desde el .env
             verifiedToken = jwt.verify(token, config.jwtSecret)
 
             user = await userRepository.getById(verifiedToken.user_reset)
