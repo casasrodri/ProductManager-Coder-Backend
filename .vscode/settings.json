@@ -9,14 +9,5 @@
         "**/.ruby-lsp": true
     },
     "hide-files.files": [],
-    "sqltools.useNodeRuntime": true,
-    "sqltools.connections": [
-        {
-            "previewLimit": 50,
-            "driver": "SQLite",
-            "database": "C:\\Users\\u161900\\Desktop\\dev\\raul_alta_persona_humana\\backups\\raul_20231107.sqlite",
-            "name": "Sqlite Pruebita"
-        }
-    ],
     "IDX.aI.enableInlineCompletion": true
 }
