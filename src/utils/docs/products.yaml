@@ -313,6 +313,6 @@ components:
       name: pid
       in: path
       required: true
-      description: Product ID
+      description: Mongo ID for the product
       schema:
         $type: String

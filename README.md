@@ -1,25 +1,26 @@
 # E-commerce Backend
 
-This repository contains the code associated with the pre deliverable of the course of back-end development at CoderHouse.
+This repository contains the code associated with the deliverable of the course of back-end development at CoderHouse.
 
 ## Install and run
 
 In order to execute the API, you just need Node.js.
 
 1. Clone this repository or download the code.
-2. Install the dependencies:
+2. Complete the `.env` file, based on the `.env.example`.
+3. Install the dependencies:
 
-```
+```bash
 npm i
 ```
 
 3. Start the server:
 
-```
-npm run dev
+```bash
+npm start
 ```
 
-4. The server will be available on the url: http://localhost:8080
+4. The server will be available on the url: http://localhost:8080, or on the port you have specified in the `.env` file.
 
 ## GUI - Available endpoints
 
@@ -33,6 +34,9 @@ npm run dev
 
 ## API - Available endpoints
 
+See the Swagger Documentation on `/apidocs`, i.e.: http://localhost:8080/apidocs
+
+<!--
 ### Products
 
 -   `GET` http://localhost:8080/api/products : Returns all the products, with pagination (defaults: limit=10, page=1, sort=none, query=none).
@@ -46,8 +50,8 @@ npm run dev
 
 -   `POST` http://localhost:8080/api/carts/:cid/product/:pid : Adds the productId (:pid) to the cartId (:cid).
 -   `PUT` http://localhost:8080/api/carts/:cid/product/:pid : Updates the quantity of the product in the cart.
--   `DELETE` http://localhost:8080/api/carts/:cid/product/:pid : Removes a certain product of the cart.
+-   `DELETE` http://localhost:8080/api/carts/:cid/product/:pid : Removes a certain product of the cart. -->
 
 ## Databases
 
-The project can be configured to use different databases. The default database is MongoDB (using the MongoDB Atlas service), but you can change it to Node.js FileSystem implementation (using local JSONs).
+The project can be configured to use different databases. The default database is MongoDB (using the URI declared on the `.env` file), but you can change it to Node.js FileSystem implementation (using local JSONs).

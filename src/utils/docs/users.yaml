@@ -1,0 +1,24 @@
+paths:
+  /api/users:
+    get:
+      tags:
+        - Users
+
+    delete:
+      tags:
+        - Users
+
+  /api/users/{uid}:
+    delete:
+      tags:
+        - Users
+
+  /api/users/premium/{uid}:
+    get:
+      tags:
+        - Users
+
+  /api/users/{uid}/documents:
+    post:
+      tags:
+        - Users

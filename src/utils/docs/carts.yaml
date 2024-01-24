@@ -5,16 +5,36 @@ paths:
       description: Creates a new cart.
       tags:
         - Carts
+      responses:
+        201:
+          description: Product created.
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/EmptyCart'
+        400:
+          description: Bad request.
 
   /api/carts/{cid}:
-    # parameters:
-    #   - $ref: '#/components/parameters/cid'
+    parameters:
+      - $ref: '#/components/parameters/cid'
 
     get:
       summary: Get one cart.
       description: Returns the cart with the associated cartId (cid).
       tags:
         - Carts
+      responses:
+        201:
+          description: Products in cart.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schemas/Cart'
+        400:
+          description: Bad request.
 
     put:
       summary: Update one cart.
@@ -37,7 +57,8 @@ paths:
 
   /api/carts/{cid}/product/{pid}:
     parameters:
-      - $ref: 'products.yaml#/components/parameters/pid'
+      # TODO Ver como linkear con el product body
+      - $ref: '#/components/parameters/pid'
       - $ref: '#/components/parameters/cid'
 
     post:
@@ -65,12 +86,90 @@ paths:
       tags:
         - Carts
 
+  /api/carts/{cid}/purchase:
+    parameters:
+      - $ref: '#/components/parameters/cid'
+
+    post:
+      summary: Purchase a cart.
+      description: Purchase a cart, affecting the inventory and sending and email to the user with details of the cart purchased.
+      tags:
+        -  Carts
+
 components:
+  schemas:
+    EmptyCart:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Mongo ID for the cart
+          example: 5f7b1b4b9d6b9a0017b6d0a1
+        products:
+          type: array
+          description: Empty array
+          example: []
+    Cart:
+      type: array
+      items:
+        type: object
+        properties:
+          product:
+            type: object
+            properties:
+              owner:
+                type: string
+                description: Mongo ID for the owner of the product
+                example: 5f7b1b4b9d6b9a0017b6d0a1
+              _id:
+                type: string
+                description: Mongo ID for the product
+                example: 5f7b1b4b9d6b9a0017b6d0a1
+              title:
+                type: string
+                description: Title of the product
+                example: Cama queen
+              description:
+                type: string
+                description: Description of the product
+                example: Cama tamaño Queen con cabecero tapizado y almacenamiento en la base.
+              code:
+                type: string
+                description: Code of the product
+                example: 3ws4e5r6t
+              price:
+                type: number
+                description: Price of the product
+                example: 3200
+              status:
+                type: boolean
+                description: Status of the product
+                example: true
+              stock:
+                type: number
+                description: Stock of the product
+                example: 1
+              category:
+                type: string
+                description: Category of the product
+                example: Habitación
+              thumbnails:
+                type: array
+                description: Array of thumbnails of the product
+                items:
+                  type: string
+                  description: URL of the thumbnail
+                  example: https://res.cloudinary.com/djlmqpd2n/image/upload/v1601900000/3ws4e5r6t.png
+          quantity:
+            type: number
+            description: Quantity of the product
+            example: 2
+
   parameters:
     cid:
       name: cid
       in: path
       required: true
-      description: Cart ID
+      description: Mongo ID for the cart
       schema:
         $type: String

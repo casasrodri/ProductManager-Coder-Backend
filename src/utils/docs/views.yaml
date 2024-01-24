@@ -1,0 +1,112 @@
+paths:
+  /:
+    get:
+      tags:
+        - Graphic User Interface (GUI)
+      summary: Home page.
+      description: Redirects to the login page, in case you are not logged in.
+
+  /error:
+    get:
+      tags:
+        - Graphic User Interface (GUI)
+      summary: Error testing.
+      description: Redirects to the error page.
+
+  /viewproducts:
+    get:
+      tags:
+        - Graphic User Interface (GUI)
+      summary: List all the products
+      description: See all the products in the database.
+
+  /products:
+    get:
+      tags:
+        - Graphic User Interface (GUI)
+      summary: View of the products using pagination.
+      description: See all the products in the database using pagination. You must be logged in to see this page. You can also add to cart from here.
+
+  /realtimeproducts:
+    get:
+      tags:
+        - Graphic User Interface (GUI)
+      summary: See all products in real time.
+      description: See all products in real time. You must be logged in to see this page and have the role of admin or premium user. You can create, update and delete products from here.
+
+  /carts/{cid}:
+    get:
+      tags:
+        - Graphic User Interface (GUI)
+      summary: See one cart.
+      description: See one cart. You must be logged in to see this page. You can update and delete the cart from here. You can also purchase the cart from here.
+
+  /chat:
+    get:
+      tags:
+        - Graphic User Interface (GUI)
+      summary: Chat with other users.
+      description: Talk to other users in real time. You must be logged in to see this page and have the role of regular or premium user. This page uses websockets.
+
+  /signup:
+    get:
+      tags:
+        - Graphic User Interface (GUI)
+      summary: Register a new user.
+      description: Register a new user. You must be logged out to see this page.
+
+  /login:
+    get:
+      tags:
+        - Graphic User Interface (GUI)
+      summary: Login of the user.
+      description: Login of the user. You must be logged out to see this page.
+
+  /logout:
+    get:
+      tags:
+        - Graphic User Interface (GUI)
+      summary: Logout of the user.
+      description: Logout of the user. You must be logged in to see this page.
+
+  /mockingproducts:
+    get:
+      tags:
+        - Graphic User Interface (GUI)
+      summary: Mocking products.
+      description: List an example of mocking products.
+
+  /forgotPassword:
+    get:
+      tags:
+        - Graphic User Interface (GUI)
+      summary: Allows the user to reset the password.
+      description: Allows the user to reset the password. You must be logged out to see this page. You can also send an email to reset the password.
+
+  /resetPassword/{token}:
+    get:
+      tags:
+        - Graphic User Interface (GUI)
+      summary: Reset the password.
+      description: Once you have recived the token via email, you can reset the password. You must be logged out to see this page.
+
+  /loggerTest:
+    get:
+      tags:
+        - Graphic User Interface (GUI)
+      summary: Show the logger.
+      description: Allows to see in the server console messages of different levels using the logger.
+
+  /env:
+    get:
+      tags:
+        - Graphic User Interface (GUI)
+      summary: Environment mode.
+      description: 'Show the environment mode: production | development | testing'
+
+  /admin/users:
+    get:
+      tags:
+        - Graphic User Interface (GUI)
+      summary: Admin panel for users.
+      description: Admin panel for users. You must be logged in to see this page and have the role of admin. You can upgrade/downgrade the role of the users and delete them from here. Also, you can delete inactive users.
