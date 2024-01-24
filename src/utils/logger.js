@@ -13,12 +13,26 @@ const customLevels = {
     debug: 5,
 };
 
+const customColors = {
+    fatal: 'red',
+    error: 'yellow',
+    warning: 'magenta',
+    info: 'blue',
+    http: 'cyan',
+    debug: 'green',
+};
+
+winston.addColors(customColors);
+
 switch (process.env.ENVIRONMENT) {
     case 'development':
         envTransports = [
             new winston.transports.Console({
                 level: 'debug',
-                format: winston.format.cli(),
+                format: winston.format.combine(
+                    winston.format.colorize(),
+                    winston.format.simple()
+                )
             }),
         ]
         break;
@@ -34,7 +48,10 @@ switch (process.env.ENVIRONMENT) {
         envTransports = [
             new winston.transports.Console({
                 level: 'debug',
-                format: winston.format.cli(),
+                format: winston.format.combine(
+                    winston.format.colorize(),
+                    winston.format.simple()
+                )
             })
         ]
         break;
