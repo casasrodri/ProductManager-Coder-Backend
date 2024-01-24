@@ -9,6 +9,7 @@
             Hello
             <span class="italic">
                 {{user.name}} 👋
+                {{user.role}}
             </span>
         </div>
         <div class='mr-4'>
@@ -26,7 +27,8 @@
     </div>
 </div>
 
-{{!-- {{ session }} --}}
+{{!-- {{stringify}} --}}
+
 <div id='container'>
     <div class='flex justify-center flex-wrap py-7'>
         <div class='max-w-5xl px-5 grid grid-cols-3 gap-3 flex items-center' id='card-container'>
@@ -34,10 +36,11 @@
             {{#each products.payload}}
 
             <div id='card-{{id}}'
-                class='block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700'>
-                {{#if ../user}}
-                <div class='flex justify-end gap-2' data-owner="{{ owner }}" id="cart-buttons">
-                    <div id='addCart-{{id}}' style='cursor: pointer;' class='h-10 w-10' onclick="addToCart('{{id}}')">
+                class='block max-w-sm h-64 p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700'>
+                {{#if ../user.logged }}
+                <div class='flex justify-end gap-2' data-owner="{{ this.owner }}" id="cart-buttons">
+                    <div id='addCart-{{this.id}}' style='cursor: pointer;' class='h-10 w-10'
+                        onclick="addToCart('{{this.id}}')">
                         <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor'
                             class='h-5 w-5' viewBox='0 0 16 16'>
                             <path
@@ -45,16 +48,17 @@
                         </svg>
                     </div>
                 </div>
+
                 {{/if}}
                 <h5 class='mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white' id='title-${id}'>
-                    {{title}}
+                    {{this.title}}
                 </h5>
                 <p class='font-normal text-gray-700 dark:text-gray-400' id='description-${id}'>
-                    {{description}}
+                    {{this.description}}
                 </p>
                 <div class='flex justify-end gap-2 font-medium text-xl' id='price-${id}'>
                     $
-                    {{price}}
+                    {{this.price}}
                 </div>
             </div>
             {{/each}}

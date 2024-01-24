@@ -30,9 +30,8 @@ async function hideActionsButtons() {
     })
 }
 
-hideActionsButtons();
+// hideActionsButtons();
 
-// FIXME: Actualizar a la sesión del usuario
 async function checkCartIdExists(id) {
     const res = await fetch('/api/carts/' + id, { method: 'HEAD' });
     return res.ok;
