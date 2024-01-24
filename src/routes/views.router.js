@@ -32,7 +32,7 @@ router.get(
 
 router.get('/carts/:cid', viewController.showCart);
 
-router.get('/chat', authRole(['user']), viewController.chat);
+router.get('/chat', authRole(['user', 'premium']), viewController.chat);
 
 // alreadyLogged
 router.get('/signup', viewController.signUp);
@@ -45,9 +45,8 @@ router.get('/logout', viewController.logOut);
 
 router.get('/mockingproducts', viewController.mockingProducts);
 
-router.get('/forgot-password', viewController.forgotPassword);
-router.get('/reset-password', viewController.forgotPassword);
-router.get('/reset-password/:token', viewController.resetPassword);
+router.get('/forgotPassword', viewController.forgotPassword);
+router.get('/resetPassword/:token', viewController.resetPassword);
 
 router.get('/loggerTest', viewController.loggerTest);
 

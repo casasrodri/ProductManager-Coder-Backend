@@ -48,7 +48,7 @@ router.get(
     sessionController.current
 );
 
-router.post('/forgot-password', sessionController.forgotPassword);
-router.post('/reset-password', sessionController.resetPassword);
+router.post('/forgotPassword', sessionController.forgotPassword);
+router.post('/resetPassword', sessionController.resetPassword);
 
 export default router;

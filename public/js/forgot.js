@@ -10,7 +10,7 @@ const sendForm = async () => {
         return;
     }
 
-    const res = await fetch('/api/sessions/forgot-password', {
+    const res = await fetch('/api/sessions/forgotPassword', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

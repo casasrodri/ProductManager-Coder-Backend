@@ -67,7 +67,7 @@ const sendReset = async () => {
         password: password.value
     }
 
-    const res = await fetch('/api/sessions/reset-password', {
+    const res = await fetch('/api/sessions/resetPassword', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
