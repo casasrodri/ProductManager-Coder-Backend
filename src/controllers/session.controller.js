@@ -147,8 +147,9 @@ export default class SessionController {
         }
 
         // Save datetime of last connection
+        let user;
         if (userId !== USER_ADMIN._id) {
-            const usuario = await userRepository.updateLastConnection(userId);
+            user = await userRepository.updateLastConnection(userId);
         }
 
         const token = jwt.sign({ userId }, config.jwtSecret, {
@@ -160,6 +161,7 @@ export default class SessionController {
         });
 
         // Redirect to home
+        if (redirect && userId === USER_ADMIN._id) return res.redirect('/realtimeproducts');
         if (redirect) return res.redirect('/products');
 
         return res.json({
