@@ -4,8 +4,6 @@ export const errorTypes = {
     DATABASE: 'DATABASE',
 };
 
-
-
 export class CustomError extends Error {
     constructor({ name, message, cause, type, statusCode = 500 }) {
         super(message);
@@ -18,7 +16,6 @@ export class CustomError extends Error {
 }
 
 // Information about errors
-
 export const getCartErrorInfo = (cartId) => {
     return `Error getting cart by id: ${cartId}
     Cannot be found in the database.`;

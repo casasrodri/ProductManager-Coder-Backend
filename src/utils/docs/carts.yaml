@@ -57,7 +57,6 @@ paths:
 
   /api/carts/{cid}/product/{pid}:
     parameters:
-      # TODO Ver como linkear con el product body
       - $ref: '#/components/parameters/pid'
       - $ref: '#/components/parameters/cid'
 
