@@ -76,7 +76,6 @@ export default class ProductController {
     async updateProductById(req, res) {
         const pid = productRepository.getId(req.params.pid);
         const updatedProduct = req.body.product;
-        let updated;
 
         try {
             return res.status(200).send({
