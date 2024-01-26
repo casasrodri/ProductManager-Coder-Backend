@@ -35,7 +35,7 @@
 
             {{#each products.payload}}
 
-            <div id='card-{{id}}'
+            <div id='card-{{this.id}}'
                 class='block max-w-sm h-64 p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700'>
                 {{#if ../user.logged }}
                 <div class='flex justify-end gap-2' data-owner="{{ this.owner }}" id="cart-buttons">
@@ -50,13 +50,13 @@
                 </div>
 
                 {{/if}}
-                <h5 class='mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white' id='title-${id}'>
+                <h5 class='mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white' id='title-{{this.id}}'>
                     {{this.title}}
                 </h5>
-                <p class='font-normal text-gray-700 dark:text-gray-400' id='description-${id}'>
+                <p class='font-normal text-gray-700 dark:text-gray-400' id='description-{{this.id}}'>
                     {{this.description}}
                 </p>
-                <div class='flex justify-end gap-2 font-medium text-xl' id='price-${id}'>
+                <div class='flex justify-end gap-2 font-medium text-xl' id='price-{{this.id}}'>
                     $
                     {{this.price}}
                 </div>

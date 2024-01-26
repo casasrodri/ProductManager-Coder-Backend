@@ -30,9 +30,7 @@ export default class ViewController {
         let products = await productRepository.getProductsPaginate(req);
 
         products.payload.forEach((product) => {
-            if (!product.id) {
-                product.id = product._id;
-            }
+            product.id = product._id || product.id;
             product.owner = product.owner || config.userAdmin.email;
         });
 
@@ -63,9 +61,7 @@ export default class ViewController {
         let products = await productRepository.getProducts();
 
         products.forEach((product) => {
-            if (!product.id) {
-                product.id = product._id;
-            }
+            product.id = product._id || product.id;
             product.owner = product.owner || config.userAdmin.email;
         });
 
@@ -121,7 +117,6 @@ export default class ViewController {
         res.render('forgotPassword');
     }
 
-
     async resetPassword(req, res) {
         const { token } = req.params
         let verifiedToken, user
@@ -135,8 +130,6 @@ export default class ViewController {
             return res.render('forgotPassword', { error: true, message: 'Invalid or expired token. Please try again.' })
         }
 
-        // res.render('reset');
-        // res.json({ token })
         res.render('resetPassword', { email: user.email, exp: verifiedToken.exp, token })
     }
 
