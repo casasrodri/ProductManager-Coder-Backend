@@ -11,7 +11,10 @@ let mailTransporter = nodemailer.createTransport({
 
 export default (to, subject, html) => {
     const email = {
-        from: config.gmailAuth.user,
+        from: {
+            name: 'Ecommerce Team',
+            address: config.gmailAuth.user
+        },
         to,
         subject,
         html,
