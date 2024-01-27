@@ -206,7 +206,7 @@ export default class SessionController {
         </p>
 
         <p>
-            Please follow <a href="http://localhost:8080/resetPassword/${token}">this link</a> to reset your password.
+            Please follow <a href="${config.host}/resetPassword/${token}">this link</a> to reset your password.
             Take into account it will expire in 1 hour.
         </p>
 

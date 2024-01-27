@@ -113,7 +113,7 @@ export default class UserController {
 
                 const msg = `Dear ${user.first_name},
                 <br><br>
-                Your account has been deleted <u>due to inactivity</u>. If you want to continue using our site, please <a href="http://localhost:8080/signup">register again</a>.
+                Your account has been deleted <u>due to inactivity</u>. If you want to continue using our site, please <a href="${config.host}/signup">register again</a>.
                 <br><br>
                 Best regards,
                 <br>

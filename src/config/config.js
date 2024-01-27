@@ -6,6 +6,7 @@ export default {
     port: process.env.PORT || 8080,
     mongoUri: process.env.MONGO_DB_URI,
     mongoUriTest: process.env.MONGO_DB_URI_TEST,
+    host: process.env.HOST,
 
     userAdmin: {
         _id: 'admin_id',
