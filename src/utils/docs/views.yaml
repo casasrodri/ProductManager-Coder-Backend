@@ -13,7 +13,7 @@ paths:
       summary: Error testing.
       description: Redirects to the error page.
 
-  /viewproducts:
+  /viewProducts:
     get:
       tags:
         - Graphic User Interface (GUI)
@@ -27,7 +27,7 @@ paths:
       summary: View of the products using pagination.
       description: See all the products in the database using pagination. You must be logged in to see this page. You can also add to cart from here.
 
-  /realtimeproducts:
+  /realTimeProducts:
     get:
       tags:
         - Graphic User Interface (GUI)

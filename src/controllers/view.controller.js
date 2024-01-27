@@ -21,7 +21,7 @@ export default class ViewController {
 
     async viewProducts(req, res) {
         const products = await productRepository.getProducts();
-        res.render('home', { products: products });
+        res.render('viewProducts', { products: products });
     }
 
     async products(req, res) {

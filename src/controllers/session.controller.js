@@ -161,7 +161,7 @@ export default class SessionController {
         });
 
         // Redirect to home
-        if (redirect && userId === USER_ADMIN._id) return res.redirect('/realtimeproducts');
+        if (redirect && userId === USER_ADMIN._id) return res.redirect('/realTimeProducts');
         if (redirect) return res.redirect('/products');
 
         return res.json({

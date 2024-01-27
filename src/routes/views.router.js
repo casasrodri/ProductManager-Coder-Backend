@@ -20,12 +20,12 @@ router.get('/error', async (req, res) => {
     });
 });
 
-router.get('/viewproducts', viewController.viewProducts);
+router.get('/viewProducts', viewController.viewProducts);
 
 router.get('/products', authRole(['user', 'premium']), viewController.products);
 
 router.get(
-    '/realtimeproducts',
+    '/realTimeProducts',
     authRole(['admin', 'premium']),
     viewController.realTimeProducts
 );
@@ -54,6 +54,6 @@ router.get('/env', (req, res) => {
     res.json({ env: config.environment });
 });
 
-router.get('/admin/users', viewController.adminUsers); // TODO authRole(['admin']),
+router.get('/admin/users', authRole(['admin']), viewController.adminUsers); // TODO authRole(['admin']),
 
 export default router;
