@@ -43,6 +43,15 @@ export default class CartController {
     async addProductToCartId(req, res) {
         const cid = cartRepository.getId(req.params.cid);
         const pid = cartRepository.getId(req.params.pid);
+        const product = await productRepository.getProductById(pid)
+
+        if (product.owner === req.user.email) {
+            return res.status(403).send({
+                status: 'error',
+                description: 'You can\'t add your own product to your cart.',
+                data: { cartId: cid, productId: pid },
+            });
+        }
 
         try {
             return res.status(200).send({
