@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/casasrodri/ProductManager-Coder-Backend#readme",
   "dependencies": {
-    "@faker-js/faker": "^8.3.1",
+    "@faker-js/faker": "^8.4.0",
     "bcrypt": "^5.1.1",
     "connect-mongo": "^5.1.0",
     "cookie-parser": "^1.4.6",
