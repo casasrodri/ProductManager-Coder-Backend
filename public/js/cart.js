@@ -7,6 +7,13 @@ const modalProducts = document.getElementById('modalProducts');
 const modalTotal = document.getElementById('modalTotal');
 const modalNoProducts = document.getElementById('modalNoProducts');
 
+// Modal sections
+const purchasedProducts = document.getElementById('purchased-products');
+const notPurchasedProducts = document.getElementById('not-purchased-products');
+const purchasedMsg = document.getElementById('purchased-msg');
+const notPurchasedMsg = document.getElementById('not-purchased-msg');
+
+
 document.getElementById('clearCart').addEventListener('click', async () => {
     const confirm = window.confirm('Are you sure to empty your cart?');
     if (!confirm) return;
@@ -44,17 +51,31 @@ document.getElementById('purchaseCart').addEventListener('click', async () => {
     const { data } = await response.json();
     console.log(data);
 
-    for (const item of data.productsInTicket) {
-        modalProducts.innerHTML += `  ${item.product.title} (${item.quantity} x $ ${item.product.price})<br>`;
+    const { productsInTicket, ticket, productsNotInTicket } = data;
+
+    // Hide unused sections
+
+    if (productsInTicket.length === 0) purchasedProducts.style.display = 'none';
+    if (productsNotInTicket.length === 0) notPurchasedProducts.style.display = 'none';
+
+    if (productsInTicket.length === 0) {
+        purchasedMsg.style.display = 'none';
+    } else {
+        notPurchasedMsg.style.display = 'none';
     }
 
-    modalTotal.innerText = data.ticket.amount;
-
-    for (const item of data.productsNotInTicket) {
-        modalNoProducts.innerHTML += `  ${item.product.title} (${item.quantity} x $ ${item.product.price})<br>`;
+    // Populate modal
+    for (const item of productsInTicket) {
+        modalProducts.innerHTML += `<li> ${item.product.title} (${item.quantity} x $ ${item.product.price})</li>`;
     }
 
-    ticketHeader.innerText = 'Ticket #' + data.ticket.code;
+    modalTotal.innerText = ticket.amount;
+
+    for (const item of productsNotInTicket) {
+        modalNoProducts.innerHTML += `<li>${item.product.title} (${item.quantity} x $ ${item.product.price})</li>`;
+    }
+
+    ticketHeader.innerText = 'Ticket #' + ticket.code;
 
     modalBtn.click();
 });

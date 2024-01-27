@@ -223,24 +223,36 @@ export default class CartController {
         });
 
         // Send email
-        let emailBody = `Hello ${user.first_name}!\n`;
-        emailBody += 'You have purchased the following products:\n';
+        let emailBody = `Hello ${user.first_name}!<br>`;
+        emailBody += 'Here you have a detail of your ticket: <br><br>';
 
-        for (const element of productsInTicket) {
-            emailBody += `${element.product.title} (${element.quantity} x $${element.product.price})\n`;
+        if (productsInTicket.length > 0) {
+            emailBody += '<p>You have purchased the following products:</p><ul>';
+
+            for (const element of productsInTicket) {
+                emailBody += `<li>${element.product.title} (${element.quantity} x $${element.product.price})</li>`;
+            }
+
+            emailBody += `</ul><p><b>TOTAL: $${total}</b></p>`;
         }
 
-        emailBody += `\nTOTAL: $${total}\n\n`;
-        emailBody += 'Sadly, the following products were not available:\n';
+        if (productsNotInTicket.length > 0) {
+            emailBody += '<p>Sadly, the following products were not available:</p><ul>';
 
-        for (const element of productsNotInTicket) {
-            emailBody += `${element.product.title} (You want ${element.quantity}, but we have ${element.product.stock})\n`;
+            for (const element of productsNotInTicket) {
+                emailBody += `<li>${element.product.title} (You want ${element.quantity}, but we have ${element.product.stock})</li>`;
+            }
+            emailBody += '</ul><p>Go to the store to check if they are available now.</p>';
         }
 
-        emailBody += 'Go to the store to check if they are available now.\n\n';
-        emailBody += 'Thanks for your purchase!\n';
-        emailBody += 'Kind regards,\n\n';
-        emailBody += 'The team at E-Commerce\n';
+        if (productsInTicket.length > 0) {
+            emailBody += '<p>Thanks for your purchase!</p>';
+        } else {
+            emailBody += '<p>We hope to see you soon!</p>';
+        }
+
+        emailBody += '<p>Kind regards,<br>';
+        emailBody += '<b>The team at E-Commerce</b></p>';
 
         sendEmail(user.email, `Ticket #${ticket.code}`, emailBody);
 
