@@ -1,0 +1,55 @@
+paths:
+  /api/sessions/signup:
+    post:
+      tags:
+        - Sessions
+
+  /api/sessions/failRegister:
+    get:
+      tags:
+        - Sessions
+
+  /api/sessions/localLogin:
+    post:
+      tags:
+        - Sessions
+
+  /api/sessions/failLogin:
+    get:
+      tags:
+        - Sessions
+
+  /api/sessions/githubLogin:
+    get:
+      tags:
+        - Sessions
+
+  /api/sessions/githubcallback:
+    get:
+      tags:
+        - Sessions
+
+  /api/sessions/login:
+    post:
+      tags:
+        - Sessions
+
+  /api/sessions/logout:
+    post:
+      tags:
+        - Sessions
+
+  /api/sessions/forgotPassword:
+    post:
+      tags:
+        - Sessions
+
+  /api/sessions/resetPassword:
+    post:
+      tags:
+        - Sessions
+
+  /api/sessions/current:
+    get:
+      tags:
+        - Sessions

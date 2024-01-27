@@ -4,7 +4,34 @@ const hideNumber = document.getElementById('hideNumber');
 const toast = document.getElementById('toast');
 let cartId = localStorage.getItem('cartId');
 
-// FIXME: Actualizar a la sesión del usuario
+async function getUser() {
+    const res = await fetch(`/api/sessions/current`);
+    const user = await res.json();
+
+    return user;
+}
+
+// Function to hide the actions buttons
+async function hideActionsButtons() {
+    const cartButtons = document.querySelectorAll('#cart-buttons');
+
+    const user = await getUser();
+
+    if (user.role === 'admin') {
+        return;
+    }
+
+    cartButtons.forEach((cartButton) => {
+        const productOwner = cartButton.dataset.owner;
+
+        if (productOwner !== user.email) {
+            cartButton.style.display = 'none';
+        }
+    })
+}
+
+// hideActionsButtons();
+
 async function checkCartIdExists(id) {
     const res = await fetch('/api/carts/' + id, { method: 'HEAD' });
     return res.ok;
@@ -51,6 +78,13 @@ async function addToCart(productId) {
         }
     );
 
+    const data = await res.json();
+
+    if (data.status === 'error') {
+        errorToast(data.description);
+        return;
+    }
+
     updateCount();
     showToast();
 }
@@ -84,5 +118,17 @@ function showToast() {
         duration: 3000,
         gravity: 'top', // `top` or `bottom`
         position: 'right', // `left`, `center` or `right`
+    }).showToast();
+}
+
+function errorToast(text) {
+    Toastify({
+        text: text,
+        duration: 3000,
+        gravity: "top", // `top` or `bottom`
+        position: "right", // `left`, `center` or `right`
+        style: {
+            background: "linear-gradient(to right, #b4750b, #c6244b)",
+        },
     }).showToast();
 }

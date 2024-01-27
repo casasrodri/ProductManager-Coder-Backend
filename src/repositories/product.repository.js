@@ -1,7 +1,7 @@
-import Product from '../models/product.js';
-import { createLink } from '../../../utils/pagination.js';
+import Product from '../dao/mongo/models/product.js';
+import { createLink } from '../utils/pagination.js';
 
-class ProductManager {
+export default class ProductRepository {
     async addProduct(product) {
         const exists = await Product.findOne({ code: product.code });
         if (exists) {
@@ -87,7 +87,7 @@ class ProductManager {
     }
 
     async deleteProductById(id) {
-        const deleted = Product.findByIdAndRemove(id);
+        const deleted = Product.findByIdAndDelete(id);
 
         if (!deleted)
             throw new Error(`Product with id=${id}: Not found. Cannot delete.`);
@@ -98,5 +98,3 @@ class ProductManager {
         return id;
     }
 }
-
-export default ProductManager;

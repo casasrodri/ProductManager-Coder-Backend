@@ -1,5 +1,18 @@
 const cartIdDiv = document.getElementById('cartID');
 const tbodyProd = document.getElementById('tbody-products');
+// Modal items
+const modalBtn = document.getElementById('modalBtn');
+const ticketHeader = document.getElementById('ticketHeader');
+const modalProducts = document.getElementById('modalProducts');
+const modalTotal = document.getElementById('modalTotal');
+const modalNoProducts = document.getElementById('modalNoProducts');
+
+// Modal sections
+const purchasedProducts = document.getElementById('purchased-products');
+const notPurchasedProducts = document.getElementById('not-purchased-products');
+const purchasedMsg = document.getElementById('purchased-msg');
+const notPurchasedMsg = document.getElementById('not-purchased-msg');
+
 
 document.getElementById('clearCart').addEventListener('click', async () => {
     const confirm = window.confirm('Are you sure to empty your cart?');
@@ -12,6 +25,59 @@ document.getElementById('clearCart').addEventListener('click', async () => {
     console.log(data);
     // location.reload();
     window.location.replace('/products');
+});
+
+document.getElementById('modalBtnOk').addEventListener('click', async () => {
+    location.reload();
+});
+
+document.getElementById('purchaseCart').addEventListener('click', async () => {
+    const confirm = window.confirm('Are you sure to purchase your cart?');
+    if (!confirm) return;
+
+    const userEmail = await getUserEmail();
+
+    const response = await fetch(
+        '/api/carts/' + cartIdDiv.innerText + '/purchase',
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ purchaser: userEmail }),
+        }
+    );
+
+    const { data } = await response.json();
+    console.log(data);
+
+    const { productsInTicket, ticket, productsNotInTicket } = data;
+
+    // Hide unused sections
+
+    if (productsInTicket.length === 0) purchasedProducts.style.display = 'none';
+    if (productsNotInTicket.length === 0) notPurchasedProducts.style.display = 'none';
+
+    if (productsInTicket.length === 0) {
+        purchasedMsg.style.display = 'none';
+    } else {
+        notPurchasedMsg.style.display = 'none';
+    }
+
+    // Populate modal
+    for (const item of productsInTicket) {
+        modalProducts.innerHTML += `<li> ${item.product.title} (${item.quantity} x $ ${item.product.price})</li>`;
+    }
+
+    modalTotal.innerText = ticket.amount;
+
+    for (const item of productsNotInTicket) {
+        modalNoProducts.innerHTML += `<li>${item.product.title} (${item.quantity} x $ ${item.product.price})</li>`;
+    }
+
+    ticketHeader.innerText = 'Ticket #' + ticket.code;
+
+    modalBtn.click();
 });
 
 async function deleteItem(id) {
@@ -89,4 +155,11 @@ function addRow(item) {
         </td>
     </tr>
     `;
+}
+
+async function getUserEmail() {
+    const res = await fetch('/api/sessions/current');
+    const data = await res.json();
+
+    return data.email;
 }

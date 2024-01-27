@@ -21,26 +21,54 @@ const svgDelete = `
 </svg>
 `;
 
+async function getUser() {
+    const res = await fetch(`/api/sessions/current`);
+    const user = await res.json();
+
+    return user;
+}
+
+// Function to hide the actions buttons
+async function hideActionsButtons() {
+    const actionButtons = document.querySelectorAll('#action-buttons');
+
+    const user = await getUser();
+
+    if (user.role === 'admin') {
+        return;
+    }
+
+    actionButtons.forEach((actionButton) => {
+        const productOwner = actionButton.dataset.owner;
+
+        if (productOwner !== user.email) {
+            actionButton.style.display = 'none';
+        }
+    })
+}
+
+hideActionsButtons();
+
 // Functions to delete, edit and add products
-function deleteProduct(id) {
+async function deleteProduct(id) {
     const confirmation = window.confirm(
         `Are you sure to delete the product with id ${id}?`
     );
 
     if (confirmation) {
-        fetch(`/api/products/${id}`, {
-            method: 'DELETE',
-        })
-            .then(function (response) {
-                if (response.ok) {
-                    socket.emit('deleteProduct', id);
-                } else {
-                    console.error('Error on DELETE: ' + response.statusText);
-                }
-            })
-            .catch(function (error) {
-                console.error('Error on DELETE:', error);
+        try {
+            const res = await fetch(`/api/products/${id}`, {
+                method: 'DELETE',
             });
+
+            if (res.ok) {
+                socket.emit('deleteProduct', id);
+            } else {
+                console.error('Error on DELETE [resNotOk]: ' + res.statusText);
+            }
+        } catch (error) {
+            console.error('Error on DELETE [catchFetch]:', error);
+        }
     }
 }
 
@@ -133,7 +161,7 @@ function newProduct() {
     document.getElementById('btnModal').innerHTML = 'Save';
 }
 
-function saveNewProduct() {
+async function saveNewProduct() {
     const title = document.getElementById('title').value;
     const description = document.getElementById('description').value;
     const code = document.getElementById('code').value;
@@ -150,34 +178,37 @@ function saveNewProduct() {
         category,
     };
 
-    fetch(`/api/products/`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(product),
-    })
-        .then(function (response) {
-            if (response.ok) {
-                response.json().then((data) => {
-                    product.id = data.data.id || data.data._id;
-                    socket.emit('newProduct', product);
-                });
-            } else {
-                console.error('Error on POST ' + response.statusText);
-            }
-        })
-        .catch(function (error) {
-            console.error('Error on POST:', error);
+    const user = await getUser();
+    if (user.role === 'premium') {
+        product.owner = user.email;
+    }
+
+    console.log(product);
+
+    try {
+        const res = await fetch(`/api/products/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(product),
         });
+
+        const data = await res.json();
+
+        product.id = data.data.id || data.data._id;
+        socket.emit('newProduct', product);
+    } catch (error) {
+        console.error('Error on POST:', error);
+    }
 
     // Close the modal
     document.getElementById('btnCancel').click();
 }
 
-socket.addEventListener('addedProduct', (product) => {
+socket.addEventListener('addedProduct', async (product) => {
     const cardContainer = document.getElementById('card-container');
-    const { id, title, description, price } = product;
+    const { id, title, description, price, owner } = product;
 
     // Creating a new card
     const card = document.createElement('div');
@@ -187,11 +218,19 @@ socket.addEventListener('addedProduct', (product) => {
         'block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700'
     );
 
+    const actionButtons = `
+    <div class="flex justify-end gap-2" data-owner="${owner}" id="action-buttons">
+    <div class="edit cursor-pointer" id="edit-${id}" onclick="deleteProduct('${id}')">${svgEdit}</div>
+        <div class="delete cursor-pointer" id="delete-${id}" onclick="deleteProduct('${id}')">${svgDelete}</div>
+        </div>
+    `
+
+    const user = await getUser();
+    let showButtons = product.owner === user.email ? actionButtons : '';
+    showButtons = user.role === 'admin' ? actionButtons : '';
+
     card.innerHTML = `
-            <div class="flex justify-end gap-2">
-                <div class="edit cursor-pointer" id="edit-${id}">${svgEdit}</div>
-                <div class="delete cursor-pointer" id="delete-${id}">${svgDelete}</div>
-            </div>
+            ${showButtons}
             <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white" id="title-${id}">
                 ${title}
             </h5>
@@ -203,26 +242,11 @@ socket.addEventListener('addedProduct', (product) => {
             </div>
         `;
     cardContainer.appendChild(card);
-
-    editBtn = document.getElementById(`edit-${id}`);
-    deleteBtn = document.getElementById(`delete-${id}`);
-
-    editBtn.addEventListener('click', () => {
-        editProduct(id);
-    });
-
-    deleteBtn.addEventListener('click', () => {
-        deleteProduct(id);
-    });
 });
 
 // Prevent default action of the form
 document.getElementById('formModal').addEventListener('submit', (e) => {
     e.preventDefault();
-});
-
-document.getElementById('cardNewProduct').addEventListener('click', () => {
-    newProduct();
 });
 
 // Set the action of the button

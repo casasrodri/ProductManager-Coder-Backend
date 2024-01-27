@@ -1,17 +1,25 @@
 import passport from 'passport';
 import local from 'passport-local';
 import GitHubStrategy from 'passport-github2';
-import User from '../dao/mongo/models/user.js';
 import bcrypt, { hash } from 'bcrypt';
+import jwt from 'passport-jwt';
+import config from '../config/config.js';
+
+import { userRepository } from '../repositories/index.js';
+import logger from '../utils/logger.js';
 
 const LocalStrategy = local.Strategy;
+const JWTStrategy = jwt.Strategy;
+const ExtractJWT = jwt.ExtractJwt;
 
-const USER_ADMIN = {
-    _id: 'admin_id',
-    first_name: 'ADMINISTRATOR',
-    email: 'adminCoder@coder.com',
-    password: 'adminCod3r123',
-    role: 'admin',
+export const USER_ADMIN = config.userAdmin;
+
+const cookieExtractor = (req) => {
+    let token = null;
+    if (req && req.cookies) {
+        token = req.cookies['jwt'];
+    }
+    return token;
 };
 
 export default () => {
@@ -22,7 +30,7 @@ export default () => {
     passport.deserializeUser(async (_id, done) => {
         if (_id === USER_ADMIN._id) return done(null, USER_ADMIN);
 
-        const user = await User.findById(_id);
+        const user = await userRepository.getById(_id);
         done(null, user);
     });
 
@@ -34,7 +42,13 @@ export default () => {
                 const { first_name, last_name } = req.body;
 
                 if (!first_name || !last_name || !email || !password) {
-                    console.log(req.body, first_name, last_name);
+                    logger.error(
+                        `Some information is missing: first_name, last_name, email and password.
+                        body: ${JSON.stringify(req.body)}
+                        first_name: ${first_name}
+                        last_name: ${last_name}`
+                    );
+
                     return done(null, false, {
                         message:
                             'You must send the following information: first_name, last_name, email and password.',
@@ -42,7 +56,7 @@ export default () => {
                 }
 
                 try {
-                    let user = await User.findOne({ email });
+                    let user = await userRepository.getByEmail(email);
                     if (user) {
                         return done(null, false, {
                             message:
@@ -52,7 +66,7 @@ export default () => {
 
                     const hashedPassword = await bcrypt.hash(password, 10);
 
-                    user = await User.create({
+                    user = await userRepository.create({
                         first_name,
                         last_name,
                         email,
@@ -83,14 +97,19 @@ export default () => {
                     return done(null, USER_ADMIN);
                 } else {
                     try {
-                        user = await User.findOne({ email });
+                        user = await userRepository.getByEmail(email);
 
-                        const isMatch = await bcrypt.compare(
+                        if (!user)
+                            return done(null, false, {
+                                message: 'Invalid credentials',
+                            });
+
+                        const isMatch = bcrypt.compareSync(
                             password,
                             user.password
                         );
 
-                        if (!user || !isMatch)
+                        if (!isMatch)
                             return done(null, false, {
                                 message: 'Invalid credentials',
                             });
@@ -108,20 +127,19 @@ export default () => {
         'github',
         new GitHubStrategy(
             {
-                clientID: 'Iv1.7229790bba006a45',
-                clientSecret: '522aee1df6c90fc8ad621ad98f51ddc18c26dad1',
+                clientID: config.githubLogin.clientID,
+                clientSecret: config.githubLogin.clientSecret,
                 scope: ['user:email'],
-                callbackURL:
-                    'http://localhost:8080/api/sessions/githubcallback',
+                callbackURL: config.githubLogin.callbackURL,
             },
             async (accessToken, refreshToken, profile, done) => {
                 try {
                     const email = profile.emails[0].value;
 
-                    const user = await User.findOne({ email });
+                    const user = await userRepository.getByEmail(email);
 
                     if (!user) {
-                        const newUser = await User.create({
+                        const newUser = await userRepository.create({
                             first_name: profile.displayName,
                             email,
                             password: '',
@@ -133,6 +151,26 @@ export default () => {
                     return done(null, user);
                 } catch (error) {
                     return done(error);
+                }
+            }
+        )
+    );
+
+    passport.use(
+        'jwt',
+        new JWTStrategy(
+            {
+                jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
+                secretOrKey: config.jwtSecret,
+            },
+            async (jwtPayload, done) => {
+                try {
+                    const user = await userRepository.getById(
+                        jwtPayload.userId
+                    );
+                    return done(null, user);
+                } catch (err) {
+                    return done(err);
                 }
             }
         )

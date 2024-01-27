@@ -1,6 +1,6 @@
-import Cart from '../models/cart.js';
+import Cart from '../dao/mongo/models/cart.js';
 
-class CartManager {
+export default class CartRepository {
     async addCart() {
         return await Cart.create({ products: [] });
     }
@@ -74,5 +74,3 @@ class CartManager {
         return id;
     }
 }
-
-export default CartManager;

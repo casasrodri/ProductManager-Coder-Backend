@@ -130,3 +130,6 @@ dist
 .pnp.*
 
 consigna.*
+logs/*
+
+public/uploads/*

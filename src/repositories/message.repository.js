@@ -1,6 +1,6 @@
-import Message from '../models/message.js';
+import Message from '../dao/mongo/models/message.js';
 
-class MessageManager {
+export default class MessageRepository {
     async addMessage(user, name, text) {
         return await Message.create({ user, name, text });
     }
@@ -13,5 +13,3 @@ class MessageManager {
         return id;
     }
 }
-
-export default MessageManager;
