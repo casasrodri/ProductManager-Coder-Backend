@@ -1,16 +1,14 @@
 import { Router } from '../services/errors/customRouter.js';
-import { alreadyLogged, notLogged } from '../middlewares/session.js';
 import { viewController } from '../controllers/index.js';
 import authRole from '../middlewares/authorization.js';
 import config from '../config/config.js';
+import { CustomError, errorTypes } from '../services/errors/customError.js';
 
 const router = Router();
 
 router.get('/', viewController.redirectLogIn);
 
-import { CustomError, errorTypes } from '../services/errors/customError.js';
-
-router.get('/error', async (req, res) => {
+router.get('/error', authRole(['admin']), async (req, res) => {
     throw new CustomError({
         name: 'HomeErrorCus',
         message: 'Error al ingresar a la home desde la clase Cus',
@@ -43,12 +41,12 @@ router.get('/login', viewController.logIn);
 // notLogged
 router.get('/logout', viewController.logOut);
 
-router.get('/mockingproducts', viewController.mockingProducts);
+router.get('/mockingproducts', authRole(['admin']), viewController.mockingProducts);
 
 router.get('/forgotPassword', viewController.forgotPassword);
 router.get('/resetPassword/:token', viewController.resetPassword);
 
-router.get('/loggerTest', viewController.loggerTest);
+router.get('/loggerTest', authRole(['admin']), viewController.loggerTest);
 
 router.get('/env', (req, res) => {
     res.json({ env: config.environment });

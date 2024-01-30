@@ -1,8 +1,10 @@
 import { Router } from '../services/errors/customRouter.js';
 import { cartController } from '../controllers/index.js';
+import authRole from '../middlewares/authorization.js';
 import passport from 'passport';
 
 const router = Router();
+router.use(authRole(['user', 'premium']));
 
 router.post('/', cartController.createCart);
 

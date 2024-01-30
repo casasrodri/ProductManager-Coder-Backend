@@ -1,6 +1,7 @@
 import { userRepository } from '../repositories/index.js';
 import UserDTO from '../dto/user.dto.js';
 import sendEmail from '../services/emailing.js';
+import config from '../config/config.js';
 
 const PREMIUM_REQUIRED_DOCUMENTS = ['identification', 'address', 'accountStatus'];
 export default class UserController {
